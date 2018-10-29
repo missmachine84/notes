@@ -1,0 +1,31 @@
+
+
+
+
+organic asset									hard surface
+
+modeling:	reference image planes				reference image planes
+			block-in							block-in
+			duplicate
+			retopology
+			align models/freeze transforms
+			material id							material id
+			set naming conv.
+			uv									uv	
+			harden UV edge
+			bake maps
+			
+texturing:	
+			naming convention for mesh parts
+			set material color for ID map
+			bake maps
+
+
+
+
+
+
+
+
+
+

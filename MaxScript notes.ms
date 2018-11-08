@@ -2058,6 +2058,44 @@ fullPath = "%CLOUD%/____Graphics/3ds Max/Scripts/___Python_path/tk_setup.py"
 python.ExecuteFile @fullPath
 
 
+
+-- Symbolic Pathnames (path system variables)
+$max		Main 3ds Max executable directory
+$maps		First directory in Maps directory config*
+$scenes		3ds Max Scenes directory
+$imports	File Imports directory
+$exports	File Exports directory
+$matlibs	Material Libraries directory
+$scripts	Scripts directory
+$startupScripts	Auto-load startup scripts directory
+$plugins	First in the Plug-ins directory config*
+$plugcfg	Plugin configurations directory
+$images		Images directory
+$ui		User Interface files directory
+$macroScripts	macroScripts in UI directory
+$temp		System temp directory
+$renderPresets	Render presets directory
+$expressions	Expressions directory
+$maxstart	Directory of MAXSTART.MAX
+$autoback	Auto-backup directory
+$renderOutput	Render output directory
+$animation	Animations directory
+$userScripts	User Scripts directory
+$userMacros	User Macroscripts directory
+$userStartupScripts	User Startup Scripts directory
+$maxData	Max Data (Root) directory
+$proxies	Bitmap Proxies directory
+$assemblies	Assemblies directory
+$plugcfg_ln	Plugcfg_ln directory
+$ui_ln		UI_LN directory
+$userStartupTemplates	Startup templates directory
+
+
+
+
+
+
+
 -- run python file FROM WINDOWS COMMAND LINE or batch file
 3dsmax -U PythonHost "tk_setup.py" 
 

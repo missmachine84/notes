@@ -23,7 +23,43 @@ line
 
 "VARIABLES:_______________________________________________________________________________"
 
-mystring = "This is my string."
+-- Syntax:
+--CASE-INSENSITIVE, can contain numbers, and some special chars like '_'
+mystring = myString
+
+
+-- Variable Types:
+-- Boolean
+--BooleanClass values are NOT equivalent to the integers 0 and 1.
+--On and Off are aliases of True and False.
+
+-- Name (or switch)  ex. #angle, #quiet, #all
+--Name values are used to access special switches to command flags, parameters of objects etc. 
+--They are prefixed by the # symbol and can be coerced to String values:
+ex. (getPropNames (Box()))[2] --returns #length
+--whereas
+ex. (getPropNames (Box()))[2] as String --returns "length"
+
+-- Color
+--8 bit RGB(A) color value
+ex. color 255 128 16.5 200
+--CANNOT be accessed as array elements, but by using the properties .R, .G, .B, and .A. (.Red, .Green, .Blue, .Alpha). Additional property .V (.Value) can be used to acquire the grayscale value of the color.
+--Color values can be coerced to Point3 and Point4 values
+ex. (color 255 100 0 15) as Point3 --returns a Point3 and kills the Alpha component: [255,100,0]
+--while
+ex. (color 255 100 0 15) as Point4 --returns: [1, 0.392157, 0, 0.0588235]
+
+-- Point2 (2D vector)
+ex. [1,2], [122.5, -320.4]
+
+-- Point3 (3D vector)
+ex. [1,2,3], [122.5, -320.4, 0.01]
+
+-- Point4 (4D vector, esp. for FP colors)
+ex. [1,2,3,4], [121.1, -32.1, 15, 0]
+
+
+
 
 
 "Scope"

@@ -2102,6 +2102,14 @@ $userStartupTemplates	Startup templates directory
 
 
 
+--Search for subfolders named "textures" in a give root folder and adding them to users paths:
+ 
+dir_array = getDirectories @"D:/projects/*"
+for d in dir_array do
+	join dir_array (GetDirectories (d+"/*"))
+for f in dir_array where doesFileExist (texturesDir = pathConfig.appendPath f "textures")  do 
+	mapPaths.add texturesDir
+
 
 
 

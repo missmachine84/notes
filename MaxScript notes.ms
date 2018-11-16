@@ -28,6 +28,17 @@ line
 mystring = myString
 
 
+-- Convert type using 'as':
+String as Name
+Name as String
+String as StringStream
+Point as Color
+Quat as EulerAngles
+Time as Float
+etc.
+
+
+
 -- Variable Types:
 -- Boolean
 --BooleanClass values are NOT equivalent to the integers 0 and 1.
@@ -57,6 +68,35 @@ ex. [1,2,3], [122.5, -320.4, 0.01]
 
 -- Point4 (4D vector, esp. for FP colors)
 ex. [1,2,3,4], [121.1, -32.1, 15, 0]
+
+-- Quat (Quaternion rotation) 
+ex. Quat 90 [0,0,1]
+
+-- AngleAxis (AngleAxis rotation)
+ex. AngleAxis 90 [0,0,1]
+
+-- EulerAngles (Euler rotation)
+ex. EulerAngles 0 0 90
+
+-- Matrix3 (4 Point3 values)
+ex. Matrix3 [1,0,0] [0,1,0] [0,0,1] [1,2,0]
+
+-- Box2 (Origin and Size 4 Float values)
+--Used to define 2D bounding boxes either by supplying 4 Floats or 2 corners as Point2 values
+ex. Box2 -100 -200 100 90
+
+-- Array (A list of 0 to N elements)
+ex. #(), #(1,2,3), #("Bobo",10,#(1,2,3))
+
+-- BitArray (A list of 0 to N bits)  
+--containing only bit elements, each element can be either true or false. Used mainly to represent vertex and face selections etc.
+--Very memory efficient. Allows boolean operations like subtractions, intersections and unions between two BitArrays.
+ex. #{}, #{1,2,3,5}, #{1..3,5}
+
+
+
+
+
 
 
 

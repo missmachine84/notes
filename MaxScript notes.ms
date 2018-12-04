@@ -2135,8 +2135,17 @@ python.ExecuteFile @fullPath
 
 
 -- system variables:
-systemTools.getEnvVariable()
+systemTools.getEnvVariable("userprofile")
 systools.setEnvVariable()
+
+--using dot net:
+(dotNetClass "System.Environment").GetEnvironmentVariable "userprofile"
+--You can also get info about lots of useful directories and properties:
+sysEn = dotNetClass "System.Environment"
+speFo = dotNetClass "System.Environment+specialFolder"
+sysEn.getfolderPath speFo.commonApplicationData --Read and write access directory to all users
+showProperties speFo --There are a tonne of folders to choose from
+showProperties sysEn --Lots of useful info here too
 
 
 

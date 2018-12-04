@@ -2134,6 +2134,11 @@ fullPath = "%CLOUD%/____Graphics/3ds Max/Scripts/___Python_path/tk_setup.py"
 python.ExecuteFile @fullPath
 
 
+-- system variables:
+systemTools.getEnvVariable()
+systools.setEnvVariable()
+
+
 
 -- Symbolic Pathnames (path system variables)
 $max		Main 3ds Max executable directory

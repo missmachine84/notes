@@ -854,7 +854,15 @@ QtGui.QDragEnterEvent(pos, actions, data, buttons, modifiers)
 
 
 
+#custom event filter:
 
+# install filter
+ex. QtGui.qApp.installEventFilter(self)
+ex. buttonObject.installEventFilter(self.hotBox) 
+
+# return value
+ex. return QtWidgets.QWidget.eventFilter(self, button, event)
+ex. return super(HotBox, self).eventFilter(self, event) #returns the event that occurred
 
 
 

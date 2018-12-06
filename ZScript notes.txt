@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ZScript notes
 
 
@@ -33,4 +34,41 @@ ex.
 [VarSet, startupProjectFile, [FileNameGetLastUsed]]
 //[VarSave, Variable name, FileName]
 ex.
+=======
+// ZScript notes
+
+
+
+
+// Conditionals
+ex.
+If,[IExists,var],
+	[...]
+	,//else
+	[...]
+
+
+
+
+// Arrays
+
+//create an array
+[VarDef, array(10), "" ]
+
+// Save or load the entire array
+[VarSave, array ]
+[VarLoad, array ]
+
+
+
+
+
+// External Files
+
+//[VarSet, Variable name, FileName]
+ex.
+[VarSet, startupProjectFile, [FileNameGetLastUsed]]
+//[VarSave, Variable name, FileName]
+ex.
+>>>>>>> origin/master
 [VarSave, startupProjectFile, custombuttons_globals.zvr]

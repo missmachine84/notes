@@ -1,0 +1,27 @@
++---lighting-----------------------------------------------------+
+¦
+¦
+¦	-Daylight/Sun
+¦	-Interior lights
+¦	-
+¦
++-----------------------------------+
+
+
+
+
+------	Daylight/Sun
+
+//3ds Max VRay
+>	mod panel>create>systems>daylight
+>	VRay sun
+>	adjust position (time ect)
+>	increase sun size/ decrease sun intensity (or vice versa)
+>	set filter color
+
+------	Interior lights
+//3ds Max VRay
+>	mod panel>create>lights>'Vray' type from drop down menu
+>	mod panel>modify>adjust 'color' temperature
+>	adjust type (shape)
+>	

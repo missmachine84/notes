@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Unreal Engine notes
 
 
@@ -50,3 +51,57 @@ uv:
 
 
 
+=======
+Unreal Engine notes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MATERIAL EDITOR:
+
+
+node hotkeys
+1234	- 1-4 vector constant node
+u		- TexCoord (uv coorinates) node
+t 		- Texture sampler node
+s/v		-scalar or vector parameter
+a/d/m 	-Create an Add, Divide, Multiply node
+
+
+Nodes:
+
+
+
+uv:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> origin/master

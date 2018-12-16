@@ -2064,8 +2064,12 @@ python.ExecuteFile @fullPath
 
 
 
-
-
+-- Check if path or file exists
+ex. doesFileExist file
+ex. getfileattribute file #directory
+--or using dotNet
+ex. ((dotnetclass "System.IO.Directory").exists "D:\	emp")
+ex. ((dotnetclass "System.IO.File").exists "D:\	emp\\Wow.ms")
 
 
 

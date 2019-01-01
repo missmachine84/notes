@@ -3850,6 +3850,15 @@ class Button(QtCore.QObject):
 
 
 
+'installation'
+
+
+#python wheels: (download and install locally to make sure the correct wheel gets installed)
+http://download.qt.io/snapshots/ci/pyside/
+
+
+
+
 '''
 maya qt menus
 

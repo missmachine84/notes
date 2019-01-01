@@ -2303,6 +2303,12 @@ eg. "HOME" in os.environ
 
 
 # FILE PATH
+
+#get all paths:
+import sys;
+for s in  sys.path: print s
+
+
 # get current working directory 
 #using os.getcwd
 eg. os.getcwd()
@@ -2656,13 +2662,14 @@ for path in paths.split(';'):
 
 'Packages___________________________________________________________________________________'
 
-#pip
+# pip install
 eg. python -m install pip
 eg. python -m pip install --upgrade pip
 eg. python -m pip #install, uninstall, download, list, show, check, config, search, wheel, version, 
-
-
-
+# uninstall
+eg. pip uninstall PySide2
+# version, location, dependancies 
+eg. pip show PySide2
 
 
 

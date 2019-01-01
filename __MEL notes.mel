@@ -3598,25 +3598,25 @@ Suppress Error Messages      When turned on, the Script editor does not show err
 
 
 
-SCRIPT EXAMPLES:
+//SCRIPT EXAMPLES:
 
-GEOMETRIC EQUATIONS:
+//GEOMETRIC EQUATIONS:
 
-arch tangent:
-atan         total depth divided by total hight   \\output in radians
-atand        total depth divided by total hight   \\output in degrees
+//arch tangent:
+atan  //total depth divided by total hight   \\output in radians
+atand //total depth divided by total hight   \\output in degrees
 
-pythagorean theorum:
-             hypotanuse squared = total depth squared  + total hight squared  
-             ex. H2 = td2 + th2
-
-
+//pythagorean theorum:
+ex. H2 = td2 + th2 //hypotanuse squared = total depth squared  + total hight squared  
+             
 
 
 
 
 
-create, move & repeat_______________________________________________________________
+
+
+"create, move & repeat_______________________________________________________________"
 
 //'for loop' syntax 
 ex.  
@@ -3639,17 +3639,14 @@ for ($i = 0; $i < $repeat; ++$i)
 	move -r 0 ($hightY * $i) ($depthZ * $i);
 } 
 
-____________________________________________________________________________________
+//____________________________________________________________________________________
 
 
 
 
 
 
-temp:
-40 72 231   foreground
-47 19 35    background
-32 185 134  line number
+
 
 
 

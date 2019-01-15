@@ -3400,6 +3400,11 @@ getenv	//get windows environment variable
 				eg. $s=`getenv "PATH"`;
 
 
+//get maya environment variable values:
+eg. scriptPath = os.environ['MAYA_SCRIPT_PATH']				
+
+
+
 source		compiles & executes the contents of a script. 
 			//'source' is not a MEL command. It is a directive that tells the interpreter what to compile and execute. If a script has 'source' directives
 			//in it, then all sourced files will be compiled at the same time as the script. This will happen regardless of where the source directive

@@ -14,6 +14,97 @@ eg. expression;expression;expression; #does not work with anything requiring an 
 
 
 
+<<<<<<< HEAD
+=======
+'Variables__________________________________________________________________________________'
+
+
+# Assignment
+#assign multiple variables the same value
+eg. var1=var2=var3 = None
+#if 'x=y=z=[]' were used, operations on all three variables would be performed on the same list.
+#if separate lists are desired, use: 
+eg. x=[];y=[];z=[]
+#or
+eg. a,b,c = (1,2,3)
+
+
+
+# Convention
+#class.
+ClassVariable
+
+#name mangling:
+#protected variable. by convention do not modify outside of subclass
+_variable
+#private variable. prefixed with at least 2 underscores & at most 1 suffix
+__variable
+#call a private variable from outside its class.
+._Test__variable
+
+
+
+# Query
+#check if variable exists. an alternative would be to use try: except:
+eg. 'a' in vars() or 'a' in globals()
+
+#variable type: 
+eg. type(variable) #prints <type 'str'>
+
+# convert to another data type using the convert function:
+#str() int() float() tuple() set()
+eg. float("6.66")
+
+
+
+#prompt user to input a value.
+eg. variable = input("enter a filename")
+
+
+
+
+#get object with a string
+eg. button = getattr(self.ui, "self.ui.object_")
+
+
+#execute a string statement.
+eg. exec ('print "x"')
+
+#evaluate an expression. 
+eg. eval ("2+2") #returns 4
+
+
+
+
+
+
+# Scope
+#global to current module
+#global variables cannot be directly assigned a value within a function 
+#(unless named in a global statement) although they may be referenced.
+eg. global x
+#or
+eg. global x, y, z 
+#define global within a function
+eg. def function(arg1, arg2):
+			global uiPath1
+			global uiPath2
+			uiPath1 = arg1
+			uiPath2 = arg2
+			#or
+			global uiPath1, uiPath2
+			uiPath1,uiPath2 = (arg1,arg2)
+			#now uiPath_pt1 and uiPath_pt2 can be used anywhere in the module
+
+#global to all modules
+# create config.py with global variables defined and import config.py to all other modules needing those variables 
+
+
+
+#delete a variable
+eg. del x
+
+>>>>>>> origin/master
 
 
 
@@ -104,9 +195,12 @@ is not  #negated object identity
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/master
 'Boolean Operations_________________________________________________________________________'
 #the Boolean data type is a data type, having two values (usually denoted true and false)
 and    x and y     if x is False, then x, else y
@@ -214,9 +308,12 @@ def cycle(id_sequence): #toggle between numbers in a given sequence
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/master
 'Conditionals_______________________________________________________________________________'
 
 if():
@@ -333,10 +430,13 @@ for case in switch(c):
 
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> origin/master
 'Looping___________________________________________________________________________________'
 
 
@@ -424,6 +524,7 @@ while i < len(xyz):
 
 
 
+<<<<<<< HEAD
 'Variables__________________________________________________________________________________'
 
 
@@ -536,6 +637,8 @@ eg. del x
 
 
 
+=======
+>>>>>>> origin/master
 
 
 
@@ -588,7 +691,11 @@ eg. "".join(my_string.splitlines())
 
 
 #access characters in a string. 
+<<<<<<< HEAD
 eg.	"string"[0] #'s'
+=======
+eg."string"[0] #'s'
+>>>>>>> origin/master
 
 #slicing. take a subsection.
 eg. "string"[1:-1] #'trin'
@@ -671,12 +778,15 @@ eg. "ABCABBA".strip("AB") #returns 'C'
 eg. "xstringx".strip("x") #returns "string" #.strip("s") will not work as you must list ALL chars from left as they appear in the string.
 
 
+<<<<<<< HEAD
 #strip numberic characters.  also lstrip/ rstrip.
 eg. 'b000'.strip('0123456789') #returns 'b' from 'b000'
 #strip alphanumberic characters:
 eg. 'b000'.strip('abcdefghijklmnopqrstuvwxyz') #returns '000' from 'b000'
 
 
+=======
+>>>>>>> origin/master
 #strip all chars from both ends of first instance of specific chars.
 #can use different find and index slice options to tweak results.
 eg. string = string[string.lfind("[")+1:string.rfind("]")] #"body_mainShape.vtx[176]" becomes 176
@@ -1232,6 +1342,23 @@ list(seq)
 # keys are Immutable objects (cannot be changed).
 
 
+<<<<<<< HEAD
+=======
+# looping
+#over keys
+eg. for key in dict_:
+		print "key:", key
+		print "value:", dict_[key]
+#over the values:
+eg. for value in dict_.itervalues():
+		print "value:", value
+
+eg.	for key,value in dict_.iteritems():
+		print "key:", key
+		print "value:", value
+
+
+>>>>>>> origin/master
 
 d = {} #empty dictionary
 
@@ -1279,6 +1406,7 @@ dict_ = {"1":"one","2":"two"}
 dict_.has_key("1")
 
 
+<<<<<<< HEAD
 # looping
 #over keys
 eg. for key in dict_:
@@ -1293,6 +1421,8 @@ eg.	for key,value in dict_.iteritems():
 		print "value:", value
 
 
+=======
+>>>>>>> origin/master
 # match key values in two dictionaries
 eg.
 for key, value in dict1.viewitems() & dict2.viewitems():
@@ -2261,6 +2391,7 @@ eg. var = choice(['A', 'B', 'C'])
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -2268,6 +2399,8 @@ eg. var = choice(['A', 'B', 'C'])
 
 
 
+=======
+>>>>>>> origin/master
 'Keyboard___________________________________________________________________________________'
 
 # .net framework
@@ -2319,6 +2452,7 @@ ctypes.windll.user32.mouse_event(20, 0, 0, 0,0) #left down
 
 
 
+<<<<<<< HEAD
 #using keyboard module:
 import keyboard
 shortcut = 'alt+x' #define hot-key
@@ -2336,6 +2470,8 @@ keyboard.add_hotkey(shortcut, event) #attach the function to hot-key
 
 
 
+=======
+>>>>>>> origin/master
 'External_Files_____________________________________________________________________________'
  
 
@@ -2715,9 +2851,16 @@ eg. __import__(module, globals(), locals(), ['*'])
 
 
 # pass variable on import
+<<<<<<< HEAD
 eg. import someModule
 	someModule.somemethod(variablesPassedAsArguments)
 	x = someModule.someClass(range(1, 5))
+=======
+ex.
+import someModule
+someModule.somemethod(variablesPassedAsArguments)
+x = someModule.someClass(range(1, 5))
+>>>>>>> origin/master
 
 
 
@@ -2731,6 +2874,7 @@ eg. __name__ #when run directly the name will be main. else when importing, it w
  
 
 
+<<<<<<< HEAD
 #re-import module
 #global and local are dicts.
 eg.	module = 'tk_slots_maya_edit'
@@ -2751,6 +2895,8 @@ eg. import sys
 #delete system module: (sys.modules is a dict so it is also possible to check for key)
 eg. import sys
 	del sys.modules['tk_slots_maya_edit']
+=======
+>>>>>>> origin/master
 
 
 

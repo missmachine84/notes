@@ -20,6 +20,7 @@ touch <file>	//create a file ie. touch .gitignore or touch file.txt
 git add <file>	//add files to index.
 git add *.py	//add all .py files to index.
 git add .		//add all files in the directory.
+git add -A //(--all)(alt add all)
 
 git rm --cached <file>	//remove files from index.
 

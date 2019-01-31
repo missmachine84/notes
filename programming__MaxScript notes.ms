@@ -1691,38 +1691,41 @@ sleep 20 --pause a script in seconds
 
 
 
+--delay commands:
 
 -- dotNetObject:System.Windows.Forms.Timer
 -- alternative to the MAXScript rollout Timer control.
 -- The main advantage of the DotNet version is the ability to call MAXScript functions at given intervals without the need for a rollout.
 ex.
 function PerformDelayedTasks sender evt=
-	(
-	sender.enabled = false -- important: don't repeat this timer event
-	dotnet.RemoveEventHandler sender "Elapsed" PerformDelayedTasks -- for sanity and cleanup      
+(
+	sender.enabled = false 	--important: don't repeat this timer event
+	dotnet.RemoveEventHandler sender "Elapsed" PerformDelayedTasks --for sanity and cleanup
 
-	-- put all delayed commands here          
-	)
-
+	-- put all your delayed tasks below --
+)
 delayTimer= dotnetobject "Windows.Forms.Timer"
 delayTimer.Interval=5000
-
 dotnet.AddEventHandler delayTimer "Tick" PerformDelayedTasks
-
-delayTimer.enabled = true
+delayTimer.enabled = truee
 
 
 -- another dotNet example
 ex.
 theTimer = dotNetObject "System.Windows.Forms.Timer" --create a Timer
 fn printTime = 
-	(
+(
 	print localTime --define a MAXScript function to be called by the Timer.
-	) 
+) 
 dotnet.addEventHandler theTimer "tick" printTime --add ON TICK event hander to call the function
 theTimer.interval = 1000 --set the tick interval to 1 second (1000 milliseconds)
 theTimer.start() --start the Timer
 --theTimer.stop() --use this method to stop the Timer.
+
+
+
+
+
 
 
 

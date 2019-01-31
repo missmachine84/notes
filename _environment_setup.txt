@@ -1,9 +1,0 @@
-Environment Variables:
-
-
-Create_Environment Variables.bat
-
-
-set these to run from above file:
-zbrush
-photoshop

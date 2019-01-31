@@ -3158,12 +3158,21 @@ xform
 // scale (float, float, float)
 // scaleTranslation (linear, linear, linear) 
 
+// get objects current rotation value:
+origRotationValue = pm.xform (query=1, rotation=1)
+// set objects rotation value:
+pm.xform (object_, rotation=origRotationValue)
+
+
 
 // get vertex point position
 pm.xform (vertices, query=1, t=1, ws=1)
 
 
 
+
+
+// pivots
 // get/set objects pivot point:
 ex.
 getAttr ball.scalePivot;
@@ -3181,6 +3190,9 @@ setAttr ball.rotatePivot;
 //or
 ex.
 xform -query -rotatePivot -worldSpace $ObjectName;
+
+
+
 
 
 //VECTORS
@@ -3223,6 +3235,10 @@ $m1 = $m2 * $m3;
 
 // freeze transformations
 pm.makeIdentity (obj, apply=1, t=1, r=1, s=1, n=0, pn=1)
+
+
+
+
 
 
 
@@ -3398,6 +3414,11 @@ undoInfo -closeChunk;
 
 getenv	//get windows environment variable
 				eg. $s=`getenv "PATH"`;
+
+
+//get maya environment variable values:
+eg. scriptPath = os.environ['MAYA_SCRIPT_PATH']				
+
 
 
 source		compiles & executes the contents of a script. 

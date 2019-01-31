@@ -1,3 +1,19 @@
+Camera notes:
+
+Aperture
+	Aperture is generally measured byF-Stop. Aperture also has a secondary effect of controlling the depth of field of an image.
+
+Depth of field
+	describes how much of an image is in focus from front to back. Depth of field is controlled by the aperture as well as the lens magnification.
+
+
+
+
+
+
+
+
+
 Lighting notes:
 
 

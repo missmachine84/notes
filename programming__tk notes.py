@@ -81,7 +81,7 @@
 # import sys
 # import os.path as os
 
-# path = os.expandvars("%CLOUD%/____Graphics/Maya/scripts/_Python/_Python_startup")
+# path = os.expandvars("%CLOUD%/__portable/_scripts/")
 # sys.path.append(path)
 
 # reload(tk_main)
@@ -94,7 +94,18 @@
 # -----------------------------------------------
 
 
-check try_ function for errors
+
+
+
+framework for interactive tools
+method for storing values
+
+
+radial array: add interactive update on pivot change
+set pivot;  move -r -0.829437 0 0 pCylinder27.scalePivot pCylinder27.rotatePivot
+
+
+create> cmb001> keep window open on indexChanged.  closing and re-opening hides spinboxes.
 
 
 fix repeat last command

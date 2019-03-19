@@ -243,7 +243,19 @@ EMISSIVE:
 
 
 
+MATERIALS:
+//VRay:
 
+glass
+>	Set reflection to pure black
+>	Set reflection glossiness to 1.0
+>	Set refraction to pure white
+>	Set refraction glossiness to 1.0
+>	IOR 1.5 (1.4 acryllic.  1.6-1.8 flint)
+>	Check "Affect Shadows" option ON under refraction parameters.
+>	Optional: Set the glass color via Fog Color parameter under Refraction options.
+
+>	Falloff map plugged into the reflect slot. (slight negative bezier start with overall slight positive curve. black-white)
 
 
 

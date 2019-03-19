@@ -96,7 +96,16 @@ setStyleSheet("background-color: rgba(227, 227, 227, 2)") #rgb + alpha. alpha va
 
 
 ex.
-button.setStyleSheet('''QPushButton {
+.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+.setStyleSheet("QLabel {font-size: 100px; opacity:0.5}")
+
+#comment css
+/* css multi-line comment */
+
+
+ex.
+button.setStyleSheet('''
+QPushButton {
 	background:rgba(127,127,127,2);
 	background-color: red;
 	color: white;
@@ -120,62 +129,62 @@ QPushButton:pressed {
 }
 QPushButton:enabled {
 	color: red
-}''')
-
-
-ex.
-.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
-.setStyleSheet("QLabel {font-size: 100px; opacity:0.5}")
-
-STYLESHEET = '''
-	QTreeWidget {border:none;} 
-	QTreeWidget::item {height: 20px;}
-	QTreeView {
+}
+QComboBox {
+	border: 0px solid transparent; 
+	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
+	image: url(:/none);}
+QComboBox::drop-down {
+	border: 0px solid transparent; 
+	border-width: 0px; 
+	background-color: transparent; 
+	color: transparent
+}
+QComboBox::down-arrow {
+	border: 0px solid transparent; 
+	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
+	background-color: transparent; 
+	color: transparent; 
+	image: url(:/none);
+}
+QTreeWidget {
+	border:none;
+} 
+QTreeWidget::item {
+	height: 20px;
+}
+QTreeView {
   alternate-background-color: rgba(35,35,35,255);
   background: rgba(45,45,45,255);
-  }'''
-
-STYLESHEET = '''
-	QMenu {
-	    background-color: #ABABAB; /* sets background of the menu */
-	    border: 1px solid black;
-	}
-
-	QMenu::item {
-	    /* sets background of menu item. set this to something non-transparent
-	        if you want menu color and menu item color to be different */
-	    background-color: transparent;
-	}
-
-	QMenu::item:selected { /* when user selects item using mouse or keyboard */
-	    background-color: #654321;
-	}
-	For a more advanced customization, use a style sheet as follows:
-
-	QMenu {
-	    background-color: white;
-	    margin: 2px; /* some spacing around the menu */
-	}
-
-	QMenu::item {
-	    padding: 2px 25px 2px 20px;
-	    border: 1px solid transparent; /* reserve space for selection border */
-	}
-
-	QMenu::item:selected {
-	    border-color: darkblue;
-	    background: rgba(100, 100, 100, 150);
-	}
-
-	QMenu::icon:checked { /* appearance of a 'checked' icon */
-	    background: gray;
-	    border: 1px inset gray;
-	    position: absolute;
-	    top: 1px;
-	    right: 1px;
-	    bottom: 1px;
-	    left: 1px;
-	}'''
+}
+QMenu {
+	background-color: white; /* background-color: #ABABAB; sets background of the menu */
+	margin: 2px; /* some spacing around the menu */
+	border: 1px solid black;
+}
+QMenu::item {
+	/* sets background of menu item. set this to something non-transparent
+	if you want menu color and menu item color to be different */
+	background-color: transparent;
+	padding: 2px 25px 2px 20px;
+	border: 1px solid transparent; /* reserve space for selection border */
+}
+QMenu::item:selected { 
+	/* when user selects item using mouse or keyboard */
+	background-color: #654321;
+	border-color: darkblue;
+	background: rgba(100, 100, 100, 150);
+}
+QMenu::icon:checked { /* appearance of a 'checked' icon */
+	background: gray;
+	border: 1px inset gray;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+	left: 1px;
+}
+''')
 
 
 
@@ -456,13 +465,13 @@ ex. button.setVisible(False)
 ex. button.isHidden()
 
 
-.pressed #QPushButton.pressed()
+.pressed #bool #QPushButton.pressed()
 
 
 ex.
 btn.click() #emits clicked signal
 
-.clicked #bool checked=False #QPushButton.clicked()
+.clicked #bool #QPushButton.clicked()
 ex.
 self.ui.button.clicked.connect(self.methodToConnectTo)
 #or with arguments
@@ -471,9 +480,9 @@ self.ui.button.clicked.connect(lambda ans=passedArg: self.methodToConnectTo(pass
 b4.clicked.connect(lambda:self.whichbtn(self.b4))
 
 
-.released #QPushButton.released()
+.released #bool #QPushButton.released()
 
-.toggled #bool checked
+.toggled #bool #QPushButton.toggled()
 
 
 .toggle #QPushButton.toggle()
@@ -581,6 +590,8 @@ highlighted (index) #[str] text of selected item
 currentIndexChanged ()
 currentIndexChanged (index)
 editTextChanged ()
+QComboBox.itemText(index) #Returns the text for the given index in the combobox.
+
 #eventFilter for button press #see also eventFilter for view event
 self.combo.installEventFilter(self)
 def eventFilter(self,target,event):
@@ -2404,6 +2415,17 @@ self.ui.lower()
 
 # get object name
 ex. name = button.objectName()
+
+
+#get widget type:
+ex. widget.__class__.__name__ #returns class name as a string
+#alt using QMetaObject:
+ex. widget.metaObject().className()
+#alt using type():
+ex. type(widget)
+#alt
+ex. type(widget).__name__ #same as: widget.__class__
+
 
 
 # Toggle

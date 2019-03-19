@@ -95,56 +95,57 @@
 
 
 
+#search field returns related commands.
 
 
-framework for interactive tools
-method for storing values
+# framework for interactive tools
+# method for storing values
 
 
-radial array: add interactive update on pivot change
+# radial array: add interactive update on pivot change
 set pivot;  move -r -0.829437 0 0 pCylinder27.scalePivot pCylinder27.rotatePivot
 
 
-create> cmb001> keep window open on indexChanged.  closing and re-opening hides spinboxes.
+# create> cmb001> keep window open on indexChanged.  closing and re-opening hides spinboxes.
 
 
-fix repeat last command
+# fix repeat last command
 
 
-move polygon collapse to merge area
+# move polygon collapse to merge area
 
  
-create camera from view
+# create camera from view
 look through [camera from drop down list]
  
 
-create; creating a primitive doesnt align to set axis
-spinboxes visible on set point
-wrap setattributes call in an undoinfo chunk
+# create; creating a primitive doesnt align to set axis
+# spinboxes visible on set point
+# wrap setattributes call in an undoinfo chunk
 
-duplicate w/transform spinboxes; convert to being interactive.
-add center pivot option
+# duplicate w/transform spinboxes; convert to being interactive.
+# add center pivot option
 
-bug: transform negative '-' sets spinbox value to 0.  
+# bug: transform negative '-' sets spinbox value to 0.  
 
-line 1640, in b010
+# line 1640, in b010
     parent = pm.listRelatives(instances[0], parent=True)[0]
 UnboundLocalError: local variable 'instances' referenced before assignment
 
-build convert menu with a pair of comboboxes to select to/from
+# build convert menu with a pair of comboboxes to select to/from
 
-create; angled pipe.  creates a basic pipe section and allows to interactively add angles/fittings/ etc.
-create; stairs.  step, rise, amount
-create; railing
-create; saved asset. store points to building block items etc ascii
+# create; angled pipe.  creates a basic pipe section and allows to interactively add angles/fittings/ etc.
+# create; stairs.  step, rise, amount
+# create; railing
+# create; saved asset. store points to building block items etc ascii
 
 
-move ui path variable to a config file
+# move ui path variable to a config file
 
-scene: set unreal/unity project. GamePipeline -sp "Unreal";
-scene: re-export last
+# scene: set unreal/unity project. GamePipeline -sp "Unreal";
+# scene: re-export last
 
-display; build a layer editor
+# display; build a layer editor
 
 fix recent autosave;  %userprofile%/AppData/Local/Temp  get dir file list,  sort by date modified
 

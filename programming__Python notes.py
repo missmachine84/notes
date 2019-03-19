@@ -1342,27 +1342,11 @@ list(seq)
 # keys are Immutable objects (cannot be changed).
 
 
-<<<<<<< HEAD
-=======
-# looping
-#over keys
-eg. for key in dict_:
-		print "key:", key
-		print "value:", dict_[key]
-#over the values:
-eg. for value in dict_.itervalues():
-		print "value:", value
-
-eg.	for key,value in dict_.iteritems():
-		print "key:", key
-		print "value:", value
-
-
->>>>>>> origin/master
 
 d = {} #empty dictionary
 
 d = {'key1':1, 'key2':2, 'key3':3}  # assign <key:value> on creation
+
 
 
 #create dictionary with all keys having the same value:
@@ -1376,6 +1360,13 @@ eg. dict_ = {key: value for key in range(5)}
 # Assign Key/Value pair
 #d['key'] = 'value'
 eg.	myDict['key'] = 'value' #dict_name[new_key] = new_value
+
+
+
+#get all keys:
+eg. dict_.keys()
+#get all values:
+eg. dict_.values()
 
 
 # Get Value using Key.
@@ -1406,7 +1397,7 @@ dict_ = {"1":"one","2":"two"}
 dict_.has_key("1")
 
 
-<<<<<<< HEAD
+
 # looping
 #over keys
 eg. for key in dict_:
@@ -1421,8 +1412,7 @@ eg.	for key,value in dict_.iteritems():
 		print "value:", value
 
 
-=======
->>>>>>> origin/master
+
 # match key values in two dictionaries
 eg.
 for key, value in dict1.viewitems() & dict2.viewitems():
@@ -2062,6 +2052,19 @@ instance.classMethod()
 Class().classMethod()
 
 
+
+
+
+#bypass/override init method when calling a class
+def skip_init(cls):
+    actual_init = cls.__init__
+    cls.__init__ = lambda *args, **kwargs: None
+    instance = cls()
+    cls.__init__ = actual_init
+    return instance
+#use
+# a = skip_init(Class)
+# a.myfunction()
 
 
 

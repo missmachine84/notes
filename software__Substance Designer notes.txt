@@ -59,7 +59,7 @@ Shape node
 	the world can be made with a combination of Blend Nodes and Shape Nodes!
 
 
-shape mapper		-add segments, add inner radius, width, rotation
+Shape Mapper		-add segments, add inner radius, width, rotation
 
 
 Tile Generator
@@ -69,6 +69,12 @@ Tile Generator
 
 
 
+
+Splatter Circular
+	circular pattern, concentric circles
+
+
+	
 
 
 
@@ -371,8 +377,10 @@ curvature:
 
 creating a preset graph template
 
+>	save the new graph template to the template directory.
+to see or change the directory location:
 >	edit> preferences> projects> general tab> templates directories
->	add new
+>	add new (+ icon)
 
 
 
@@ -440,22 +448,7 @@ load 3d mesh		-drag-drop it into explorer resource folder
 
 
 
-shapes -------------
 
-
-Shape node
-	Extremely straight forward with its Atlas Map of shapes to choose from. However,
-	this will probably be Node that starts most Substances. Pretty much any shape in
-	the world can be made with a combination of Blend Nodes and Shape Nodes!
-
-
-shape mapper		-add segments, add inner radius, width, rotation
-
-
-Tile Generator
-	Don’t’ take the name of this Node too literally. Its good at making Tiles, but it’s
-	really good at taking the Shape Node and making it Tile. This Node is a good
-	building block for anything that needs some repetition.
 
 
 

@@ -1140,6 +1140,17 @@ obj.getParent()
 
 "Components: //------------------------------------------------------------------------------------------------------------------------------------------"
 
+
+// component name extensions:
+objectName.map 	UV
+""				.e 		edge
+""				.f 		face
+""				.v    vert
+//all components
+polySphereShape.f[*]
+
+
+
 polyEvaluate -vertex $obj;
 						 -vertexComponent //selected vertices as int
 						 -edge
@@ -1157,23 +1168,12 @@ $maskEdge = `selectType -query -edge`;
 $maskFacet = `selectType -query -facet`;
 
 // component selection mask
-faces = pm.filterExpand (pm.ls(sl=1), selectionMask=34, expand=1)
-
-
-
-// object name extensions:
-objectName.map 	UV
-""				.e 		edge
-""				.f 		face
-""				.v    vert
-//all components
-polySphereShape.f[*]
-
+faces = pm.filterExpand (pm.ls(sl=1), selectionMask=34, expand=1) //returns ie. [u'pCylinder1.f[2]', u'pCylinder1.f[3]']
 
 
 // get component
 //get all faces (or anything polyevaluate querys)
-faces = [shell+".f["+str(num)+"]" for num in range(pm.polyEvaluate (shell, face=1))] #create a list of all faces per shell
+faces = [shell+".f["+str(num)+"]" for num in range(pm.polyEvaluate (shell, face=1))] //create a list of all faces per shell
 
 //get number of faces
 numFaces = pm.polyEvaluate(duplicatedObject, face=1)
@@ -3236,6 +3236,28 @@ $m1 = $m2 * $m3;
 // freeze transformations
 pm.makeIdentity (obj, apply=1, t=1, r=1, s=1, n=0, pn=1)
 
+
+
+
+
+
+
+
+"CAMERAS: //---------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+//get scene cameras and their transforms:
+//# Get all cameras first
+cameras = pm.ls(type=('camera'), l=True)
+//# Let's filter all startup / default cameras
+startup_cameras = [camera for camera in cameras if pm.camera(camera.parent(0), startupCamera=True, q=True)]
+//# non-default cameras are easy to find now. Please note that these are all PyNodes
+non_startup_cameras_pynodes = list(set(cameras) - set(startup_cameras))
+//# Let's get their respective transform names, just in-case
+non_startup_cameras_transform_pynodes = map(lambda x: x.parent(0), non_startup_cameras_pynodes)
+//# Now we can have a non-PyNode, regular string names list of them
+non_startup_cameras = map(str, non_startup_cameras_pynodes)
+non_startup_cameras_transforms = map(str, non_startup_cameras_transform_pynodes)
 
 
 

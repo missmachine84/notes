@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+﻿<<<<<<< HEAD
 ﻿@ECHO OFF
 =======
 @ECHO OFF
@@ -23,7 +23,8 @@ rem get help on a command: ex. command /?
 rem general syntax ---------------------------
 rem print statement
 >>>>>>> origin/master
-ECHO.	print blank line
+ECHO/	preferred print blank line methed
+ECHO.	alt print blank line
 ECHO	print
 
 
@@ -327,7 +328,7 @@ echo some text > file.txt
 :: write multiple lines to a file:
 (
 echo line of text
-echo.
+echo/
 echo another line
 echo escape char(^)
 )> file.txt
@@ -397,6 +398,23 @@ echo maya.standalone.uninitialize(^)
 
 
 rem rename a file
+
+
+
+
+:: directory junctions and symbolic links
+
+::List all junctions, symlinks and symlink directories in the current directory and its subdirectories:
+dir /al /s
+::Or if you want them listed separately...
+::List all junctions in the current directory and its subdirectories:
+dir /al /s | findstr "<JUNCTION>"
+::List all symlinks in the current directory and its subdirectories:
+dir /al /s | findstr "<SYMLINK>"
+::List all symlink directories in the current directory and its subdirectories:
+dir /al /s | findstr "<SYMLINKD>"
+::The l attribute flag is key here; l is for Reparse Points (junctions, symlinks and symlink directories)
+
 
 
 

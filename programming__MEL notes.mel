@@ -1143,11 +1143,9 @@ obj.getParent()
 
 // component name extensions:
 objectName.map 	UV
-""				.e 		edge
-""				.f 		face
-""				.v    vert
-//all components
-polySphereShape.f[*]
+""				.e 	edge
+""				.f 	face
+""				.v  vert
 
 
 
@@ -1171,9 +1169,17 @@ $maskFacet = `selectType -query -facet`;
 faces = pm.filterExpand (pm.ls(sl=1), selectionMask=34, expand=1) //returns ie. [u'pCylinder1.f[2]', u'pCylinder1.f[3]']
 
 
-// get component
-//get all faces (or anything polyevaluate querys)
-faces = [shell+".f["+str(num)+"]" for num in range(pm.polyEvaluate (shell, face=1))] //create a list of all faces per shell
+// get components
+//get all [.vtx, .f, .e]
+polySphereShape.f[*]
+//alt using ls
+obj = 'pSphere1'
+vtx = pm.ls(obj+'.vtx[*]', flatten=True)
+//alt using polyevaluate
+faces = [obj+".f["+str(num)+"]" for num in range(pm.polyEvaluate (obj, face=1))] //create a list of all faces per shell
+
+//get currently selected components
+components = cmds.ls(selection=True, flatten=True)
 
 //get number of faces
 numFaces = pm.polyEvaluate(duplicatedObject, face=1)
@@ -1184,6 +1190,7 @@ adjEdges = pm.polyListComponentConversion (selFaces, ff=1, te=1) #face to edge
 adjFaces = pm.polyListComponentConversion (adjFaces, fe=1, tf=1) #edges to faces
 //remove orig selected face:
 adjFaces.remove(face)
+
 
 //get all vertices
 int $vertcount = polyEvaluate -vertex $object; 
@@ -1237,7 +1244,7 @@ for vertex in vertices:
 componentName = str(component).split(".")[0]
 vertices = pm.polyInfo (component, edgeToVertex=1)[0] //edgeToFace,vertexToFace,faceToEdge,faceToVertex,edgeToVertex,vertexToEdge
 vertices = vertices.split()
-vertices = [componentName+".vtx["+vertices[2]+"]",componentName+".vtx["+vertices[3]+"]"] //".vtx",".e",".f"
+vertices = [componentName+".vtx["+vertices[2]+"]",componentName+".vtx["+vertices[3]+"]"] //'.vtx','.e','.f'
 //or (expanding on above)
 vertexList = []
 for vertex in vertices.split():

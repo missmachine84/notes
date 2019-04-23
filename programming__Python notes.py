@@ -324,6 +324,25 @@ try:      #see error handling
 except:
 finally:
 
+#try with multiple statements:
+for code in (
+    lambda: a / b,
+    lambda: a / (b + 1),
+    lambda: a / (b + 2),
+    ):
+    try: print(code())
+    except Exception as ev: continue
+    break
+else:
+    print("it failed: %s" % ev)
+
+#using and/or
+try:
+	mod = obj.modifiers['TurboSmooth'] or obj.modifiers['TurboSmooth_Pro'] or obj.modifiers['OpenSubDiv']
+	mod.iterations = 0 #set subdivision levels to 0.
+except: pass
+
+
 
 #conditional statement 
 eg. x = "a < b" if (a < b) else "a >= b"
@@ -490,8 +509,8 @@ for item1, item2 in izip(list1, list2):
 	print item1, item2
 
 
-#using enumerate().
-eg. for index, element in enumerate(list_):
+#using enumerate() with list comprehension:
+eg. [index for index, element in enumerate(list_)]
 
 
 #perform an operation x number of times.
@@ -854,6 +873,16 @@ eg. string.swapcase()
 eg. string[:4].upper()+string[2:] #effect only certain letters
 
 
+#convert string to type integer
+int('8')
+#trailing characters in a string
+	# \d: a digit (0-9)
+	# +: one or more of the previous item (i.e. \d)
+	# $: the end of the input string
+eg. n = re.search(r'\d+$', 'string08')
+	num = int(n.group()) if n else None
+
+
 
 
 
@@ -871,20 +900,34 @@ list_=list()
 # create a list with contents.
 list_ = ['red', 'blue', 'green', 3.5, 3]
 
+
+
+
+# populate a list automatically:
+eg. list(range(9)) #returns [0, 1, 2, 3, 4, 5, 6, 7, 8]
+#create a list within a set range: range(start, stop, step) 
+eg. list_ = list(range(3,8,2)) #creates list with a 2 unit interval. in this case [3, 5, 7]
+#between two values:
+eg. list(range(140, 151)) #140-150 ie. [140, 141, 142,..]
+#between two values with increment amount:
+eg. numpy.arange(140, 150, 0.5) #increment by .5 ie. [140, 140.5, 141,..]
+#creates a list with random integer values.  
+eg. random.randomrange(0, 100)
+
+#initialize with multiples of the same element.
+eg. ['init'] * 4 #results in ['init', 'init', 'init', 'init']
+
 # create a list based on an if statement 
 list_ = [i*2 for i in range(10)]  #generates a list of even numbers 0 through 18
 
 
-# populate a list automatically:
-eg. list_ = range(100)
-#create a list within a set range: range(start, stop, step) 
-eg. list_ = list(range(3,8,2)) #creates list with a 2 unit interval. in this case [3, 5, 7]
-#creates a list with random integer values.  
-eg. random.randomrange(0, 100) 
 
 
-# duplicate an item in a list
-eg. ['Hi!'] * 4 #results in ['Hi!', 'Hi!', 'Hi!', 'Hi!']
+# work on a copy or subsection of a list:
+list_[:] = list_ #or ex. [-2:] for last two elements
+#modifying list_[:] won't effect the original.
+
+
 
 
 
@@ -1083,6 +1126,19 @@ eg. list1 = [[0, 4, 1, 5], [3, 1, 5], [4, 0, 1, 5]]
 
 
 
+
+
+#compare two lists.
+#without duplicates:
+set(x) == set(y) #returns bool. set removes duplicates so will not check for that
+#with duplicates:
+import collections
+compare = lambda x, y: collections.Counter(x) == collections.Counter(y) #returns bool.
+
+
+
+
+
 #compare elements of lists.
 #using >, <, ==
 #or using cmp
@@ -1122,7 +1178,7 @@ eg. [1, 2, 3] + [4, 5, 6] #results in [1, 2, 3, 4, 5, 6]
 #using append
 eg. list_.append(list_1 + list_2 + list_3)
 
-#combine elemets of a list:
+#concatenate/combine elements of a list:
 #of strings
 eg. ','.join(['spam', 'ham', 'eggs']) #returns spam, ham, eggs
 #or
@@ -1146,12 +1202,12 @@ eg. ', '.join(map(str, list_of_ints)) #returns 80, 443, 8080, 8081
 
 #combine a list of lists
 #flatten list
-eg. flattened = [val for sublist in list_of_lists for val in sublist]
-		#is equivalent to: (the list comp evaluates MUCH faster than the unraveled loop)
-		flattened = []
-		for sublist in list_of_lists:
-			for val in sublist:
-				flattened.append(val)
+eg. flattened = [i for sublist in list_ for i in sublist]
+#is equivalent to: (the list comp evaluates MUCH faster than the unraveled loop)
+flattened = []
+for sublist in list_of_lists:
+	for val in sublist:
+		flattened.append(val)
 #using itertools (from itertools import chain.)
 eg. list(chain(*list_of_lists))
 #or
@@ -1194,20 +1250,25 @@ eg. set_ = set(list_)
 #convert back to list using list()
 eg. list_ = list(set(list_))
 #else, to maintain list order:
-eg. def f4(seq): 
-			noDupes = []
-			[noDupes.append(i) for i in seq if not noDupes.count(i)]
-			return noDupes
-#or: (will not work for a unhashable type aka; a list of dictionaries)
+eg. for l in list_:
+		if list_.count(l)>1:
+			list_.remove(l)
+#alt:
+eg. l=[]; [l.append(i) for i in list_ if not l.count(i)]
+	print list(reversed(l))
+#or using OrderedDict: (will not work for a unhashable type aka; a list of dictionaries)
 eg. from collections import OrderedDict
-		list(OrderedDict.fromkeys('abracadabra')) #['a', 'b', 'r', 'c', 'd']
-#or:
+	list(OrderedDict.fromkeys(list_))
+#alt:
+eg.	from collections import OrderedDict
+	print list(reversed(OrderedDict.fromkeys(reversed(list_))))
+#alt:
 eg. from collections import OrderedDict
-		OrderedDict((x, True) for x in source_list).keys()
-		# use the fact that OrderedDict remembers the insertion order of keys, 
-		# and does not change it when a value at a particular key is updated. 
-		# We insert True as values, but we could insert anything, values are just not used. 
-		# (set works a lot like a dict with ignored values, too.)
+	OrderedDict((x, True) for x in list_).keys()
+	# use the fact that OrderedDict remembers the insertion order of keys, 
+	# and does not change it when a value at a particular key is updated. 
+	# We insert True as values, but we could insert anything, values are just not used. 
+	# (set works a lot like a dict with ignored values, too.)
 
 
 
@@ -1386,6 +1447,16 @@ eg. var = next(key for key, value in dict_.items() if value=="something")
 eg. var = next(key for key, value in dict_.items() if value=="something" and key not 'somethingElse')
 
 
+
+# Get min/max
+#min key
+eg. min(dict_, key=dict_.get)
+#max value
+eg. max(dict_, value=dict_.get)
+
+
+
+
 # check membership
 #for key
 #searches dictionary KEYS (returns: boolean)
@@ -1481,6 +1552,15 @@ eg.
 
 
 
+#sort (acsending or decending using reverse)
+#by key
+eg. sorted = sorted(dict_)
+#by key using collections (output as a dict)
+eg. sorted = OrderedDict(dict_)
+#by key using operator (output as a list)
+eg. sorted = sorted(dict_.items(), key=operator.itemgetter(0))
+#by value using operator (output as a list)
+eg. sorted = sorted(dict_.items(), key=operator.itemgetter(1))
 
 
 
@@ -1556,23 +1636,19 @@ for item in set_one.intersection(set_two):
 
 
 
-# delete value              
-del d['key']               
+# Delete
+#key (returns the value of the key upon deletion)
+eg. dict_.pop('key', None) #if key doesn't exist; return the second argument.
 
-# delete all
+#value              
+eg. del dict_['key']
+#element from a list stored as a value
+eg. dict_['key'].remove('item in list')
+
+#all keys/values
 dict_.clear()
 
 
-# alternative syntax:
-inventory = {
-		'health' : 2,    
-		'backpack': ['first aid kit', 'harpoon gun'],
-		'wallet': ['cash', 'passport'], 
-		'secret stash' : ['gold nugget']   
-}
-inventory['backpack'].sort()
-inventory['backpack'].remove('first aid kit')
-inventory['health'] += 98
 
 
 
@@ -2181,7 +2257,8 @@ class Date(object):
 				self.month = month
 				self.year = year
 
-		#'cls' is an object that holds class itself, not an instance of the class as 'self' does.
+		#'cls' holds class itself, not an instance of the class as 'self' does.
+		# if you define something to be a classmethod, it is probably because you intend to call it from the class rather than from a class instance.
 		@classmethod
 		def from_string(cls, date_as_string): 
 				day, month, year = map(int, date_as_string.split('-'))
@@ -2404,11 +2481,26 @@ eg. var = choice(['A', 'B', 'C'])
 
 =======
 >>>>>>> origin/master
-'Keyboard___________________________________________________________________________________'
+'Keyboard/Mouse_____________________________________________________________________________'
+
+
+#using ctypes
+SetCursorPos = ctypes.windll.user32.SetCursorPos
+mouse_event = ctypes.windll.user32.mouse_event
+
+def left_click(x, y, clicks=1):
+  SetCursorPos(x, y)
+  for i in xrange(clicks):
+   mouse_event(2, 0, 0, 0, 0)
+   mouse_event(4, 0, 0, 0, 0)
+
+left_click(200, 200) #left clicks at 200, 200 on your screen. Was able to send 10k clicks instantly.
+
+
+
 
 # .net framework
 #--getKeyState---------------------------------------------------------------------------
-
 from ctypes import windll
 #The state will either be 0 or 1 when not pressed, and increase to something like 60000 when 
 #pressed, so to get a True/False result, checking for > 1
@@ -2435,6 +2527,8 @@ def getKeyState(key):
 	# else:
 	#   return False #key up
 	#commented out as block was causing odd highlighting in lower notes
+
+
 
 
 
@@ -2925,7 +3019,7 @@ eg. pip show PySide2
 
 'Time_______________________________________________________________________________________'
 
-#pause, stop, wait, or sleep
+# pause, stop, wait, or sleep
 import time
 
 #sleep
@@ -2934,16 +3028,17 @@ time.sleep(5) #wait for 5 seconds
 time.sleep(.300) #wait for 300 milliseconds
 
 
-
-
-
-
-
-
-
-
-'Check_Speed________________________________________________________________________________'
-
+# check speed
+t1=time.time()
+<code>
+t1=time.time()
+print t1-t0
+#using timeit (os agnostic)
+t1=timeit.default_timer()
+<code>
+t1=timeit.default_timer()
+print t1-t0
+#alt:
 % python -mtimeit  "function"
 
 

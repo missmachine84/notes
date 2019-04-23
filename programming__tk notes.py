@@ -1,56 +1,153 @@
+## tk_hotBox
+###### *PySide marking menu style layered ui and toolkit for maya and max.
 
 
-# -----------------------------------------------
-# structure:
-# -----------------------------------------------
+*work in progress..*
 
-# tk_main:
-# 	get dynamic ui files
-# 	construct stacked layout with ui files
-# 	set window flags and attributes
-# 	set event filters
-# 	construct paint event overlay
+## Design:
+######
+*To build an app agnostic modular ui to house tools where each piece is constructed dynamically to allow 
+for as little overhead as possible in construction and maintainence. Literally all you have to do to have 
+a new ui up and running, is to drop a qt ui file into the ui folder, and create a module and class of the 
+same name. Naming convention allows for a stacked ui to be built, signals added/removed, and a master dictionary 
+(stored in the switchboard module) to be created, that handles the getting/setting of all data from one 
+simple location, in one simple way.*
 
+##
+-----------------------------------------------
+ Structure:
+-----------------------------------------------
 
+## tk_main: 
+######
+*handles main gui construction.*
 
-# tk_signals:
-# 	build connection dict for each class with corresponding signals and slots
-# 	add/remove signals using the connection dict each time the stacked layouts index is changed
-# 	add each relavent method call to a recent command list	
+* get dynamic ui files relative to folder location.
 
+* handle coordinates to populate ui at cursor position.
 
+* add each ui to a layout stack.
 
-# tk_slots:
-# 	class that holds the corresponding slot methods for each layout in the stack
+* set window flags and attributes.
 
+* set event filters and overrides.
 
-
-
-# tk_shared_functions:
-# 	functions shared across all Slot class modules
-
-
-
-
-
+* construct paint event overlay.
 
 
+## tk_signals: 
+######
+*constructs signal connections.*
 
-# -----------------------------------------------
-# basic use:
-# -----------------------------------------------
+* build connection dict in switchboard for each class with corresponding signals and slots.
 
-#pressed hotkey shows instance. release hides.
-#mouse not pressed; general scene heads up info
-#right mouse down shows main window.
-#left mouse down shows viewport navigation.
-#releasing the mouse over any of the buttons in those windows takes you to the corresponding submenu.
-#double left mouseclick produces last used window.
-#double right mouseclick repeats last command.
-#dragging on an empty are of the widget moves the window and pins it open in a separate instance.
-#holding ctrl while using Spinboxes increments/decrements by an extra decimal place.
-#mouse over buttons while window pinned to get an explanation of its function.
+* add/remove signals using the switchboard dict each time the stacked layout index is changed.
 
+
+
+## tk_slots: 
+######
+*master class holding methods that are inherited across all app specific slot class modules.*
+
+
+
+## tk_switchboard: 
+######
+*holds the following information for each tool class instance. From this information, you can call switchboard methods to 
+get most relevent information easily wherever you need it.*
+
+* class name as string
+
+* class object
+
+* widget size
+
+* widget name/method name as string
+
+* widget Object
+
+* widget Object with Signal
+
+* method Object
+
+* method docString
+
+* uiList : *string list of all ui filenames in the ui folder*
+
+* prevName : *list of last called relevant ui*
+
+* prevCommand : *history of commands. uses the method docstring to generate a user friendly name from the dynamic element and stores it along side the command method.*
+
+
+
+##
+-----------------------------------------------
+ Naming convention:
+-----------------------------------------------
+
+######
+* ui files:     <name>.ui
+ 
+* tools module: tk_slots_<app>_<name>.py
+ 
+* class name:   <Name>
+
+*widget/corresponding class methods share the same naming convention across all modules: ie. widget b021 connects to method b021.
+the docstring of each method houses a user friendly name that is stored with all other widget info in the switchboard dict when an
+instance is populated. Any of the buttons will also connect to a corresponding class method should it exist.*
+
+* QPushButton   b000    (b000-b999) can contain 1000 buttons of one type max per class using this convention.
+
+* QPushButton   v000    these buttons are attached an event filter to change the ui index.
+
+* QPushButton   i000    buttons that are initially invisible.
+
+* QComboBox     cmb000  ""
+
+* QCheckBox     chk000  ""
+
+* QSpinBox      s000    ""
+
+* QtextField    t000    ""
+
+
+
+##
+-----------------------------------------------
+ Basic use:
+-----------------------------------------------
+
+######
+* pressed hotkey shows instance. release hides;
+
+* mouse not pressed: heads up info
+
+* right mouse down: shows main navigation window.
+
+* left mouse down: shows viewport navigation.
+
+* middle mouse down: shows mesh display options.
+
+* releasing the mouse over any of the buttons in those windows takes you to the corresponding submenu.
+
+* double left mouseclick: produces last used window.
+
+* double right mouseclick: repeats last command.
+
+* dragging on an empty are of the widget moves the window and pins it open in a separate instance.
+
+* holding ctrl while using Spinboxes increments/decrements by an extra decimal place.
+
+* mouse over buttons while window pinned to get an explanation of its function.
+
+
+#times
+tk_signals
+time: 0.11471084274
+tk_slots_max_viewport
+time: 0.0632666986347
+tk_slots_max_polygons
+time: 0.0816165578988
 
 # -----------------------------------------------
 # to install:
@@ -92,60 +189,115 @@
 # -----------------------------------------------
 # THINGS TO DO NOW:
 # -----------------------------------------------
+'''
 
 
 
-#search field returns related commands.
+select by edge angle function
 
 
-# framework for interactive tools
+component path tool
+	supporting
+	nth component
+	loop
+	ring
+	contigious
+	shortest path
+
+
+mesh clean-up
+
+
+
+	
+
+edit> delete menu
+with delete, delete loop, delete history
+for edge in rt.selection:
+	edge.SelectEdgeLoop()
+	edge.EditablePoly.Remove()
+
+
+set normal by angle not working with no error.
+
+
+set crease amount 	obj.EditablePoly.setEdgeData(1, 0.5)
+
+
+assign scene material cmb does nothing. ui list doesnt expand to fit contents.
+
+
+display> toggle material override
+
+
+editors:
+scene> editors cmb> Asset Tracking System		ATSOps.visible = true
+selection> editors> Named Selection Sets 	 macros.run "Edit" "namedSelSets"
+editors> Crease Explorer	CreaseExplorerManager.OpenCreaseExplorer ()
+
+selection>  select similar
+
+
+
+override materials with fast shader
+	actionMan.executeAction 0 "63574"  -- Views: Override Off
+
+
+
+
+
+search field returns related commands.
+
+
+
+framework for interactive tools
 # method for storing values
 
 
-# radial array: add interactive update on pivot change
+radial array: add interactive update on pivot change
 set pivot;  move -r -0.829437 0 0 pCylinder27.scalePivot pCylinder27.rotatePivot
 
 
-# create> cmb001> keep window open on indexChanged.  closing and re-opening hides spinboxes.
+create> cmb001> keep window open on indexChanged.  closing and re-opening hides spinboxes.
 
 
-# fix repeat last command
+fix repeat last command
 
 
-# move polygon collapse to merge area
+move polygon collapse to merge area
 
  
-# create camera from view
+create camera from view
 look through [camera from drop down list]
  
 
-# create; creating a primitive doesnt align to set axis
-# spinboxes visible on set point
-# wrap setattributes call in an undoinfo chunk
+create; creating a primitive doesnt align to set axis
+spinboxes visible on set point
+wrap setattributes call in an undoinfo chunk
 
-# duplicate w/transform spinboxes; convert to being interactive.
-# add center pivot option
+duplicate w/transform spinboxes; convert to being interactive.
+add center pivot option
 
-# bug: transform negative '-' sets spinbox value to 0.  
+bug: transform negative '-' sets spinbox value to 0.  
 
-# line 1640, in b010
+line 1640, in b010
     parent = pm.listRelatives(instances[0], parent=True)[0]
 UnboundLocalError: local variable 'instances' referenced before assignment
 
-# build convert menu with a pair of comboboxes to select to/from
+build convert menu with a pair of comboboxes to select to/from
 
-# create; angled pipe.  creates a basic pipe section and allows to interactively add angles/fittings/ etc.
-# create; stairs.  step, rise, amount
-# create; railing
-# create; saved asset. store points to building block items etc ascii
+create; angled pipe.  creates a basic pipe section and allows to interactively add angles/fittings/ etc.
+create; stairs.  step, rise, amount
+create; railing
+create; saved asset. store points to building block items etc ascii
 
 
-# move ui path variable to a config file
+move ui path variable to a config file
 
-# scene: set unreal/unity project. GamePipeline -sp "Unreal";
-# scene: re-export last
+scene: set unreal/unity project. GamePipeline -sp "Unreal";
+scene: re-export last
 
-# display; build a layer editor
+display; build a layer editor
 
 fix recent autosave;  %userprofile%/AppData/Local/Temp  get dir file list,  sort by date modified
 
@@ -497,7 +649,7 @@ proc batchExport (string $fileType)
 
 
 
-
+'''
 
 
 

@@ -136,10 +136,10 @@ Tip: Before performing your boolean operation, view the normals on your mesh (Di
 
 
 
------   insert multi mesh brushes
+-----   insert multi mesh brushes (IMM)
 
-
-To create a Tri Parts brush
+//ZBrush
+To create a Tri Parts brush:
 
 >	You first need a specific mesh, composed of three PolyGroups. As mentioned above, these groups define the end caps and duplicated portions of the curve stroke. Remember: The view of the mesh relative to the camera plane will determine how the origin of the mesh will be drawn onto your model.
 >	In the Brush palette, click the Create InsertMesh button. This creates a new Insert Mesh type of brush based on the current object. (Read the chapter 5 of this section for more information about creating Insert-type brushes)
@@ -152,6 +152,9 @@ Advice for creating Tri Parts brushes:
 >	Try to create each part (the end caps and the duplicated portion) with the same height. Failing to do so may not result in clean duplication along the curve.
 >	Use the Tool >> Deformations >> Unify command to create a mesh which will be one ZBrush unit in size, with a centered pivot point.
 
+Usage:
+
+>	Brush Menu> Load Brush> M hotkey to select part
 
 
 

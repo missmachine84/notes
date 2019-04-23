@@ -1,4 +1,4 @@
-#				|||||||||||||||||||||||||||||||||||||||||||
+set#				|||||||||||||||||||||||||||||||||||||||||||
 #				||||||||||		Qt UI Notes		|||||||||||
 #				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -13,178 +13,8 @@ QtWidgets #classes to extend qt GUI with c++ widgets
 QObject		#basic non-visual building block. ex. signals, events, 
 
 
+		
 
-
-'Style'#--------------------------------------------------------------------
-
-
-#19 predefined QColor objects accessible as members of the Qt namespace (ie. Qt::red).: 
-#white, black, red, darkRed, green, darkGreen, blue, darkBlue, 
-#cyan, darkCyan, magenta, darkMagenta, yellow, darkYellow, gray, 
-#darkGray, lightGray, color0 and color1
-ex.
-QtGui.QColor.magenta()
-
-ex.
-QtGui.QColor(122, 163, 39)
-
-ex.
-QtGui.QColor.alpha #get alpha int value
-QtGui.QColor.setAlpha(2)
-
-
-ex.
-widget.setForeground(0,QtGui.QBrush(QtGui.QColor("red")))
-
-self.autoFillBackground()
-
-
-#flags
-.setWindowFlags(QtCore.Qt.flag1|QtCore.Qt.flag2) #syntax: QtCore.Qt.<flag> | separated by pipes.
-
-CustomizeWindowHint
-QtCore.Qt.Tool
-QtCore.Qt.FramelessWindowHint
-QtCore.Qt.X11BypassWindowManagerHint
-QtCore.Qt.WindowTransparentForInput
-QtCore.Qt.WindowStaysOnTopHint
-
-WA_WState_WindowOpacitySet
-WA_NoSystemBackground #Indicates that the widget has no background
-WA_TranslucentBackground #Indicates that the widget should have a translucent background
-WA_TintedBackground
-WA_StyledBackground #Indicates the widget should be drawn using a styled background.
-WA_StyleSheet #Indicates that the widget is styled using a style sheet.
-WA_WindowPropagation #Makes a toplevel window inherit font and palette from its parent.
-WA_SetPalette #Indicates that the widget has a palette of its own.
-WA_SetStyle #Indicates that the widget has a style of its own.
-WA_SetCursor #Indicates that the widget has a cursor of its own.
-WA_SetFont #Indicates that the widget has a font of its own.
-
-
-ex.
-setWindowOpacity(0.5)
-
-ex.
-setAutoFillBackground(False)
-QWidget.autoFillBackground(True)
-
-
-#erase area \fill with background
-fillRect(rectangle, background())
-
-
-
-
-# styleSheet
-# docs: http://doc.qt.io/archives/qt-4.8/stylesheet-examples.html
-#print the stylesheet if there is one:
-print self.pushButton.styleSheet()
-
-#QWidget.styleSheet
-pushButton.styleSheet #query the widgets style sheet.
-
-#If you would prefer that the font and palette propagate to child widgets, you can set the Qt::AA_UseStyleSheetPropagationInWidgetStyles flag, like this:
-QCoreApplication::setAttribute(Qt::AA_UseStyleSheetPropagationInWidgetStyles, true);
-
-
-ex.
-buttonObject.setStyleSheet("") ##set style sheet to default. also (styleSheet())
-self.setStyleSheet("background: transparent;") #doesn't need the style sheet itself but child widgets contained in the widget that have autoFillBackground()==True by default should have it unset or should have set QtCore.Qt.WA_TranslucentBackground or have a transparent background color set by a style sheet which is then inherited
-pushButton.setStyleSheet("background-color: transparent") #white, black, grey, magenta, etc
-setStyleSheet("background-color: rgba(227, 227, 227, 2)") #rgb + alpha. alpha value of 1 sometimes doesnt work.
-
-
-ex.
-.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
-.setStyleSheet("QLabel {font-size: 100px; opacity:0.5}")
-
-#comment css
-/* css multi-line comment */
-
-
-ex.
-button.setStyleSheet('''
-QPushButton {
-	background:rgba(127,127,127,2);
-	background-color: red;
-	color: white;
-	border: 1px solid black;
-	border-width: 2px;
-	border-radius: 10px;
-	border-color: beige;
-	border-style: outset;
-	font: bold 14px;
-	min-width: 10em;
-	padding: 5px;
-}
-QPushButton:hover {   
-	border: 1px solid black;
-	border-radius: 5px;   
-	background-color:#66c0ff;
-}
-QPushButton:pressed {
-	background-color: rgb(224, 0, 0);
-	border-style: inset;
-}
-QPushButton:enabled {
-	color: red
-}
-QComboBox {
-	border: 0px solid transparent; 
-	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
-	image: url(:/none);}
-QComboBox::drop-down {
-	border: 0px solid transparent; 
-	border-width: 0px; 
-	background-color: transparent; 
-	color: transparent
-}
-QComboBox::down-arrow {
-	border: 0px solid transparent; 
-	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
-	background-color: transparent; 
-	color: transparent; 
-	image: url(:/none);
-}
-QTreeWidget {
-	border:none;
-} 
-QTreeWidget::item {
-	height: 20px;
-}
-QTreeView {
-  alternate-background-color: rgba(35,35,35,255);
-  background: rgba(45,45,45,255);
-}
-QMenu {
-	background-color: white; /* background-color: #ABABAB; sets background of the menu */
-	margin: 2px; /* some spacing around the menu */
-	border: 1px solid black;
-}
-QMenu::item {
-	/* sets background of menu item. set this to something non-transparent
-	if you want menu color and menu item color to be different */
-	background-color: transparent;
-	padding: 2px 25px 2px 20px;
-	border: 1px solid transparent; /* reserve space for selection border */
-}
-QMenu::item:selected { 
-	/* when user selects item using mouse or keyboard */
-	background-color: #654321;
-	border-color: darkblue;
-	background: rgba(100, 100, 100, 150);
-}
-QMenu::icon:checked { /* appearance of a 'checked' icon */
-	background: gray;
-	border: 1px inset gray;
-	position: absolute;
-	top: 1px;
-	right: 1px;
-	bottom: 1px;
-	left: 1px;
-}
-''')
 
 
 
@@ -255,6 +85,12 @@ def sizeHint(self):
 #holds the geometry of the widget as it will appear when shown as a normal (not maximized or full screen) top-level widget.
 #Note, the widget must be first shown for this to return something other than (0,0)
 QWidget.normalGeometry(). 
+
+
+
+
+
+
 
 
 
@@ -533,12 +369,12 @@ b3.setEnabled(False)
 
 
 .text #QPushButton.text()
-# Retrieves buttons’ caption or textfields value
+# Retrieves buttons’ caption or textfield value
 
 
 # modify button text
 .setText #QPushButton.setText()
-# Programmatically sets buttons’ caption or textfields value
+# Programmatically sets buttons’ caption or textfield value
 
 
 # icon
@@ -567,12 +403,24 @@ self.ui.spinbox.valueChanged.connect(self.b000)
 
 #QComboBox
 # get list contents:
-list_ = [self.ui.cmb000.itemText(i) for i in range(self.ui.cmb000.count())]
+list_ = [cmb.itemText(i) for i in range(cmb.count())]
 # add list contents
 components = pm.ls (selection=1, flatten=1)
-self.ui.cmb000.addItems(components)
+cmb.addItems(components)
 # add string
-self.ui.cmb000.addItem(component)
+cmb.addItem(component)
+#store text
+text = cmb.currentText()
+#get text
+cmb.findText(text)
+
+#get index
+cmb.currentIndex()
+#set index
+cmb.blockSignals(True)
+cmb.setCurrentIndex(0)
+cmb.blockSignals(False)
+
 # add signals:
 comboboxes = ["cmb000"]
 for combobox in comboboxes:
@@ -582,7 +430,7 @@ for combobox in comboboxes:
 	ui.activated.connect(method)
 	method() #init comboboxes
 #additional signals:
-self.ui.cmb000.activated.connect(self.b034)
+cmb.activated.connect(self.b034)
 QComboBox.activated(int).connect() #index of the selected item
 QComboBox.activated(unicode).connect() #[str] text of selected item
 highlighted () #index of the selected item
@@ -591,6 +439,10 @@ currentIndexChanged ()
 currentIndexChanged (index)
 editTextChanged ()
 QComboBox.itemText(index) #Returns the text for the given index in the combobox.
+
+
+
+
 
 #eventFilter for button press #see also eventFilter for view event
 self.combo.installEventFilter(self)
@@ -779,33 +631,25 @@ dragLeaveEvent (event)
 dragMoveEvent (event)
 dropEvent (event)
 enterEvent (event)
+leaveEvent (event)
 focusInEvent (event)
 focusNextPrevChild (next)
 focusOutEvent (event)
 heightForWidth (arg__1)
-hideEvent (event)
 inputMethodEvent (event)
 inputMethodQuery (arg__1)
-keyPressEvent (event)
-keyReleaseEvent (event)
 languageChange ()
-leaveEvent (event)
 minimumSizeHint ()
-mouseDoubleClickEvent (event)
-mouseMoveEvent (event)
-mousePressEvent (event)
-mouseReleaseEvent (event)
-moveEvent (event)
 paintEvent (event)
 resizeEvent (event)
 setVisible (visible)
 showEvent (event)
+hideEvent (event)
 sizeHint ()
 tabletEvent (event)
-wheelEvent (event)
 
 
-
+self.setAttribute(QtCore.Qt.WA_NoChildEventsForParent)
 
 
 .moveEvent
@@ -875,6 +719,19 @@ QtGui.QDragEnterEvent(pos, actions, data, buttons, modifiers)
 'Mouse Event'#--------------------------------------------------------------
 
 
+wheelEvent (event)
+mouseDoubleClickEvent (event)
+mouseMoveEvent (event)
+mousePressEvent (event)
+mouseReleaseEvent (event)
+moveEvent (event)
+
+
+
+#mouse move
+event.type() == QtCore.QEvent.MouseMove
+
+
 # Mouse button
 class PySide.QtGui.QMouseEvent(type, pos, globalPos, button, buttons, modifiers)
 # Parameters:
@@ -902,7 +759,7 @@ if event.buttons() & QtCore.Qt.LeftButton and event.modifiers() & QtCore.Qt.Cont
 mouseTracking::#bool, default: distabled,
 # Access functions:
 .hasMouseTracking
-.setMouseTracking(True)
+.setMouseTracking(True) #triggers the mouseMove event for all mouse movements rather then only when button is pressed.
 
 
 QWidget.underMouse() #Returns true if the widget is under the mouse cursor; otherwise returns false.
@@ -982,22 +839,48 @@ QtTest.QTest.mouseRelease(widget, button[, stateKey=0[, pos=QPoint()[, delay=-1]
 # delay – PySide.QtCore.int
 
 
-
-#mouse/keyboard
-ex. widget.setWindowFlags(QtCore.Qt.flag1|QtCore.Qt.flag2)
-
-WA_Hover #Forces Qt to generate paint events when the mouse enters or leaves the widget.
-
-WA_UnderMouse #Indicates that the widget is under the mouse cursor.
-
-WA_NoMouseReplay #Used for pop-up widgets. Indicates that the most recent mouse press event should not be replayed when the pop-up widget closes.
-
-WA_MouseTracking #Indicates that the widget has mouse tracking enabled.
-WA_TransparentForMouseEvents #disables the delivery of mouse events to the widget and its children
-
-
 PySide.QtGui.QWidget.grabMouse()
 PySide.QtGui.QWidget.releaseMouse()
+
+
+
+
+
+#mouse/keyboard
+self.setAttribute(QtCore.Qt.WA_Hover) #Forces Qt to generate paint events when the mouse enters or leaves the widget.
+self.setAttribute(QtCore.Qt.WA_UnderMouse) #Indicates that the widget is under the mouse cursor.
+self.setAttribute(QtCore.Qt.WA_NoMouseReplay) #Used for pop-up widgets. Indicates that the most recent mouse press event should not be replayed when the pop-up widget closes.
+self.setAttribute(QtCore.Qt.WA_MouseTracking) #Indicates that the widget has mouse tracking enabled.
+self.setAttribute(QtCore.Qt.WA_NoMousePropagation)
+self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents) #disables the delivery of mouse events to the widget and its children
+
+
+#mask mouse events
+def settingMask(self):
+    region = qg.QRegion(self._mainWidget.frameGeometry())
+    region -= qg.QRegion(self._mainWidget.geometry())
+    region += self._mainWidget.childrenRegion()
+    self._mainWidget.setMask(region)
+# Also, on my system (Linux), I found I had to call this after the window is shown:
+def main():
+    ...
+    myWinPos.show()
+    myWinPos.settingMask()
+    sys.exit(qtApp.exec_())
+
+
+
+#QtTest simulated keyboard/mouse events
+from PySide2.QtTest import QTest
+QTest.mouseRelease(self, QtCore.Qt.RightButton)
+self.blockSignals(True)
+QTest.mousePress(self, QtCore.Qt.RightButton)
+self.blockSignals(False)
+
+
+
+
+
 
 
 
@@ -1006,9 +889,14 @@ PySide.QtGui.QWidget.releaseMouse()
 'Keyboard Event'#-----------------------------------------------------------
 
 
+keyPressEvent (event)
+keyReleaseEvent (event)
+
+
+
 WindowTransparentForInput
-WA_InputMethodTransparent
-WA_KeyboardFocusChange #Set on a toplevel window when the users changes focus with the keyboard (tab, backtab, or shortcut).
+self.setAttribute(QtCore.Qt.WA_InputMethodTransparent)
+self.setAttribute(QtCore.Qt.WA_KeyboardFocusChange) #Set on a toplevel window when the users changes focus with the keyboard (tab, backtab, or shortcut).
 
 
 setFocusPolicy( Qt::NoFocus );
@@ -1385,8 +1273,8 @@ if __name__ == '__main__':
 
 #block a signal
 ex.
-self.ui.cmb000.blockSignals(True)
-self.ui.cmb000.blockSignals(False)
+cmb.blockSignals(True)
+cmb.blockSignals(False)
 
 
 
@@ -2712,12 +2600,12 @@ self.ui.spinbox.valueChanged.connect(self.b000)
 
 #QComboBox
 # get list contents:
-list_ = [self.ui.cmb000.itemText(i) for i in range(self.ui.cmb000.count())]
+list_ = [cmb.itemText(i) for i in range(cmb.count())]
 # add list contents
 components = pm.ls (selection=1, flatten=1)
-self.ui.cmb000.addItems(components)
+cmb.addItems(components)
 # add string
-self.ui.cmb000.addItem(component)
+cmb.addItem(component)
 # add signals:
 comboboxes = ["cmb000"]
 for combobox in comboboxes:
@@ -2727,7 +2615,7 @@ for combobox in comboboxes:
 	ui.activated.connect(method)
 	method() #init comboboxes
 #additional signals:
-self.ui.cmb000.activated.connect(self.b034)
+cmb.activated.connect(self.b034)
 QComboBox.activated(int).connect() #index of the selected item
 QComboBox.activated(unicode).connect() #[str] text of selected item
 highlighted () #index of the selected item
@@ -3536,8 +3424,8 @@ if __name__ == '__main__':
 
 #block a signal
 ex.
-self.ui.cmb000.blockSignals(True)
-self.ui.cmb000.blockSignals(False)
+cmb.blockSignals(True)
+cmb.blockSignals(False)
 
 
 
@@ -3877,6 +3765,187 @@ class Button(QtCore.QObject):
 
 #python wheels: (download and install locally to make sure the correct wheel gets installed)
 http://download.qt.io/snapshots/ci/pyside/
+
+
+
+
+
+
+'Style'#--------------------------------------------------------------------
+
+
+#19 predefined QColor objects accessible as members of the Qt namespace (ie. Qt::red).: 
+#white, black, red, darkRed, green, darkGreen, blue, darkBlue, 
+#cyan, darkCyan, magenta, darkMagenta, yellow, darkYellow, gray, 
+#darkGray, lightGray, color0 and color1
+ex.
+QtGui.QColor.magenta()
+
+ex.
+QtGui.QColor(122, 163, 39)
+
+ex.
+QtGui.QColor.alpha #get alpha int value
+QtGui.QColor.setAlpha(2)
+
+
+ex.
+widget.setForeground(0,QtGui.QBrush(QtGui.QColor("red")))
+
+self.autoFillBackground()
+
+
+#flags
+.setWindowFlags(QtCore.Qt.flag1|QtCore.Qt.flag2) #syntax: QtCore.Qt.<flag> | separated by pipes.
+
+CustomizeWindowHint
+QtCore.Qt.Tool
+QtCore.Qt.FramelessWindowHint
+QtCore.Qt.X11BypassWindowManagerHint
+QtCore.Qt.WindowTransparentForInput
+QtCore.Qt.WindowStaysOnTopHint
+
+WA_WState_WindowOpacitySet
+WA_NoSystemBackground #Indicates that the widget has no background
+WA_TranslucentBackground #Indicates that the widget should have a translucent background
+WA_TintedBackground
+WA_StyledBackground #Indicates the widget should be drawn using a styled background.
+WA_StyleSheet #Indicates that the widget is styled using a style sheet.
+WA_WindowPropagation #Makes a toplevel window inherit font and palette from its parent.
+WA_SetPalette #Indicates that the widget has a palette of its own.
+WA_SetStyle #Indicates that the widget has a style of its own.
+WA_SetCursor #Indicates that the widget has a cursor of its own.
+WA_SetFont #Indicates that the widget has a font of its own.
+
+
+ex.
+setWindowOpacity(0.5)
+
+ex.
+setAutoFillBackground(False)
+QWidget.autoFillBackground(True)
+
+
+#erase area \fill with background
+fillRect(rectangle, background())
+
+
+
+
+# styleSheet
+# docs: http://doc.qt.io/archives/qt-4.8/stylesheet-examples.html
+#print the stylesheet if there is one:
+print self.pushButton.styleSheet()
+
+#QWidget.styleSheet
+pushButton.styleSheet #query the widgets style sheet.
+
+#If you would prefer that the font and palette propagate to child widgets, you can set the Qt::AA_UseStyleSheetPropagationInWidgetStyles flag, like this:
+QCoreApplication::setAttribute(Qt::AA_UseStyleSheetPropagationInWidgetStyles, true);
+
+
+ex.
+buttonObject.setStyleSheet("") ##set style sheet to default. also (styleSheet())
+self.setStyleSheet("background: transparent;") #doesn't need the style sheet itself but child widgets contained in the widget that have autoFillBackground()==True by default should have it unset or should have set QtCore.Qt.WA_TranslucentBackground or have a transparent background color set by a style sheet which is then inherited
+pushButton.setStyleSheet("background-color: transparent") #white, black, grey, magenta, etc
+setStyleSheet("background-color: rgba(227, 227, 227, 2)") #rgb + alpha. alpha value of 1 sometimes doesnt work.
+
+
+ex.
+.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+.setStyleSheet("QLabel {font-size: 100px; opacity:0.5}")
+
+#comment css
+/* css multi-line comment */
+
+
+ex.
+button.setStyleSheet('''
+QPushButton {
+	background:rgba(127,127,127,2);
+	background-color: red;
+	color: white;
+	border: 1px solid black;
+	border-width: 2px;
+	border-radius: 10px;
+	border-color: beige;
+	border-style: outset;
+	font: bold 14px;
+	min-width: 10em;
+	padding: 5px;
+}
+QPushButton:hover {   
+	border: 1px solid black;
+	border-radius: 5px;   
+	background-color:#66c0ff;
+}
+QPushButton:pressed {
+	background-color: rgb(224, 0, 0);
+	border-style: inset;
+}
+QPushButton:enabled {
+	color: red
+}
+QComboBox {
+	border: 0px solid transparent; 
+	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
+	image: url(:/none);}
+QComboBox::drop-down {
+	border: 0px solid transparent; 
+	border-width: 0px; 
+	background-color: transparent; 
+	color: transparent
+}
+QComboBox::down-arrow {
+	border: 0px solid transparent; 
+	border-width: 0px; left: 0px; top: 0px; width: 0px; height: 0px; 
+	background-color: transparent; 
+	color: transparent; 
+	image: url(:/none);
+}
+QTreeWidget {
+	border:none;
+} 
+QTreeWidget::item {
+	height: 20px;
+}
+QTreeView {
+  alternate-background-color: rgba(35,35,35,255);
+  background: rgba(45,45,45,255);
+}
+QMenu {
+	background-color: white; /* background-color: #ABABAB; sets background of the menu */
+	margin: 2px; /* some spacing around the menu */
+	border: 1px solid black;
+}
+QMenu::item {
+	/* sets background of menu item. set this to something non-transparent
+	if you want menu color and menu item color to be different */
+	background-color: transparent;
+	padding: 2px 25px 2px 20px;
+	border: 1px solid transparent; /* reserve space for selection border */
+}
+QMenu::item:selected { 
+	/* when user selects item using mouse or keyboard */
+	background-color: #654321;
+	border-color: darkblue;
+	background: rgba(100, 100, 100, 150);
+}
+QMenu::icon:checked { /* appearance of a 'checked' icon */
+	background: gray;
+	border: 1px inset gray;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+	left: 1px;
+}
+''')
+
+
+
+
+
 
 
 

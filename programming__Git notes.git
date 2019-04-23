@@ -66,6 +66,18 @@ git merge <branch name>	//merge branch (while in branch to merge to)
 
 
 
+
+Procedures:
+
+
+git pull/git push
+
+
+
+
+
+
+
 GITIGNORE:
 file.txt	//exclude specific file
 /directory	//exclude entire directory

@@ -140,41 +140,34 @@ baking in substance with meshes consisting of multiple overlapping parts;
 
 IMPORT/EXPORT:
 FBX export
-//substance designer to maya
+//from substance designer:
+
+
+setting up color management preferences:
 in maya:
-substance node properties: 
+>	preferences> color management.  enable
+>	default to sRGB, click add to set up more rules
+>	ex. name=Normal to Raw.  image ext=png or *.  image file pattern=*Diffuse* (*anything leading or trailing).  color space=RAW
+>	vray supports sRGB, RAW and gamma formats
+
+in 3ds Max:
+>	Customize> Preferences> Gamma and LUT - Check 'Enable Gamma/LUT Correction' /set Gamma to 2.2.
+
+
+
+setting up the maps:
+in maya:
 >	create a substance node
 >	in properties>workflow select custom workflow (last index in combobox without text)
 >	load the sbsar file using the load file dialog (top section)
 >	enable auto connections: expand the automatic baking menu> automatic connections
 >	click each node type to create connections (may have to try and import maps to refresh)
 >	for textures beyond 2k; switch to gpu (hardware) renderer. engine settings> engine
-
-vrayMtl node properties:
-	diffuse color -> color (sRGB)
-	normal color -> bump map (set to tangent space normal, openGL, RAW)
-	roughness alpha --> roughness amount (sRGB)
-	reflection color -> reflection color (sRGB)
-	glossiness alpha -> reflection glossiness (RAW)
-	glossiness color -> refraction color (RAW)
-	specular alpha -> refraction glossiness (sRGB) (or uncheck 'Lock highlight and reflection glossiness', and map into 'Hilight glossiness')
-	opacity color -> opacity map (sRGB)
-	ambient occlusion ->  (sRGB)
-	IOR alpha -> Fresnel IOR (Uncheck Lock Fresnel IOR to Refraction IOR(reflection menu, RAW) 
-	
 select normal type
 >	expand the bump mapping menu> tangent space normal map
-
-
-
-setting up maya color management preferences
->	preferences> color management.  enable
->	default to sRGB, click add to set up more rules
->	ex. name=Normal to Raw.  image ext=png or *.  image file pattern=*Diffuse* (*anything leading or trailing).  color space=RAW
->	vray supports sRGB, RAW and gamma formats
-
-//maya from substance designer
-pbr material to vray
+---------------
+pbr material to vray:
+in Maya:
 >	create a 'basecolor_metallic_roughness_converter' node (set to correct resolution)
 >	add additional outputs as needed. 
 	to add an output node:
@@ -186,6 +179,47 @@ pbr material to vray
 >	add 'greyscale switch' and expose parameter to toggle roughness outputs
 
 
+
+in 3ds Max:
+>	create a vrayMtl
+>	import maps and plug in as below.	
+
+
+
+vrayMtl node properties:
+	DIFFUSE COLOR -> COLOR (sRGB) (greyscale version to the Reflect map if a material like metal, with an diffuse of pure black)
+	
+	NORMAL -> BUMP map (tangent space normal, openGL, RAW) (in the normal map properties; click on the “Bitmap” input. This will open a file browser window. In this window, with the same texture selected, go to “Gamma”, select “Override”, and set it to 1.0)
+	
+	ROUGHNESS ALPHA --> ROUGHNESS amount (sRGB)(Invert: In Substance, black on a roughness map indicates a smooth surface (sharp reflections), and white indicates rough (diffuse reflections). In V-Ray, it is the opposite.)
+	
+	REFLECTION COLOR -> REFLECTION COLOR (sRGB, or composite(color) spec map and diffuse) 
+	REFLECTION GLOSSINESS -> HILIGHT GLOSSINESS
+	
+	GLOSSINESS ALPHA -> REFLECTION GLOSSINESS (RAW)
+	GLOSSINESS COLOR -> REFRACTION COLOR (RAW)
+	
+	SPECULAR ALPHA -> REFRACTION GLOSSINESS (sRGB) (or uncheck 'Lock highlight and 
+	
+	OPACITY COLOR -> OPACITY map (sRGB)
+	
+	AMBIENT OCCLUSION ->  (sRGB)
+	
+	HEIGHT -> DISPLACEMENT map (greyscale)
+	
+	METALNESS -> IOR (greyscale, increase output amount to ~40)
+	
+	IOR ALPHA -> FRESNEL IOR (Uncheck Lock Fresnel IOR to Refraction IOR(reflection menu, RAW) 
+	
+
+
+
+
+
+
+
+
+
 //maya to substance painter
 >	export settings:
 	-smoothing groups (checked)
@@ -195,6 +229,21 @@ pbr material to vray
 	
 	
 
+
+	
+
+PROCEDURAL:
+
+//Procedural tiling of bitmaps: (This will only work for relatively uniform textures, not for those with repetitive patterns, such as bricks, planks or tiles.)
+
+>	make a copy of your bitmap in the Material Editor
+>	offset it in both axes by a random value
+>	plug these two bitmaps in a Composite or Mix map
+>	take a Noise map with fractals on and use the RGB curve to clamp it to just black and white (it will look like a cow hide).
+>	Now you can use this Noise map as a mask to mix your two bitmaps, introducing chaos in the tiling – though you’ll need a high value for the scale of the Noise.
+
+
+	
 	
 
 	
@@ -246,10 +295,10 @@ EMISSIVE:
 MATERIALS:
 //VRay:
 
-glass
+glass (generic)
 >	Set reflection to pure black
 >	Set reflection glossiness to 1.0
->	Set refraction to pure white
+>	Set refraction to white
 >	Set refraction glossiness to 1.0
 >	IOR 1.5 (1.4 acryllic.  1.6-1.8 flint)
 >	Check "Affect Shadows" option ON under refraction parameters.
@@ -259,4 +308,7 @@ glass
 
 
 
+metal (generic)
+> Set reflection to pure black
+> IOR 20-70
 

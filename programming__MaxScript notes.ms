@@ -34,6 +34,14 @@ local variable
 global variable
 
 
+-- to python:
+maxEval("texture_path = getDir #MaxData +#image_dir")
+print rt.texture_path
+
+
+
+
+
 
 "Conversion To
 
@@ -747,6 +755,21 @@ free <dictionary>
 
 
 
+--convert bit array to array
+--You can convert a bitArray to an Array, and an Array containing only true and false values to bitArray.
+--A bit in a BitArray can be either set (1, true) or not set (0, false).
+MaxPlus.Core.EvalMAXScript("fn b2a b = (return b as Array)")
+array = rt.b2a(bitArray)
+
+
+
+
+
+
+
+
+
+
 "VECTORS:_________________________________________________________________________________"
 
 
@@ -763,22 +786,23 @@ free <dictionary>
 "SELECTION:_______________________________________________________________________________"
 
 
---current selection
-$
+--select All
+$*	
 
-selection
+--current selection
+$ --returns 'undefined' if nothing selected
+
+rt.selection
 
 getCurrentSelection)() --returns the current selection as an array
 
 
---select All
-$*										
+--current mod panel object:
+rt.Modpanel.getcurrentObject()
 
 
---set property on selected object
-$.<property> = value	
-	ex.
-	$.renderable = false
+rt.Filters.GetModOrObj()
+
 
 
 SelectionManager.Nodes --provides an iterator for the selection list.
@@ -835,17 +859,36 @@ deselect <node>		--deselects the given nodes
 
 
 -- convert component selection type
+-- #edge #face #vertex #border
+ex. $.ConvertSelection <#vertex> #border
+--
+ex. $.EditablePoly.ConvertSelectionToBorder #Edge #Vertex
+
 --vertices to edge:
+rt.selection[0].convertselection ('Edge', 'Face')
+
+--alt
 obj = selection[1] --get selected object
 
-vertices = getVertSelection obj --get selected Vertices
-edges = polyop.getEdgesUsingVert obj vertices
+vertices = rt.getVertSelection(obj) --get selected Vertices
+edges = rt.polyop.getEdgesUsingVert(obj, vertices)
 
 setEdgeSelection obj edges --select the edges
 
 max modify mode --switch to Modify panel
 subObjectLevel =2 --edge selection mode
 select(edges)
+
+
+subObjectLevel 
+
+getSelectionLevel <maxobject> 
+setSelectionLevel <maxobject> {#object | #vertex | #edge | #face} 
+
+numSubObjectLevels
+
+IsSubSelEnabled()
+
 
 
 
@@ -1024,33 +1067,131 @@ convertToNURBSCurve <node> -- mapped
 
 
 
+
+
+
+
 --[Modifiers]
 
-addModifier $ (Bend())	--add bend modifier to selected
-ex.
-INode.AddModifier()
+--open modifier panel.
+maxEval ('max modify mode')
 
+
+--get selected modifier
+ex. rt.modPanel.getCurrentObject()
+
+--get modifier by name:
+ex. rt.selection.modifiers['TurboSmooth'].renderIterations = 0
+--set modifier by name
+ex. rt.modPanel.setCurrentObject(obj)
+
+--get modifier by index:
+ex. rt.selection.modifiers[-1].renderIterations
+--set modifier by index
+ex. rt.modPanel.setCurrentObject(obj.modifiers[0])
+
+--get index
+ex. index = rt.modPanel.getModifierIndex(obj, mod)
+-- 
+ex. index = [mod for mod in obj.modifiers].index(mod)+1 --add one to convert index from python to maxscript
+
+--set index
+
+
+--get modifier class id:
+ex. print sel.modifiers[0].classID
+--create with class id:
+MaxPlus.Factory.CreateWorldSpaceModifier(MaxPlus.Class_ID(0x000110b4, 0x00007f9e))
+
+
+--add modifier to top of stack:
+--addModifier $ (Bend())	--add bend modifier to selected
+ex. obj.AddModifier()
+--
 addModifier $ (Taper amound:1 primaryAxis:1)
+--create modifier
+mod = rt.Smooth()
+mod.autoSmooth = True --set attributes
+mod.threshold = angle
+
+for obj in rt.selection:
+	rt.addModifier (obj, mod)
+
+--if not exists; create, else; modify
+try:
+	obj = rt.selection[0]
+	mod = obj.modifiers[rt.Symmetry]
+except:
+	mod = rt.symmetry()
+	for obj in rt.selection:
+		rt.addModifier (obj, mod)
+	
+mod.axis = 0 #0(x), 1,(y), 2(z)
+mod.flip = True #negative axis
+
+
+-- to selection:
+--Used in place of 'addModifier()' Applies a modifier above current stack index.
+ex. rt.modpanel.addModToSelection(mod)
+
 
 --Tests whether a particular modifier or modifier class may be added the given <node> or 
 --to all of the objects in the objectset or group.
 validModifier [<node> | <objectset> | <group> ] <modifier |modifier_class> 
 
+--enable/disable modifier
+ex. obj.modifiers[2].enabled = False --turn off 2nd modifier
+--all modifiers of a given class
+ex. (getClassInstances turboSmooth).enabled=False
+
+
+--Collapses the modifiers out of a stack
+--collapse all:
+collapseStack <node> -- mapped
+--collapse to:
+--maxOps.CollapseNodeTo <node>node <index>modIndex <boolean>noWarning
+ex. rt.maxOps.CollapseNodeTo(obj, index, False)
+
+
 --Takes either a modifier value which is present on the <node> stack, or an index 
 --specifying the index of the modifier to delete, counting from the top of the stack.
 deleteModifier <node> <modifier_or_index> -- mapped
 
---Collapses the modifiers out of a stack
-collapseStack <node> -- mapped 
 
 --Prints a representation of the current modifier stack for the given node.
 printStack <node>
 
 
+
+
+enableShowEndRes <boolean> 
+
+showEndResult 
+
+
+
+
+
+
+
+
+
 --[Materials]
+
+
+--create a new default material as follows:
+m = MaxPlus.Factory.CreateDefaultStdMat()
+--set attributes
+m.Diffuse = MaxPlus.Color(0, 0, 1)
+m.Specular = MaxPlus.Color(1, 1, 1)
+--assign it to the node of the object
+node.Material = m
+
+
 --assign material
 $.material = StandardMaterial()
 $.material.diffuse = color 255 0 0
+--vray
 $.material = VRayMtl()
 $.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
 
@@ -1060,16 +1201,22 @@ $Tile*.material = medit.getCurMtl() --apply currently selected material in edito
 --remove material
 $*.material = undefined
 
+--get material id from face
+ex. rt.polyop.getFaceMatID(obj, <int face>) --Returns the material ID assigned to the face
+--set material id to face
+ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
+
+
+
+
+
+
 
 
 
 
 
 "OBJECTS_&_ATTRIBUTES:____________________________________________________________________"
-
---check for existence
-IsValidNode <var> --is the object a node value. boolean.
-
 
 
 --Object Name
@@ -1097,7 +1244,15 @@ baseClass = classOf(obj.baseObject)
 INode.BaseObject.ParameterBlock
 
 
---query shape object
+--check for existence
+IsValidNode <var> --is the object a node value. boolean.
+
+
+--check if editable poly
+rt.Ribbon_Modeling.IsEditablePoly()
+
+
+--check if shape object
 isShapeObject <node>	--boolean
 
 --query if the node's object is deformable. 
@@ -1138,6 +1293,14 @@ getUserProp <node> <key_string>
 
 --Sets the node's user property with the given key to the given value.
 setUserProp <node> <key_string> <value>
+
+
+--set property on selected object
+$.<property> = value
+ex. $.renderable = false
+-- toggle
+ex. $renderable = not $.renderable
+
 
 --This is effectively the contents of the User Defined Properties box in 
 --the Object Properties dialog
@@ -1308,7 +1471,16 @@ instanceReplace $foo* $baz
 --Heirarchies
 -- Makes <node2> a child of <node1> . Resets the current location of <node2> to 
 -- the location of <node1> unless move:false is specified.
-attachObjects <node1> <node2> [move:<boolean> ] 
+attachObjects <node1> <node2> [move:<boolean> ]
+
+ex. rt.polyop.attach(obj, <source>) --Attaches <source>, converted to a polymesh if necessary, to <poly>.
+
+
+--detach
+ex. element=rt.polyop.getelementsusingface(obj, 1) --use element or face
+	rt.polyop.detachFaces(obj, element, delete:true, asNode:true, name:newObjName)
+
+
 
 --Group nodes. 
 --You can optionally specify the group name or group name prefix. 
@@ -1428,6 +1600,275 @@ hide shapes
 --freeze
 ex.
 freeze geometry
+
+
+
+
+"COMPONENTS:______________________________________________________________________________"
+
+
+
+
+--create
+--vertex
+ex. rt.polyop.createVert(obj, <point3 pos>) --Creates a vertex as the specified position.
+--edge
+ex. rt.polyop.createEdge(obj, <int vert1>, <int vert2>) --Returns the index of the created edge or undefined if no edge was created.
+--face
+ex. rt.polyop.createPolygon(obj, <vertex array>) --Creates a face using the specified vertices.
+
+
+--get
+--vertex
+ex. rt.polyop.getVert(obj, <int vertex>) --Returns the position of the specified vertex.
+--edge
+--face
+ex. faces = list(range(1, rt.polyop.getNumFaces(obj)))
+ex. faces = list(range(1, obj.faces.count))
+
+--set
+--vertex
+ex. rt.polyop.setVert(obj, <vertlist>, {<point3 pos>|<point3 pos_array>}) --Sets the position of the specified vertices.
+
+
+
+--get selection
+--vertex
+ex. rt.polyop.getVertSelection(obj) --Returns the current vertex selection as a bitarray.
+--alt
+ex. obj.selectedVerts()
+--edge
+ex. rt.polyop.getEdgeSelection(obj)
+--face
+ex. rt.polyop.getFaceSelection(obj)
+
+
+--set selection
+--vertex
+ex. rt.polyop.setVertSelection(obj, <vertlist>) --Sets the current vertex selection based on <vertlist>.
+--edge
+ex. rt.polyop.setEdgeSelection(obj, <edgelist>)
+--face
+ex. rt.polyop.setFaceSelection(obj, <facelist>)
+
+
+--hidden
+--get
+ex. rt.polyop.getHiddenVerts(obj) --Bits in the result bitarray are set if the corresponding vertex is hidden.
+ex. rt.polyop.setHiddenFaces(obj, <facelist>) --Hides the corresponding faces in the poly
+--set
+ex. rt.polyop.setHiddenVerts(obj, <vertlist>) --Hides the corresponding vertices in the poly.
+ex. rt.polyop.getHiddenFaces(obj) --Bits in the result bitarray are set if the corresponding face is hidden.
+--unhide
+ex. rt.polyop.unHideAllFaces(obj) --Unhides all faces in the poly.
+ex. rt.polyop.unHideAllVerts(obj) --Unhides all vertices in the poly.
+
+--visibility
+--get
+ex. rt.polyop.getEdgeVis(obj, <int edge>) --Returns true if the specified edge is visible, false otherwise.
+--set
+ex. rt.polyop.setEdgeVis(obj, <edgelist>, <boolean>) --Sets the visibility of the specified edges.
+
+
+
+--get number of
+--vertices
+ex. rt.polyop.getNumVerts(obj) --Returns the number of vertices in the poly. Includes any dead vertices.
+--vertices from face
+ex. rt.polyop.getFaceDeg(obj, <int face>) --Returns the number of vertices in the specified face.
+--edges
+ex. rt.polyop.getNumEdges(obj)
+--faces
+ex. rt.polyop.getNumFaces(obj)
+
+
+
+
+
+--get component id numbers\indices
+--vertex
+ex. vertices = [i.index for i in obj.selectedVerts]
+--edge
+ex. edges = [i.index for i in obj.selectedEdges]
+--face
+ex. faces = [i.index for i in obj.selectedFaces]
+
+
+
+--get one component type from another
+--from vert:
+--get edges
+ex. rt.polyop.getEdgesUsingVert(obj, <vertlist>) --Bits in the result bitarray are set if the corresponding edge uses one of the vertices in <vertlist>
+--get faces
+ex. rt.polyop.getFacesUsingVert(obj, <vertlist>) --Bits in the result bitarray are set if the corresponding face uses one of the vertices in <vertlist> .
+
+
+--from edge:
+--get verts
+ex. rt.polyop.getEdgeVerts(obj, <int edge>) --Returns the edge's vertices as a 2 element array
+ex. rt.polyop.getVertsUsingEdge(obj, <edgelist>) --Bits in the result bitarray are set if the corresponding vertex uses one of the edges in <edgelist> .
+--get faces
+ex. rt.polyop.getEdgeFaces(obj, <int edge>) --Returns the faces using the specified edge. Normally a 1 element (open edge) or 2 element array.
+ex. rt.polyop.getFacesUsingEdge(obj, <edgelist>) --Bits in the result bitarray are set if the corresponding face uses one of the edges in <edgelist> .
+
+--from face:
+--get verts
+ex. rt.polyop.getFaceVerts(obj, <int face>) --Returns the face's vertices as an array
+ex. rt.polyop.getVertsUsingFace(obj, <facelist>) --Bits in the result bitarray are set if the corresponding vertex uses one of the faces in <facelist> .
+ex. rt.polyop.getVertsUsedOnlyByFaces(obj, <facelist>) --Bits in the result bitarray are set if the corresponding vertex is only used by faces in <edgelist>.
+--get edges
+ex. rt.polyop.getFaceEdges(obj, <int face>) --Returns the face's edges as an array
+ex. rt.polyop.getEdgesUsingFace(obj, <facelist>) --Bits in the result bitarray are set if the corresponding edge uses one of the faces in <facelist> .
+--get edges/verts from multiple faces  --and construct dict ie. {<face index>:[list of components]}
+ex. faces = [i.index for i in obj.selectedFaces]
+	vertices = {face:rt.polyop.getFaceVerts(obj, face) for face in faces}
+--get elements
+ex. rt.polyop.getElementsUsingFace(obj, <facelist>) --Bits in the result bitarray are set for all faces in the same "element" or connected component with faces in <facelist>.
+
+
+--get component point coordinates
+--vertex
+ex. target = rt.polyOp.getVert(obj, index[-1])
+--group of vertices averaged:
+ex. averageSelVertCenter <node>
+Returns the average position (center) of the selected vertices in the given mesh as a Point3.
+
+--edge
+ex. target = rt.polyOp.getEdge(obj, index[-1])
+--face
+ex. target = rt.polyOp.getFace(obj, index[-1])
+
+
+
+--move 
+--vertex
+ex. rt.polyop.moveVert(obj, <vertlist>, {<point3 offset>|<point3 offset_array>})
+
+
+
+--get length/area
+--face area
+ex. rt.polyop.getFaceArea(obj, <int face>)
+
+
+--get center
+--of face
+ex. rt.polyop.getFaceCenter(obj, <int face>)--Returns the center of the face by taking the average of all its vertices.
+ex. rt.polyop.getSafeFaceCenter(obj, <int face>) --Returns the "safe" center of the face, if possible. For non-convex faces, the average point found using getFaceCenter is unsuitable for some applications because it can lie outside the face. If a safe center cannot be found, a value of undefined is returned. 
+
+
+
+
+
+
+--divide
+--edge middle:
+ex. rt.polyop.splitEdges(obj, <edgelist>)
+--fraction
+ex. rt.polyop.divideEdge(obj, <int edge>, <float fraction>) --Divides the specified edge at the specified fractional distance along the edge. The return value is the index of the new vertex or undefined if no vertex was created.
+--divide face
+ex. rt.polyop.divideFace(obj, <int face>, <point3 pos>) --Divides the specified face, with the new vertex being created at the closest point on the face to the specified position. If the specified position is outside the face, the vertex will be created at the center of the face.
+
+
+
+--merge /weld
+--vertices
+--to target
+ex. rt.polyop.weldVerts (obj, <vertex1 index as int>, <vertex2 index as int>, <target as point3>) --Welds the two specified vertices with the resulting vertex positioned at the specified location.
+--by threshold
+ex. rt.polyop.weldVertsByThreshold(obj, <vertlist>)
+--collapse
+ex. rt.polyop.collapseVerts(obj, <vertlist>)
+--weld edge vertices 
+ex. rt.polyop.weldEdges(obj, <int edge1>, <int edge2>) --Only vertices on a border can be welded.
+--by threshold
+ex. rt.polyop.weldEdgesByThreshold(obj, <edgelist>)
+
+
+
+--collapse
+--edges
+ex. rt.polyop.collapseEdges(obj, <edgelist>)
+--faces
+ex. rt.polyop.collapseFaces(obj, <facelist>)
+
+
+
+--open edges
+ex. rt.polyop.getOpenEdges(obj) --Bits in the result bitarray are set if the corresponding edge is open (used by only 1 ace).
+ex. rt.polyop.getBorderFromEdge(obj, <int edge>) --Bits in the result bitarray are set for open edges in the poly that are connected using open edges to the specified edge.
+
+
+
+--delete
+--vertex
+ex. rt.polyop.deleteVerts(obj, <vertlist>) --Deletes the specified vertices.
+ex. rt.polyop.deleteIsoVerts(obj) --Deletes any vertices not used by any faces.
+--edge
+ex. rt.polyop.deleteEdges(obj, <edgelist>, delIsoVerts:<boolean=true>) --Deletes the specified edges. If <delIsoVerts> is true , any vertices that are no longer used by edges are also deleted.
+--face
+ex. rt.polyop.deleteFaces(obj, <facelist>, delIsoVerts:<boolean=true>) --Deletes the specified faces. If <delIsoVerts> is true , any vertices that are no longer used by faces are also deleted.
+
+
+
+
+
+
+
+
+"NORMALS:_________________________________________________________________________________"
+
+
+--get vertex normals
+
+--average vertex normals
+ex. normal = rt.averageSelVertNormal(obj) --Returns the normalized average of the normals of the selected vertices in the given mesh as a Point3
+
+
+--get face normal
+ex. rt.getNormal(obj, <vert_index_integer>) --Returns the normal at the indexed vertex's position as a point3
+ex. rt.polyop.getFaceNormal(obj, <int face>)
+
+--set face normal
+--Sets the indexed vertex's normal vector. setNormal(obj, <vert_index_integer> <point3>)
+ex. rt.setNormal(obj, vertex, normal) --Returns the face normal of the face.
+
+
+--auto smooth mesh
+ex. rt.polyop.autoSmooth(obj) --The face smoothing threshold angle is a property (autoSmoothThreshold) of the editable poly.
+
+
+
+
+
+--reverse face normal
+ex. rt.polyop.flipNormals(obj, <facelist>) --Flips the normal of the specified faces.
+
+
+
+
+
+
+
+
+
+"SUBDIVISION:_____________________________________________________________________________"
+
+
+--smooth by face
+--rt.polyop.meshSmoothByFace(obj, <facelist>)
+faceSelection = rt.polyop.getFaceSelection(obj)
+rt.polyop.meshSmoothByFace(obj, faceSelection)
+
+--smooth faces by vertex
+ex. rt.polyop.meshSmoothByVert(obj, <vertlist>) --Smooths the faces associated with the specified vertices.
+
+
+
+
+
+
+
 
 
 
@@ -1620,7 +2061,21 @@ useEnvironmentMap = false	--turn environment map off
 environmentMap = Checker()	--apply environment map. in this case checker
 
 
+
+
+
 --[In-View Messages]
+rt.messageBox('message_string', [title:<window_title_string>] [beep:<boolean>]) 	 
+--Displays a modal message box containing the message string and an OK button.
+--The message box window title an be set with the title: keyword parameter. You can control whether a beep is made with the beep: keyword parameter, which defaults to true .
+
+rt.queryBox <message_string> [title:<window_title_string>] [beep:<boolean>]   
+--Displays a modal message box similar to the one that the messageBox() function creates, except it contains Yes and No buttons. The queryBox() function returns true if the user clicks Yes and false if the user clicks No.
+
+rt.yesNoCancelBox <message_string> [title:<window_title_string>] [beep:<boolean>] 
+--Displays a modal message box similar to the one that the messageBox() function creates, except it contains a Yes, a No, and a Cancel button. The yesNoCancelBox() function returns #yes , #no or #cancel depending on which button the user clicked to dismiss the message box.
+
+
 
 
 
@@ -1696,6 +2151,27 @@ undo my_context_name on
 
 
 
+-- Viewport:
+
+--redraw
+ex. rt.redrawViews() --Causes the 3ds Max viewports to be immediately redrawn in an optimal way, such that only those parts of the view that have changed are redrawn.
+
+--enable/disable edged faces
+viewportSetting = rt.NitrousGraphicsManager.GetViewportSetting(1)
+state = viewportSetting.SelectedEdgedFacesEnabled
+viewportSetting.SelectedEdgedFacesEnabled = not state --toggle
+
+
+--show end result
+--query/set
+ex. rt.showEndResult = True
+--enable/disable
+ex. rt.enableShowEndRes(True)
+
+
+
+
+
 
 "TIME_____________________________________________________________________________________"
 
@@ -1762,7 +2238,11 @@ $material.diffuseColor = color 0 0 (random 0 360) --randomize rgb 'b' value
 
 
 
-"PYTHON:__________________________________________________________________________________"
+
+
+
+
+"PYTHON:(in maxscript)____________________________________________________________________"
 
 
 --print list of available python methods to output window
@@ -1842,15 +2322,7 @@ box.ParameterBlock.Width.Value = 10.0
 
 
 
---materials
-ex.
---create a new default material as follows:
-m = MaxPlus.Factory.CreateDefaultStdMat()
---set attributes
-m.Diffuse = MaxPlus.Color(0, 0, 1)
-m.Specular = MaxPlus.Color(1, 1, 1)
---assign it to the node of the object
-node.Material = m
+
 
 
 

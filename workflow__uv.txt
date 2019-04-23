@@ -11,6 +11,27 @@
 
 
 
+UNWRAP:
+//3ds Max:
+Align UVs
+>	In the Unwrap UVW modifier, start by using the Relax Tool to unfold the UVs.
+>	Choose the border edges and under Quick Transform pick Align Horizontally/Vertically to make them straight. 
+>	To make several edge loops aligned and parallel; long press the Align Button to get the 'Align Horizontally/Vertically in Place' tool. This will align each edge loop individually. 
+>	Then use the Relax tool again with the Keep Boundaries Points Fixed option enabled. You’ll get straight edges and well-proportioned interior faces.
+
+Tweak the UVs
+>	UVW modifier> Modeling> Graphite tools> Tweak button
+>	When the Tweak setting is active you can move the UV’s position locally by painting on the mesh, pushing the texture to the exact place with real-time feedback on the Viewport.
+
+
+
+
+
+
+
+
+
+
 IMPORTING/EXPORTING
 >	put UV seams on hard edges (harden all UV edge script)
 

@@ -822,6 +822,17 @@ $Tile*
 --enclose in single quotes for searches containing whitespaces
 $'Tile A'*			
 
+
+--select component
+--vertex
+ex. obj.EditablePoly.SetSelection('Vertex', rt.BitArray(10)) --bitarray value 9
+--edge
+ex. obj.EditablePoly.SetSelection('Edge', rt.BitArray(*range(10))) --bitarray range 0-9
+--face
+ex. obj.EditablePoly.SetSelection('Face', rt.BitArray(*range(10, 20))) --bitarray range 10-19
+
+
+
 --Add a node to the set of selected objects.
 selectMore <node> -- mapped
 
@@ -1181,6 +1192,12 @@ showEndResult
 
 --create a new default material as follows:
 m = MaxPlus.Factory.CreateDefaultStdMat()
+
+
+--get scene Materials
+ex. [mat for mat in rt.sceneMaterials]
+
+
 --set attributes
 m.Diffuse = MaxPlus.Color(0, 0, 1)
 m.Specular = MaxPlus.Color(1, 1, 1)
@@ -1196,10 +1213,12 @@ $.material = VRayMtl()
 $.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
 
 --assign to
-$Tile*.material = medit.getCurMtl() --apply currently selected material in editor to all 
-																		--objects whose name starts with 'Tile'
---remove material
-$*.material = undefined
+$Tile*.material = medit.getCurMtl() --apply currently selected material in editor to all objects whose name starts with 'Tile'
+
+
+--rename
+ex. material.name = "name"
+
 
 --get material id from face
 ex. rt.polyop.getFaceMatID(obj, <int face>) --Returns the material ID assigned to the face
@@ -1207,7 +1226,8 @@ ex. rt.polyop.getFaceMatID(obj, <int face>) --Returns the material ID assigned t
 ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
 
 
-
+--remove material
+$*.material = undefined
 
 
 

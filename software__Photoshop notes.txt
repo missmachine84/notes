@@ -81,6 +81,9 @@ resample up then sharpen
 
 
 
+___STROKE
+fx icon at bottom of layers panel> stroke
+
 
 
 

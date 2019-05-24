@@ -758,11 +758,8 @@ free <dictionary>
 --convert bit array to array
 --You can convert a bitArray to an Array, and an Array containing only true and false values to bitArray.
 --A bit in a BitArray can be either set (1, true) or not set (0, false).
-MaxPlus.Core.EvalMAXScript("fn b2a b = (return b as Array)")
-array = rt.b2a(bitArray)
-
-
-
+ex. MaxPlus.Core.EvalMAXScript("fn bitArrayToArray b = (return b as Array)")
+	rt.bitArrayToArray(bitArray)
 
 
 
@@ -780,125 +777,6 @@ array = rt.b2a(bitArray)
 
 "MATRICES:________________________________________________________________________________"
 
-
-
-
-"SELECTION:_______________________________________________________________________________"
-
-
---select All
-$*	
-
---current selection
-$ --returns 'undefined' if nothing selected
-
-rt.selection
-
-getCurrentSelection)() --returns the current selection as an array
-
-
---current mod panel object:
-rt.Modpanel.getcurrentObject()
-
-
-rt.Filters.GetModOrObj()
-
-
-
-SelectionManager.Nodes --provides an iterator for the selection list.
---You can now do the following:
-def applyMaterialToNodes(m):
-	for n in MaxPlus.SelectionManager.Nodes:
-		n.Material = m
-
-
---select by name
---select object woth the name Box01
-select <node> -- mapped
-select $Box01		
-
---objects whose names start with 'Tile'
-$Tile*					
---enclose in single quotes for searches containing whitespaces
-$'Tile A'*			
-
-
---select component
---vertex
-ex. obj.EditablePoly.SetSelection('Vertex', rt.BitArray(10)) --bitarray value 9
---edge
-ex. obj.EditablePoly.SetSelection('Edge', rt.BitArray(*range(10))) --bitarray range 0-9
---face
-ex. obj.EditablePoly.SetSelection('Face', rt.BitArray(*range(10, 20))) --bitarray range 10-19
-
-
-
---Add a node to the set of selected objects.
-selectMore <node> -- mapped
-
---query if the specified point is selected. NURBS, poly and spline objects.
-isPointSelected <node> <point_index> 
-
---Returns a floating point weighted point selection if the object supports soft selections.
---Most object types just return 1.0 if the point is selected and 0.0 if not.
-pointSelection <node> <point_index>
-
---Deselect all.  Scene is redrawn unless redraw:false is specified.
-clearSelection() clearNodeSelection [redraw:<boolean> ] 
-
---Deselects the given node(s).
-deselect <node>-- mapped
-ex.
-deselect $box* --deselects all items whose names start with "box".
-
---Deselect a single node
-deselectNode <node>
-
---number of selected objects
-selection.count
---output to the script listener window
-ex.
-format "% objects selected." selection.count
-
-
-
---deselect
-clearSelection()	--clears the current scene node selection
-
-deselect <node>		--deselects the given nodes
-
-
-
--- convert component selection type
--- #edge #face #vertex #border
-ex. $.ConvertSelection <#vertex> #border
---
-ex. $.EditablePoly.ConvertSelectionToBorder #Edge #Vertex
-
---vertices to edge:
-rt.selection[0].convertselection ('Edge', 'Face')
-
---alt
-obj = selection[1] --get selected object
-
-vertices = rt.getVertSelection(obj) --get selected Vertices
-edges = rt.polyop.getEdgesUsingVert(obj, vertices)
-
-setEdgeSelection obj edges --select the edges
-
-max modify mode --switch to Modify panel
-subObjectLevel =2 --edge selection mode
-select(edges)
-
-
-subObjectLevel 
-
-getSelectionLevel <maxobject> 
-setSelectionLevel <maxobject> {#object | #vertex | #edge | #face} 
-
-numSubObjectLevels
-
-IsSubSelEnabled()
 
 
 
@@ -1084,9 +962,10 @@ convertToNURBSCurve <node> -- mapped
 
 --[Modifiers]
 
---open modifier panel.
-maxEval ('max modify mode')
 
+--open modifier panel.
+ex. maxEval ('max modify mode')
+ex. if getCommandPanelTaskMode() != #modify do (max modify mode)
 
 --get selected modifier
 ex. rt.modPanel.getCurrentObject()
@@ -1187,47 +1066,163 @@ showEndResult
 
 
 
---[Materials]
 
 
---create a new default material as follows:
-m = MaxPlus.Factory.CreateDefaultStdMat()
 
 
---get scene Materials
-ex. [mat for mat in rt.sceneMaterials]
 
 
---set attributes
-m.Diffuse = MaxPlus.Color(0, 0, 1)
-m.Specular = MaxPlus.Color(1, 1, 1)
---assign it to the node of the object
-node.Material = m
 
 
---assign material
-$.material = StandardMaterial()
-$.material.diffuse = color 255 0 0
---vray
-$.material = VRayMtl()
-$.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
-
---assign to
-$Tile*.material = medit.getCurMtl() --apply currently selected material in editor to all objects whose name starts with 'Tile'
 
 
---rename
-ex. material.name = "name"
 
 
---get material id from face
-ex. rt.polyop.getFaceMatID(obj, <int face>) --Returns the material ID assigned to the face
---set material id to face
-ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
 
 
---remove material
-$*.material = undefined
+
+"SELECTION:_______________________________________________________________________________"
+
+
+--select All
+$*	
+
+--current selection
+$ --returns 'undefined' if nothing selected
+
+rt.selection
+
+rt.getCurrentSelection() --returns the current selection as an array
+
+
+--current mod panel object:
+max modify mode --switch to Modify panel
+rt.Modpanel.getcurrentObject()
+
+rt.Filters.GetModOrObj()
+
+
+
+SelectionManager.Nodes --provides an iterator for the selection list.
+--You can now do the following:
+def applyMaterialToNodes(m):
+	for n in MaxPlus.SelectionManager.Nodes:
+		n.Material = m
+
+
+--select by name
+--select object woth the name Box01
+select <node> -- mapped
+select $Box01		
+
+--objects whose names start with 'Tile'
+$Tile*					
+--enclose in single quotes for searches containing whitespaces
+$'Tile A'*			
+
+
+
+
+--Add a node to the set of selected objects.
+selectMore <node> -- mapped
+
+--query if the specified point is selected. NURBS, poly and spline objects.
+isPointSelected <node> <point_index> 
+
+--Returns a floating point weighted point selection if the object supports soft selections.
+--Most object types just return 1.0 if the point is selected and 0.0 if not.
+pointSelection <node> <point_index>
+
+
+
+--number of selected objects
+selection.count
+--output to the script listener window
+ex.
+format "% objects selected." selection.count
+
+
+
+
+
+
+
+
+
+-- component selection
+
+
+--set
+--vertex
+ex. rt.select(vertices)
+ex. rt.polyop.setVertSelection(obj, verts) --select the vertices
+ex. obj.EditablePoly.SetSelection('Vertex', rt.BitArray(10)) --bitarray value 9
+--edge
+ex. rt.select(edges)
+ex. rt.polyop.setEdgeSelection(obj, edges) --select the edges
+ex. obj.EditablePoly.SetSelection('Edge', rt.BitArray(*range(10))) --bitarray range 0-9
+--face
+ex. rt.select(faces)
+ex. rt.polyop.setFaceSelection(obj, faces)  --select the faces
+ex. obj.EditablePoly.SetSelection('Face', rt.BitArray(*range(10, 20))) --bitarray range 10-19
+
+
+--get
+--vertex
+vertices = rt.getVertSelection(obj) --get selected Vertices
+--edge
+edges = rt.getEdgeSelection(obj) --get selected edges
+--using vertices
+edges = rt.polyop.getEdgesUsingVert(obj, vertices)
+--face
+faces = rt.getFaceSelection(obj) --get selected faces
+
+
+
+--multi-component selection
+obj.selectMode = 0 --off
+obj.selectMode = 1 --sub-object selection preview
+obj.selectMode = 2 --multi-component selection preview
+
+
+
+
+--get component level
+rt.getSelectionLevel(obj)
+
+--set component level
+--by index:
+rt.subObjectLevel = 2
+--'Object', 'Vertex', 'Edge', 'Face'
+rt.setSelectionLevel(obj, 'Edge') --not working in python
+
+
+
+numSubObjectLevels
+
+IsSubSelEnabled()
+
+
+
+-- convert component selection type
+--'Object', 'Vertex', 'Edge', 'Border', 'Face', 'Element', 'CurrentLevel'
+rt.selection[0].ConvertSelection('CurrentLevel', 'Face')
+
+
+
+
+
+--Deselect all.  Scene is redrawn unless redraw:false is specified.
+clearSelection() clearNodeSelection [redraw:<boolean>] 
+ex. rt.clearSelection()	--clears the current scene node selection
+
+
+--Deselects the given node(s).
+ex. rt.deselect(node) --deselects the given nodes
+ex. deselect $box* --deselects all items whose names start with "box".
+
+--Deselect a single node
+ex. rt.deselectNode(node)
 
 
 
@@ -1241,7 +1236,10 @@ $*.material = undefined
 
 --Object Name
 --Get or set the scene object's name.
-<node>.name String default: varies 
+<node>.name String default: varies
+--all objects that start with x
+$Tile*
+
 --If exact is false(default), the normal MAXScript node name comparisons are performed.
 --If all is true, an array of nodes with the specified name is returned.
 getNodeByName <string> exact:<bool> ignoreCase:<bool> all:<bool> --Returns first node with the specified name.
@@ -1265,11 +1263,15 @@ INode.BaseObject.ParameterBlock
 
 
 --check for existence
-IsValidNode <var> --is the object a node value. boolean.
+ex. rt.IsValidNode(obj) --is the object a node value. boolean.
 
 
---check if editable poly
-rt.Ribbon_Modeling.IsEditablePoly()
+--get object type
+--editable poly
+ex. rt.Ribbon_Modeling.IsEditablePoly()
+ex. rt.isKindOf(obj, rt.Editable_Poly)
+ex. rt.isKindOf(obj, "Edit_Poly")
+
 
 
 --check if shape object
@@ -1370,9 +1372,6 @@ OKToBindToNode <ik_node> <node> --boolean
 
 
 
-
---query poly count
-getPolygonCount <node>	--Returns a 2 element array [#of faces, #of vertices]
 
 --query number of surfaces (loft objects)
 numSurfaces <node>
@@ -1496,9 +1495,19 @@ attachObjects <node1> <node2> [move:<boolean> ]
 ex. rt.polyop.attach(obj, <source>) --Attaches <source>, converted to a polymesh if necessary, to <poly>.
 
 
---detach
-ex. element=rt.polyop.getelementsusingface(obj, 1) --use element or face
-	rt.polyop.detachFaces(obj, element, delete:true, asNode:true, name:newObjName)
+-- Detach
+--delete - delete faces after being detached.
+--asNode True- the faces are detached as a separate node.
+	--If asNode is True , <name> specifies the name of the new node.
+	--If asNode is True and is an Editable Poly (not a node), <node> must be specified.
+--asNode False - the faces are detached as an element.
+--detach faces used by verts:
+ex. rt.polyop.detachVerts(obj, <vertlist>, delete=True, asNode=False, name="Object01") --Returns true if the operation is successful.
+--detach faces used by edges:
+ex. rt.polyop.detachEdges(obj, <edgelist>, delete=True, asNode=False, name="Object01")
+--detach faces:
+ex. facelist = rt.polyop.getelementsusingface(obj, 1) --use element or face
+	rt.polyop.detachFaces(obj, <facelist>, delete=True, asNode=True, name="Object01")
 
 
 
@@ -1530,13 +1539,14 @@ explodeGroup <group_head_node> -- mapped
 
 
 --Visibility
---Hides the specified node or node collection.
-hide <node> -- mapped 
+--hide
+ex. rt.hide(obj) -- mapped --Hides the specified node or node collection.
 --If the optional doLayer keyword is set to true and the node is in a layer that is hidden,
 --the entire layer is unhidden. When false (the default), just the node is unhidden.
 unhide <node> [doLayer:<boolean>] -- mapped 
---Freezes the specified node or node collection.
-freeze <node> -- mapped 
+
+--freeze
+ex. freeze(obj) -- mapped --Freezes the specified node or node collection.
 --If the optional doLayer keyword is set to true and the node is in a layer that is frozen, 
 --the entire layer is unfrozen. When false (the default), just the node is unfrozen.
 unfreeze <node> [doLayer:<boolean>] -- mapped
@@ -1563,33 +1573,41 @@ setShadeCVerts <node> <boolean>
 
 
 
+--instance object:
+--http://help.autodesk.com/view/3DSMAX/2018/ENU/?guid=__files_GUID_EB69A035_7FF4_4A0A_8A82_409C4145B9DF_htm
+--uninstance:
+i=rt.instancemgr
+for obj in rt.selection:
+	if i.CanMakeObjectsUnique(obj):
+		i.MakeObjectsUnique(obj, 'prompt') #uninstance obj
+
+
+
 
 --delete node
-delete <node> -- mapped
+rt.delete(obj) -- mapped
 
 -- When a node has been deleted,
-<node> == undefined --returns false
-<node> != undefined --returns true
+obj == undefined --returns false
+obj != undefined --returns true
 
 --query if object still exists in the scene, as in variables or arrays.
-isDeleted <MAXWrapper_object> --boolean
+rt.isDeleted(<MAXWrapper_object>) --returns boolean
 
 
 
 
 --filter geometry Objects
-ex.
-for obj in objects where classof obj == VRayLight do
-(
-	print obj;
-)
+ex.	for obj in objects where classof obj == VRayLight do
+	(
+		print obj;
+	)
 
 -- alternative method
 -- performs the loop through all objects in MAXScript, but instead of calling SuperClassOf 
 -- o == GeometryClass it checks whether the class of the object is part of the list of valid 
 -- eometryClass classes
-ex.
-for obj in objects where findItem geometryClass.classes (classof obj) > 0 collect obj
+ex. for obj in objects where findItem geometryClass.classes (classof obj) > 0 collect obj
 
 
 
@@ -1609,17 +1627,10 @@ selection --current selection. interchangable with $
 
 
 --convert objectSet to array
-ex.
-<objectSet> as array
+ex. <objectSet> as array
 
 
---hide
-ex.
-hide shapes
 
---freeze
-ex.
-freeze geometry
 
 
 
@@ -1640,27 +1651,41 @@ ex. rt.polyop.createPolygon(obj, <vertex array>) --Creates a face using the spec
 
 --get
 --vertex
-ex. rt.polyop.getVert(obj, <int vertex>) --Returns the position of the specified vertex.
+ex. vertices = list(range(1, rt.polyop.getNumVerts(obj)))
+ex. vertices = list(range(1, obj.verts.count))
 --edge
+ex. edges = list(range(1, rt.polyop.getNumEdges(obj)))
+ex. edges = list(range(1, obj.edges.count))
 --face
 ex. faces = list(range(1, rt.polyop.getNumFaces(obj)))
 ex. faces = list(range(1, obj.faces.count))
 
---set
+
+--get position
+--vertex
+ex. rt.polyop.getVert(obj, <int vertex>) --Returns the position of the specified vertex.
+--edge
+--face
+
+--set position
 --vertex
 ex. rt.polyop.setVert(obj, <vertlist>, {<point3 pos>|<point3 pos_array>}) --Sets the position of the specified vertices.
+
 
 
 
 --get selection
 --vertex
 ex. rt.polyop.getVertSelection(obj) --Returns the current vertex selection as a bitarray.
+ex. vertices = [i.index for i in obj.selectedVerts] --Returns list
 --alt
 ex. obj.selectedVerts()
 --edge
-ex. rt.polyop.getEdgeSelection(obj)
+ex. rt.polyop.getEdgeSelection(obj) --Returns BitArray
+ex. edges = [i.index for i in obj.selectedEdges] --Returns list
 --face
-ex. rt.polyop.getFaceSelection(obj)
+ex. rt.polyop.getFaceSelection(obj) --Returns BitArray
+ex. faces = [i.index for i in obj.selectedFaces] --Returns list
 
 
 --set selection
@@ -1696,22 +1721,15 @@ ex. rt.polyop.setEdgeVis(obj, <edgelist>, <boolean>) --Sets the visibility of th
 ex. rt.polyop.getNumVerts(obj) --Returns the number of vertices in the poly. Includes any dead vertices.
 --vertices from face
 ex. rt.polyop.getFaceDeg(obj, <int face>) --Returns the number of vertices in the specified face.
+--vertices and faces
+ex. rt.getPolygonCount(obj)	--Returns a 2 element array [#of faces, #of vertices]
 --edges
 ex. rt.polyop.getNumEdges(obj)
 --faces
 ex. rt.polyop.getNumFaces(obj)
+--face: get number corners
+ex. obj.GetFaceDegree(<face index>) --Returns the number of corners of the specified polygon. 3 means triangle, 4 means quad, and so on.
 
-
-
-
-
---get component id numbers\indices
---vertex
-ex. vertices = [i.index for i in obj.selectedVerts]
---edge
-ex. edges = [i.index for i in obj.selectedEdges]
---face
-ex. faces = [i.index for i in obj.selectedFaces]
 
 
 
@@ -1746,13 +1764,17 @@ ex. faces = [i.index for i in obj.selectedFaces]
 ex. rt.polyop.getElementsUsingFace(obj, <facelist>) --Bits in the result bitarray are set for all faces in the same "element" or connected component with faces in <facelist>.
 
 
+--Returns the vertex index of the Nth vertex used by the specified face (where, N is between 1 and the number of face corners).
+ex. obj.GetFaceVertex(1, 1) --ie. Returns face 6. args=(vertex, corner)
+ex. obj.GetFaceEdge(1, 1) --ie. Returns edge 1. args=(faceID, side)
+
+
+
 --get component point coordinates
 --vertex
 ex. target = rt.polyOp.getVert(obj, index[-1])
 --group of vertices averaged:
-ex. averageSelVertCenter <node>
-Returns the average position (center) of the selected vertices in the given mesh as a Point3.
-
+ex. averageSelVertCenter <node> --Returns the average position (center) of the selected vertices in the given mesh as a Point3.
 --edge
 ex. target = rt.polyOp.getEdge(obj, index[-1])
 --face
@@ -1781,10 +1803,12 @@ ex. rt.polyop.getSafeFaceCenter(obj, <int face>) --Returns the "safe" center of 
 
 
 
+
 --divide
 --edge middle:
 ex. rt.polyop.splitEdges(obj, <edgelist>)
 --fraction
+ex. obj.EditablePoly.divideEdge(edge, position) --position is a float value between 0-1 
 ex. rt.polyop.divideEdge(obj, <int edge>, <float fraction>) --Divides the specified edge at the specified fractional distance along the edge. The return value is the index of the new vertex or undefined if no vertex was created.
 --divide face
 ex. rt.polyop.divideFace(obj, <int face>, <point3 pos>) --Divides the specified face, with the new vertex being created at the closest point on the face to the specified position. If the specified position is outside the face, the vertex will be created at the center of the face.
@@ -1793,6 +1817,9 @@ ex. rt.polyop.divideFace(obj, <int face>, <point3 pos>) --Divides the specified 
 
 --merge /weld
 --vertices
+--selected
+ex. obj.EditablePoly.SetSelection(#Vertex, #{1..1352})
+	obj.EditablePoly.weldFlaggedVertices()
 --to target
 ex. rt.polyop.weldVerts (obj, <vertex1 index as int>, <vertex2 index as int>, <target as point3>) --Welds the two specified vertices with the resulting vertex positioned at the specified location.
 --by threshold
@@ -1820,14 +1847,24 @@ ex. rt.polyop.getBorderFromEdge(obj, <int edge>) --Bits in the result bitarray a
 
 
 
---delete
+
+--remove
+--vertex
+ex. obj.EditablePoly.remove(selLevel='Vertex', flag=1) --flag 1 = currently selected
+--edge
+ex. obj.EditablePoly.remove(selLevel='Edge', flag=1)
+--face
+ex. obj.EditablePoly.remove(selLevel='Edge', flag=1)
+
+
+--delete (all sub-object elements that use the deleted elements are also deleted.)
 --vertex
 ex. rt.polyop.deleteVerts(obj, <vertlist>) --Deletes the specified vertices.
 ex. rt.polyop.deleteIsoVerts(obj) --Deletes any vertices not used by any faces.
 --edge
-ex. rt.polyop.deleteEdges(obj, <edgelist>, delIsoVerts:<boolean=true>) --Deletes the specified edges. If <delIsoVerts> is true , any vertices that are no longer used by edges are also deleted.
+ex. rt.polyop.deleteEdges(obj, edges, delIsoVerts=1) --Deletes the specified edges. If <delIsoVerts> is true , any vertices that are no longer used by edges are also deleted.
 --face
-ex. rt.polyop.deleteFaces(obj, <facelist>, delIsoVerts:<boolean=true>) --Deletes the specified faces. If <delIsoVerts> is true , any vertices that are no longer used by faces are also deleted.
+ex. rt.polyop.deleteEdges(obj, faces, delIsoVerts=1) --Deletes the specified faces. If <delIsoVerts> is true , any vertices that are no longer used by faces are also deleted.
 
 
 
@@ -1854,6 +1891,16 @@ ex. rt.polyop.getFaceNormal(obj, <int face>)
 ex. rt.setNormal(obj, vertex, normal) --Returns the face normal of the face.
 
 
+--get face smoothing groups
+ex. obj.GetFaceSmoothingGroups(<index faceID>) --Returns the Smoothing Groups of the specified face.
+
+--edge hardness
+ex. obj.makeHardEdges(<DWORD>flag) --Sets the edges specified by the flag to Hard.
+ex. obj.makeSmoothEdges(<DWORD>flag) --Sets the edges specified by the flag to Smooth.
+ex. obj.selectHardEdges() --Selects all Hard Edges.
+ex. obj.selectSmoothEdges() --Selects all Smooth Edges.
+
+
 --auto smooth mesh
 ex. rt.polyop.autoSmooth(obj) --The face smoothing threshold angle is a property (autoSmoothThreshold) of the editable poly.
 
@@ -1863,6 +1910,136 @@ ex. rt.polyop.autoSmooth(obj) --The face smoothing threshold angle is a property
 
 --reverse face normal
 ex. rt.polyop.flipNormals(obj, <facelist>) --Flips the normal of the specified faces.
+
+
+
+
+
+
+
+"Materials:_______________________________________________________________________________"
+
+
+
+
+
+--create a new default material as follows:
+m = MaxPlus.Factory.CreateDefaultStdMat()
+
+
+--get material
+--currently selected
+ex. medit.getCurMtl()
+--scene Materials
+ex. [mat for mat in rt.sceneMaterials]
+--material id from face
+ex. id = obj.GetFaceMaterial(face)
+ex. id = rt.polyop.getFaceMatID(obj, face) --Returns the material ID assigned to the face
+--subMaterial from face
+ex. id = obj.GetFaceMaterial(face) --#Returns the material ID of the specified face.
+	subMaterial = rt.getSubMtl(mat, id) --#get the submaterial using the matID index
+--number of subMaterials
+ex. rt.getNumSubMtls(mat)
+--all subMaterials from material
+ex. subMaterials = [rt.getSubMtl(mat, id) for id in range(1, rt.getNumSubMtls(mat)+1)] --#get the material using the matID index. modify index range for index starting at 1.
+	subMatNames = [s.name for s in subMaterials if s is not None]
+
+
+--set material
+--material id to face
+ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
+--to object
+$.material = StandardMaterial()
+$.material.diffuse = color 255 0 0
+--vray
+$.material = VRayMtl()
+$.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
+
+
+
+
+--set attributes
+m.Diffuse = MaxPlus.Color(0, 0, 1)
+m.Specular = MaxPlus.Color(1, 1, 1)
+--assign it to the node of the object
+node.Material = m
+
+
+
+
+--rename
+ex. material.name = "name"
+--
+ex. obj.name = rt.uniqueName()
+
+
+
+--remove material
+$*.material = undefined
+
+
+
+
+
+--Slate Material Editor
+
+--open/close
+ex. if not rt.SME.isOpen(): rt.SME.open()
+ex. rt.SME.Close()
+ex. rt.SME.OpenMtlBrowseDlg() --material browser submenu
+
+
+--create new view
+ex. rt.SME.CreateView('name') --Creates a new Node View with the given name and returns its index.
+--create temp view
+ex. if rt.SME.GetViewByName('temp'):
+		rt.SME.DeleteView(rt.SME.GetViewByName('temp'), False)
+	index = rt.SME.CreateView('temp')
+	view = rt.SME.GetView(index)
+
+
+--get active view
+ex. rt.SME.activeView --returns index. not callable ie. activeView()
+--set active view
+ex. rt.SME.activeView(index) --set index
+
+
+--get view index by name
+ex. rt.SME.GetViewByName('name') --Returns the index of the named Node View
+--get view object by index
+ex. rt.SME.GetView(index) --Returns an IObject:IFP_NodeViewImp object representing the indexed Node View.
+--get view index by view object
+ex. rt.SME.GetViewIndex(view) --Returns the index of the given Node View
+
+
+--get/set view properties:
+view = rt.SME.GetView(rt.SME.activeView)
+--get view name
+ex. view.name
+--set view name
+ex. view.name('name')
+--number of nodes in view
+ex. view.GetNumNodes() --Returns the number of nodes in the View.
+--get node interface
+ex. view.GetNode(index) --Returns the Node Interface of the indexed node from the View.
+--get node interface by reference
+ex. view.GetNodeByRef(<ref object>) --Returns the Node Interface to the given Material or Map object reference, or undefined if the reference does not exist.
+
+--create/show node in graph
+ex. node = view.CreateNode(mat, rt.point2(0, 0))
+--show material parameters rollout
+ex. rt.SME.SetMtlInParamEditor(mat)
+
+
+--delete view
+ex. rt.SME.DeleteView(index, True) --Deletes the indexed Slate Material Editor view. ask_user=bool
+
+
+--opens the Parameter Editor rollout for the specified material.
+ex. rt.SME.SetMtlInParamEditor(mat)
+
+--edit material properties
+ex. rt.rootScene[rt.name('SME')][rt.name('View1')][rt.name('door_handle____VRayMtl')].Properties.reference.anisotropy_channel = 3
 
 
 
@@ -2082,18 +2259,31 @@ environmentMap = Checker()	--apply environment map. in this case checker
 
 
 
+--Get/Set Vertex Color, Illumination and Alpha
+--Corresponds to using the color picker in the Edit Vertex Colors rollout of the Editable Poly UI.
+ex. obj.SetVertexColor(<color>, #VertexColor|#Illumination|#Alpha) --Sets the Vertex Color, Illumination or Alpha value of the selected vertices to the specified color value.
+ex. obj.vertexColorType(#color|#illum|#alpha|#color_plus_illum) --Get/set the vertex color display type.
+ex. obj.showVertexColors(True) --default: false
+--This affects all vertices used by the selected polygons.
+--Corresponds to using the color picker in the Edit Vertex Colors rollout of the Editable Poly UI.
+ex. obj.SetFaceColor(<color>, #VertexColor|#Illumination|#Alpha) --Sets the Vertex Color, Illumination or Alpha value of the selected polygons to the specified color value.
+
+ex. obj.GetVertexColor(#VertexColor|#Illumination|#Alpha) --Gets the Vertex Color, Illumination or Alpha value of the selected vertices
+ex. obj.GetFaceColor(#VertexColor|#Illumination|#Alpha) --Gets the Vertex Color, Illumination or Alpha value of the selected polygons
+
+
+--wireframe color
+ex. obj.wireColor(color) --default: random color
+
+
 
 
 --[In-View Messages]
-rt.messageBox('message_string', [title:<window_title_string>] [beep:<boolean>]) 	 
---Displays a modal message box containing the message string and an OK button.
---The message box window title an be set with the title: keyword parameter. You can control whether a beep is made with the beep: keyword parameter, which defaults to true .
-
-rt.queryBox <message_string> [title:<window_title_string>] [beep:<boolean>]   
---Displays a modal message box similar to the one that the messageBox() function creates, except it contains Yes and No buttons. The queryBox() function returns true if the user clicks Yes and false if the user clicks No.
-
-rt.yesNoCancelBox <message_string> [title:<window_title_string>] [beep:<boolean>] 
---Displays a modal message box similar to the one that the messageBox() function creates, except it contains a Yes, a No, and a Cancel button. The yesNoCancelBox() function returns #yes , #no or #cancel depending on which button the user clicked to dismiss the message box.
+ex. rt.messageBox('message', title='window_title') --Displays a modal message box containing the message string and an OK button. The message box window title an be set with the title: keyword parameter. You can control whether a beep is made with the beep: keyword parameter, which defaults to true .
+--
+ex. rt.queryBox('message', title='window_title') --Displays a modal message box similar to the one that the messageBox() function creates, except it contains Yes and No buttons. The queryBox() function returns true if the user clicks Yes and false if the user clicks No.
+--
+ex. rt.yesNoCancelBox('message', title='window_title') --Displays a modal message box similar to the one that the messageBox() function creates, except it contains a Yes, a No, and a Cancel button. The yesNoCancelBox() function returns #yes , #no or #cancel depending on which button the user clicked to dismiss the message box.
 
 
 
@@ -2146,14 +2336,12 @@ _GCProtector.widgets.append(window)
 --<string_operand> evaluates to a string at runtime,
 --variable_name is a global or local variable containing a string value.
 
+
 ex.
-rollout test "test"
-(
-local undoString = "Button Press"
-local buttonPress = 0
-button b "press me"
-on b pressed dowith undo label:(undoString + (buttonPress +=1) as string) on box()
-)
+undo on (
+    -- Do something.
+)--end undo
+
 
 ex.
 createdialog test
@@ -2161,6 +2349,7 @@ undo "add background" on
 (
 ...
 )
+
 
 ex.
 my_context_name = "An Undo Context"
@@ -2444,36 +2633,111 @@ ex.
 import MaxPlus
 help(MaxPlus.FPTypeConstants)
 --OUTPUT:
-
-   AngAxis = 48						AngAxisTab = 2096			Angle = 5						AngleTab = 2053				BOOL = 4					BOOLTab = 2052			BezierShape = 71
-   
-   BezierShapeTab = 2119	BitArray = 51					BitArrayTab = 2099  Bitmap = 16						BitmapTab = 2064	Bool = 66						BoolTab = 2114
-  
- 	 Box3 = 70							Box3Tab = 2118				ClassDesc = 52			ClassDescTab = 2100		Color = 62				ColorChannel = 11		ColorChannelTab = 2059
-   
-   ColorTab = 2110				Control = 55					ControlTab = 2103		DWORD = 65						DWORDTab = 2113		Double = 69					DoubleTab = 2117
-   
-   Enum = 45							EnumTab = 2093				FPInterface = 59		FPInterfaceTab = 2107	FPValue = 63			FPValueTab = 2111		FRgb = 23
-   
-   FRgbTab = 2071					FileName = 9					FileNameTab = 2057	Float = 0							FloatTab = 2048		HWND = 60						HWNDTab = 2108
-   
-   Hsv = 10								HsvTab = 2058					IObject = 58				IObjectTab = 2106			Index = 19				IndexTab = 2067			Int = 1
-   
-   Int64 = 68							Int64Tab = 2116				IntPtr = 67					IntPtrTab = 2115			IntTab = 2049			Interval = 47				IntervalTab = 2095
-   
-   MSFloat = 254					Matrix3 = 20					Matrix3Tab = 2068		Mesh = 53							MeshTab = 2101		Mtl = 14						MtlTab = 2062
-   
-   Name = 61							NameTab = 2109				Node = 17						NodeTab = 2065				Object = 54				ObjectTab = 2102		PBlock2 = 21
-   
-   PBlock2Tab = 2069			PercentFraction = 6		PercentFractionTab = 2054	Point = 56			Point2 = 30				Point2Tab = 2078		Point3 = 3
-   
-   Point3Tab = 2051				Point4 = 22						Point4Tab = 2070		PointTab = 2104				Quat = 49					QuatTab = 2097			RadioButtonIndex = 13
-   
-   RadioButtonIndexTab = 2061	Ray = 50					RayTab = 2098				RefTarg = 18					RefTargTab = 2066	Rgb = 2							RgbTab = 2050
-   
-   Str = 57								StrTab = 2105					String = 8					StringTab = 2056			Texmap = 15				TexmapTab = 2063		TimeValue = 12
-   
-   TimeValueTab = 2060		Value = 64						ValueTab = 2112			Void = 46							VoidTab = 2094		World = 7						WorldTab = 2055
+   AngAxis = 48
+   AngAxisTab = 2096
+   Angle = 5
+   AngleTab = 2053
+   BOOL = 4
+   BOOLTab = 2052
+   BezierShape = 71
+   BezierShapeTab = 2119
+   BitArray = 51
+   BitArrayTab = 2099
+   Bitmap = 16
+   BitmapTab = 2064
+   Bool = 66
+   BoolTab = 2114
+   Box3 = 70
+   Box3Tab = 2118
+   ClassDesc = 52
+   ClassDescTab = 2100
+   Color = 62
+   ColorChannel = 11
+   ColorChannelTab = 2059
+   ColorTab = 2110
+   Control = 55
+   ControlTab = 2103
+   DWORD = 65
+   DWORDTab = 2113
+   Double = 69
+   DoubleTab = 2117
+   Enum = 45
+   EnumTab = 2093
+   FPInterface = 59
+   FPInterfaceTab = 2107
+   FPValue = 63
+   FPValueTab = 2111
+   FRgb = 23
+   FRgbTab = 2071
+   FileName = 9
+   FileNameTab = 2057
+   Float = 0
+   FloatTab = 2048
+   HWND = 60
+   HWNDTab = 2108
+   Hsv = 10
+   HsvTab = 2058
+   IObject = 58
+   IObjectTab = 2106
+   Index = 19
+   IndexTab = 2067
+   Int = 1
+   Int64 = 68
+   Int64Tab = 2116
+   IntPtr = 67
+   IntPtrTab = 2115
+   IntTab = 2049
+   Interval = 47
+   IntervalTab = 2095
+   MSFloat = 254
+   Matrix3 = 20
+   Matrix3Tab = 2068
+   Mesh = 53
+   MeshTab = 2101
+   Mtl = 14
+   MtlTab = 2062
+   Name = 61
+   NameTab = 2109
+   Node = 17
+   NodeTab = 2065
+   Object = 54
+   ObjectTab = 2102
+   PBlock2 = 21
+   PBlock2Tab = 2069
+   PercentFraction = 6
+   PercentFractionTab = 2054
+   Point = 56
+   Point2 = 30
+   Point2Tab = 2078
+   Point3 = 3
+   Point3Tab = 2051
+   Point4 = 22
+   Point4Tab = 2070
+   PointTab = 2104
+   Quat = 49
+   QuatTab = 2097
+   RadioButtonIndex = 13
+   RadioButtonIndexTab = 2061
+   Ray = 50
+   RayTab = 2098
+   RefTarg = 18
+   RefTargTab = 2066
+   Rgb = 2
+   RgbTab = 2050
+   Str = 57
+   StrTab = 2105
+   String = 8
+   StringTab = 2056
+   Texmap = 15
+   TexmapTab = 2063
+   TimeValue = 12
+   TimeValueTab = 2060
+   Value = 64
+   ValueTab = 2112
+   Void = 46
+   VoidTab = 2094
+   World = 7
+   WorldTab = 2055
 
 
 
@@ -2602,7 +2866,50 @@ ex. ((dotnetclass "System.IO.File").exists "D:\	emp\\Wow.ms")
 
 
 
+--access 3ds Max system directories:
+--get directory
+GetDir <filetype_name> --Returns as a string the directory specified in the Customize > Configure Paths dialog for the specified file type.
+--set directory
+SetDir <filetype_name> <string> --Returns true if successful, false if not. 
 
+
+
+--built-in environment paths
+#animations	--"C:\Users\<UserName>\Documents\3dsMax\sceneassets\animations"
+#archives	--"C:\Users\<UserName>\Documents\3dsMax\archives"
+#autoback	--"C:\Users\<UserName>\Documents\3dsMax\autoback"
+#autodeskCloud --"C:\Users\<UserName>\AppData\Local\Autodesk\Autodesk Sync\Cloud\<LoginName>" Returns empty string "" if the user is not logged in Autodesk 360.
+#defaults	--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\en-US\defaults\MAX"
+#downloads	--"C:\Users\<UserName>\Documents\3dsMax\downloads"
+#drivers	--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\drivers"
+#export		--"C:\Users\<UserName>\Documents\3dsMax\export"
+#font		--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\fonts"
+#help		--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\help"
+#image		--"C:\Users\<UserName>\Documents\3dsMax\sceneassets\images"
+#import		--"C:\Users\<UserName>\Documents\3dsMax\import"
+#matlib		--"C:\Users\<UserName>\Documents\3dsMax\materiallibraries"
+#maxData	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\"
+#maxroot	--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\"
+#maxstart	--"C:\Users\<UserName>\Documents\3dsMax\scenes"
+#pageFile	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\temp"
+#photometric --"C:\Users\<UserName>\Documents\3dsMax\sceneassets\photometric"
+#plugcfg	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\en-US\plugcfg"
+#preview	--"C:\Users\<UserName>\Documents\3dsMax\previews"
+#proxies	--"C:\Users\<UserName>\Documents\3dsMax\proxies"
+#renderassets	--	"C:\Users\<UserName>\Documents\3dsMax\sceneassets\renderassets"
+#renderPresets	--	"C:\Users\<UserName>\Documents\3dsMax\renderpresets"
+#renderoutput	--	"C:\Users\<UserName>\Documents\3dsMax\renderoutput"
+#scene	--	"C:\Users\<UserName>\Documents\3dsMax\scenes"
+#scripts	--	"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\scripts"
+#sound	--	"C:\Users\<UserName>\Documents\3dsMax\sceneassets\sounds"
+#startupScripts	--	"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\scripts\startup"
+#temp	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\temp"
+#ui	--"C:\Program Files\Autodesk\3ds Max <ReleaseNumber>\en-US\UI\"
+#userMacros	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\usermacros"
+#userScripts	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\scripts"
+#userStartupScripts	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\scripts\startup"
+#userIcons	--"C:\Users\<UserName>\AppData\Local\Autodesk\3dsMax\<ReleaseNumber> - 64bit\ENU\usericons"
+#vpost	--
 
 
 
@@ -2828,7 +3135,6 @@ for i in 1 to 10 do
 )
 
 -- And here a couple of abbreviations you can add to your library:
-
 fordo=for i in 1 to 10 do \n(\n\t "your code" \n)
 rol=rollout _name "name" \n(\n \n)\n createdialog _name     
 fn=fn NAME arg_a arg_b =\n(\n\tfnBody\n)

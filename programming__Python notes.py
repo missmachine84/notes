@@ -513,10 +513,21 @@ for item1, item2 in izip(list1, list2):
 eg. [index for index, element in enumerate(list_)]
 
 
+
 #perform an operation x number of times.
 #xrange is more efficient than range for large values
-#'num' is redefined each sequence. if you need to modify it use while loop. 
-eg. for num in xrange(10): #0, 1, 2, 3, ...
+#'num' is redefined each sequence. if you need to modify it during loop. 
+eg. [num for num in xrange(10)] #returns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#between two values: (start, stop)
+eg. range(140, 151)) #140-150 ie. [140, 141, 142,..]
+#set range: (start, stop, step)
+eg. range(3,8,2)) #creates list with a 2 unit interval. in this case [3, 5, 7]
+#alt:
+eg. numpy.arange(140, 150, 0.5) #increment by .5 ie. [140, 140.5, 141,..]
+#random integer values.  
+eg. random.randomrange(0, 100)
+
+
 
 #using itertools: #faster than range
 # itertools.repeat(object[, times])
@@ -947,10 +958,17 @@ eg. 3 in [1, 2, 3] #results in True
 
 
 
+#check if list contains type of element:
+#contains list:
+eg. any(isinstance(i, list) for i in list_)
+#is list of lists:
+eg. if list_[0]:
+
+
+
 #'[:]' takes a full slice of a list. useful when modifying a list while still iterating over it.            
-eg. for item in list_[:]:                           
-			if len(item) > 6:        
-				list_.insert(0, item)
+eg. [list_.insert(0, i) for i in list_[:] if len(item) > 6]
+
 
 
 #get the first and last item
@@ -1113,10 +1131,11 @@ eg. list(reversed(list_))
 eg. list_[::-1]
 
 
-#sorts objects of list in alphabetical order. 
+#sort objects of list in alphabetical order. 
 eg. list_.sort([func]) #sort with compare function
 #or
-eg. sorted(list_) #creates a new list from a provided iterable, sorts it and returns it 
+#using sorted:
+eg. sorted(list_, reverse=True) #creates a new list from a provided iterable, sorts it and returns it 
 
 
 # Sort a list of lists by length and value
@@ -1152,6 +1171,8 @@ eg. all(i in a for i in b)
 eg. any(i in a for i in b)
 #using 'any' with a generator:
 if any(x in d for x in [a, b, c]):
+
+
 
 
 #elements in one list not in another (inverse)
@@ -1227,6 +1248,9 @@ eg. from operator import itemgetter
 
 
 
+#convert bitArray to an array
+#bitArray to list of indices:
+eg. [i for i, bit in enumerate(bitArray) if bit==1] #returns a list of indices that are on (True). useful if indices correspond to component numbers
 
 
 
@@ -1302,7 +1326,7 @@ eg. list_=[]
 									
 
 
-	 
+
 
 
 
@@ -1413,6 +1437,15 @@ d = {'key1':1, 'key2':2, 'key3':3}  # assign <key:value> on creation
 #create dictionary with all keys having the same value:
 #dict.fromkeys is the fastest way to create a dictionary where all the keys map to the same value.
 eg. dict.fromkeys(range(1, 11), True) #returns {1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True}
+
+#dict of list values with integer keys
+dict_ = dict(enumerate(list_, 0)) #starting from 0
+#using itertools:
+from itertools import count
+dict_ = dict(zip(list_, count(0))) #starting from 0
+#using range, len and zip:
+dict_ = dict(zip(list_, range(x, len(list_)+x)))
+
 
 #using dictionary comprehension
 eg. dict_ = {key: value for key in range(5)}
@@ -1632,6 +1665,19 @@ set_two = set((PointHash(a, b, 1.0), PointHash(b, a, 1.1), PointHash(a, b, -1.0)
 print "common:"
 for item in set_one.intersection(set_two):
 		print item.p1, item.p2, item.value
+
+
+
+
+
+# dictionary comprehension
+#combine two lists in a dictionary as key/value pairs
+{n:list2[i] for i, n in enumerate(list1)}
+#list index as key and int as value
+dct = {i:k for i,k in enumerate(list_,x)}
+#list index as value and int as key 
+dct = {k:i for i,k in enumerate(list_,x)}
+
 
 
 
@@ -2904,6 +2950,16 @@ eg. try: #Try to remove tree; if failed show an error using try...except on scre
 		except OSError, e:
 			print ("Error: %s - %s." % (e.filename, e.strerror))
 
+
+
+
+#get file timestamp
+#modified date
+eg. os.path.getmtime(file)
+
+#convert to readable format
+eg. from datetime import datetime
+	datetime.fromtimestamp(1382189138.4196026).strftime('%Y-%m-%d %H:%M:%S') #returns '2013-10-19 16:25:38'
 
 
 

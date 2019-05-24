@@ -9,9 +9,6 @@ ____Substance_Painter_notes_____________________________________________________
 
 Shortcut Menu heads up _ _ _____
 Stencil shortcuts				S
-Misc							shft
-Misc							ctrl
-Misc							RM
 
 
 

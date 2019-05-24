@@ -6,6 +6,8 @@
 #PERCENTAGE ---------
 
 percent=(value/totalValue) *100
+--alt
+p = value*percentage /100
 
 
 

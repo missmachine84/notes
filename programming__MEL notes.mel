@@ -129,9 +129,6 @@ print pm.selected()[0].namespace()
 	
 
 
-filterExpand	//avoid Maya's component compression
-// #change [u'bodyShell.vtx[4:5]'] to [u'bodyShell.vtx[4]', u'bodyShell.vtx[5]']
-edgeVertices = pm.filterExpand (edgeVertices, expand=1, selectionMask=31)
 
 
 
@@ -1149,23 +1146,27 @@ objectName.map 	UV
 
 
 
-polyEvaluate -vertex $obj;
-						 -vertexComponent //selected vertices as int
-						 -edge
-						 -edgeComponent //selected edges as int
-						 -face
-						 -faceComponent //selected faces as int
-						 -area //returns surface area of of selected object as float
-						 -uvComponent //selected UV faces as int
+//surface info
+//edge, face, area (returns surface area of of selected object as float), uvComponent (selected UV faces as int)
+pm.polyEvaluate(obj, vertex=1)
+
+
 
 
 //component selection mode/type:
-$mode = `selectMode -query -component`;
-$maskVertex = `selectType -query -vertex`;
-$maskEdge = `selectType -query -edge`;
-$maskFacet = `selectType -query -facet`;
+maskObject = pm.selectType(query=1, allObjects=1)
+maskComponent = pm.selectMode(query=1, component=1)
+maskVertex = pm.selectType(query=1, vertex=1)
+maskEdge = pm.selectType(query=1, edge=1)
+maskFacet = pm.selectType(query=1, facet=1)
+
+
 
 // component selection mask
+filterExpand	//avoid Maya's component compression
+// #change [u'bodyShell.vtx[4:5]'] to [u'bodyShell.vtx[4]', u'bodyShell.vtx[5]']
+edgeVertices = pm.filterExpand (edgeVertices, expand=1, selectionMask=31)
+
 faces = pm.filterExpand (pm.ls(sl=1), selectionMask=34, expand=1) //returns ie. [u'pCylinder1.f[2]', u'pCylinder1.f[3]']
 
 
@@ -1180,6 +1181,21 @@ faces = [obj+".f["+str(num)+"]" for num in range(pm.polyEvaluate (obj, face=1))]
 
 //get currently selected components
 components = cmds.ls(selection=True, flatten=True)
+//selected vertices as int
+selectedVerts = [v.split('[')[-1].rstrip(']') for v in pm.filterExpand(sm=31)]
+//
+polyEvaluate -vertexComponent $obj //selected vertices as int
+//
+selectedEdges = [e.split('[')[-1].rstrip(']') for e in pm.filterExpand(sm=32)]
+//
+polyEvaluate -edgeComponent $obj //
+//
+selectedFaces = [f.split('[')[-1].rstrip(']') for f in pm.filterExpand(sm=34)]
+//
+polyEvaluate -faceComponent $obj //
+
+
+
 
 //get number of faces
 numFaces = pm.polyEvaluate(duplicatedObject, face=1)
@@ -2845,6 +2861,11 @@ select -all;
 			 -allDagObjects
 			 -allDependencyNodes
 
+ex. selection = pm.ls(selection=1, flatten=1)
+	pm.select(deselect=1)
+	pm.select(selection) //#select all from list
+
+
 
 //object type can be found by tooltip description in outliner
 
@@ -3242,6 +3263,89 @@ $m1 = $m2 * $m3;
 
 // freeze transformations
 pm.makeIdentity (obj, apply=1, t=1, r=1, s=1, n=0, pn=1)
+
+
+
+
+
+
+
+
+"MATERIALS: //-------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+
+
+//get material
+pm.hyperShade('', shaderNetworksSelectMaterialNodes=1) //#selects the material node. doesnt return anything. optional first argument=obj with material.
+mat = pm.ls(selection=1, materials=1)[0] //#now add the selected node to a variable
+//select all with material (using above):
+pm.hyperShade (objects='') //#select all with material. "" defaults to currently selected materials.
+//get all scene materials
+materials = pm.ls(mat=1, flatten=1)
+//
+for shading_engine in pm.ls(type=pm.nt.ShadingEngine): //#No need to pass in a string to `type`, if you don't want to.
+	if len(shading_engine): //#ShadingEngines are collections, so you can check against their length
+		for material in shading_engine.surfaceShader.listConnections(): //#You can call listConnections directly on the attribute you're looking for.
+			yield material
+//Loop over the materials and graph them
+for material in pm.ls(mat=1, flatten=1):
+	pm.hyperGraph(pm.getPanel(withFocus=True), edit=True, addDependNode=material)
+	//mel.eval("hyperShadePanelGraphCommand(\"%s\", \"addSelected\")" % hsPanel //#alt to above.
+
+
+
+
+
+//create shader
+mat = pm.shadingNode('lambert', asShader=1, name=name)
+
+
+//assign shader
+pm.hyperShade(face, assign=mat) //#without optional first arg specified, shader will be assigned to any selected faces/objects
+
+
+//get node type
+pm.nodeType(node) //returns ie. 'VRayMultiSubTex'
+//select by node type
+node = pm.ls(selection=1, type='VRayMultiSubTex') //#List all objects of the specified type. exactType=not objects that are descendents of that type
+
+
+//set attributes
+//mat ID
+pm.setAttr(name+'.vrayMaterialId', 1)
+//or:
+pm.setAttr('%s.%s'%(name,'vrayMaterialId') ,1)
+//color:
+pm.setAttr(name+'.color', rgb)
+pm.setAttr(name+'.colorR', rgb[0])
+pm.setAttr(name+'.colorG', rgb[1])
+pm.setAttr(name+'.colorB', rgb[2])
+
+
+
+//generate random rgb values
+rgb = [random.randint(0, 255) for _ in range(3)]
+
+
+//convert RGB to 0-1 values (and round to 3)
+convertedRGB = [round(float(v)/255, 3) for v in rgb]
+
+
+
+
+//Hypershade Editor
+
+//open the hypershade widow
+mel.eval("HypershadeWindow()") //cmds.HypershadeWindow()
+
+//Get the name of the hypershade panel
+panel = pm.getPanel(withFocus=True)
+
+//clear the panel
+pm.hyperShade(resetGraph=True, dependGraphArea=True)
+
+
 
 
 

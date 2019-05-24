@@ -10,9 +10,23 @@
 
 
 
+
+------ HDRI
+
+//VRay
+>	Maps> VRay> VRayHDRI
+>	VRayHDRI rollout:
+		Mapping> mapping type: spherical and flip horizontally
+		Coordinates> Environ and spherical environment (blur=0)
+>	Connect to: Maps> General> Output map
+>	connect VRayHDRI -> output map -> the environment
+>	adjust output map> RGB level if necessary
+
+
+
 ------	Daylight/Sun
 
-//3ds Max VRay
+//VRay
 >	mod panel>create>systems>daylight
 >	VRay sun
 >	adjust position (time ect)
@@ -20,8 +34,8 @@
 >	set filter color
 
 ------	Interior lights
-//3ds Max VRay
->	mod panel>create>lights>'Vray' type from drop down menu
+//VRay
+>	mod panel>create>lights>'VRay' type from drop down menu
 >	mod panel>modify>adjust 'color' temperature
 >	adjust type (shape)
 >	

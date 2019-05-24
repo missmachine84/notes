@@ -273,6 +273,17 @@ CAGE:
 >	Export the Cage Mesh sub-meshes in the same order as the low poly so that the vertex ordering is the same for the baking process
 
 
+//3ds Max
+>Make sure the High Poly Mesh and the Low Poly Mesh are aligned, sized, and centered in the scene.
+
+>	Optional: Make sure that all of the sub meshes are separated. 				You can obtain closer fitting cages by doing each piece separate.
+
+>	Select only the Low Poly Mesh
+
+>	shell modifier
+
+
+
 
 
 
@@ -296,7 +307,7 @@ MATERIALS:
 //VRay:
 
 glass (generic)
->	Set reflection to pure black
+>	Set reflection to pure black (if you need less reflection, reduce the IOR)
 >	Set reflection glossiness to 1.0
 >	Set refraction to white
 >	Set refraction glossiness to 1.0

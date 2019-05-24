@@ -402,24 +402,45 @@ self.ui.spinbox.valueChanged.connect(self.b000)
 
 
 #QComboBox
-# get list contents:
+#get list contents:
 list_ = [cmb.itemText(i) for i in range(cmb.count())]
-# add list contents
-components = pm.ls (selection=1, flatten=1)
-cmb.addItems(components)
-# add string
-cmb.addItem(component)
-#store text
-text = cmb.currentText()
-#get text
-cmb.findText(text)
+#set contents
+cmb.addItem(string, userData=None) #string/data
+cmb.addItems(list_) #string/data
+cmb.insertItem(index, string, userData=None) #at index
+cmb.insertItems(index, list_)
+cmb.setItemData(index, value) #data
+#get contents
+cmb.findText(text) #using string
+cmb.currentText() #current text
+cmb.itemText(index) #text using index
+cmb.itemData(index) #data
+cmb.findData(data) #data
+# remove
+cmb.removeItem (index)
 
-#get index
-cmb.currentIndex()
+#edit line
+cmb.lineEdit(): #Returns the line edit used to edit items in the combobox, or 0 if there is no line edit.
+cmb.setLineEdit(edit) #Sets the line edit to use instead of the current line edit widget.
+
 #set index
 cmb.blockSignals(True)
 cmb.setCurrentIndex(0)
 cmb.blockSignals(False)
+#get index
+cmb.currentIndex()
+
+#separator
+cmb.insertSeparator(index)
+
+#expand/collapse
+cmb.hidePopup()
+cmb.showPopup()
+
+#remove contents
+cmb.clear()
+
+
 
 # add signals:
 comboboxes = ["cmb000"]
@@ -996,7 +1017,7 @@ def X_up (self):
 	print "x Up"
 
 
-# ----------------------------------------------
+# install event filter ----------------------------------------------
 
 
 # eventFilter
@@ -1148,6 +1169,15 @@ class ShowEventFilter(QtCore.QObject):
 
 eventFilter = ShowEventFilter()
 cb.view().installEventFilter(eventFilter)
+
+
+
+# Remove event filter ------------------------------------------------------
+
+self.ui.cmb002.removeEventFilter() #Removes an event filter object obj from this object. 
+#The request is ignored if such an event filter has not been installed.
+#All event filters for this object are automatically removed when this object is destroyed.
+#It is always safe to remove an event filter.
 
 
 

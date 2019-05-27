@@ -109,6 +109,54 @@ self.ui.raise_
 self.ui.lower()
 
 
+#QPoint
+point.isNull() #Returns true if both the x and y coordinates are set to 0
+point.manhattanLength() #Returns the sum of the absolute values of QPoint.x() & QPoint.y()
+point.setX(x)
+point.setY(y)
+point.toTuple()
+point.x() #Returns the x coordinate of this point.
+point.y() #Returns the y coordinate of this point.
+
+
+#QRect
+rect.x() #Returns the x-coordinate of the rectangle’s left edge. Equivalent to left()
+rect.y() #Returns the y-coordinate of the rectangle’s top edge. Equivalent to top()
+rect.setX(x) #Sets the left edge of the rectangle to the given x coordinate. May change the width, but will never change the right edge of the rectangle.
+rect.setY(y) #Sets the top edge of the rectangle to the given y coordinate. May change the height, but will never change the bottom edge of the rectangle.
+rect.size() #Returns the size of the rectangle.
+rect.setSize(s) #Sets the size of the rectangle to the given size . The top-left corner is not moved.
+rect.width() #Returns the width of the rectangle.
+rect.setWidth(w) #Sets the width of the rectangle to the given width . The right edge is changed, but not the left one.
+rect.height() #Returns the height of the rectangle.
+rect.setHeight(h) #Sets the height of the rectangle to the given height . The bottom edge is changed, but not the top one.
+rect.top() #Returns the y-coordinate of the rectangle’s top edge.
+rect.topLeft() #Returns the position of the rectangle’s top-left corner.
+rect.topRight() #Returns the position of the rectangle’s top-right corner.
+rect.bottom() #Returns the y-coordinate of the rectangle’s bottom edge.
+rect.bottomLeft() #Returns the position of the rectangle’s bottom-left corner.
+rect.bottomRight() #Returns the position of the rectangle’s bottom-right corner.
+rect.left() #Returns the x-coordinate of the rectangle’s left edge. Equivalent to x().
+rect.right() #Returns the x-coordinate of the rectangle’s right edge.
+rect.center() #Returns the center point of the rectangle.
+rect.getRect() #Extracts the position of the rectangle’s top-left corner to *``x`` and *``y`` , and its dimensions to *``width`` and *``height`` .
+rect.setRect(x, y, w, h) ##Sets the coordinates of the rectangle’s top-left corner to (x , y ), and its size to the given width and height .
+rect.getCoords() #Extracts the position of the rectangle’s top-left corner to *``x1`` and *``y1`` , and the position of the bottom-right corner to *``x2`` and *``y2`` .
+rect.setCoords(x1, y1, x2, y2) #Sets the coordinates of the rectangle’s top-left corner to (x1 , y1 ), and the coordinates of its bottom-right corner to (x2 , y2 ).
+rect.contains(x, y) #or QPoint. Returns true if the point (x , y ) is inside or on the edge of the rectangle
+rect.intersects() #Returns true if this rectangle intersects with the given rectangle.
+rect.intersect() #Use intersected(rectangle ) instead.
+rect.intersected() #Returns the intersection of this rectangle and the given rectangle . Note that r.intersected(s) is equivalent to r & s .
+rect.adjust(x1, y1, x2, y2) #Adds dx1 , dy1 , dx2 and dy2 respectively to the existing coordinates of the rectangle.
+rect.translate(dx, dy) #Moves the rectangle dx along the x axis and dy along the y axis, relative to the current position. Positive values move the rectangle to the right and down.
+rect.moveTo(x, t) #Moves the rectangle, leaving the top-left corner at the given position (x , y ). The rectangle’s size is unchanged.
+rect.isEmpty() #Returns true if the rectangle is empty.
+
+
+
+
+
+
 
 
 'Widget general'#------------------------------------------------------------------
@@ -412,7 +460,10 @@ cmb.insertItems(index, list_)
 cmb.setItemData(index, value) #data
 #get contents
 cmb.findText(text) #using string
+#get index
 cmb.currentText() #current text
+#set index
+cmb.setCurrentIndex(0)
 cmb.itemText(index) #text using index
 cmb.itemData(index) #data
 cmb.findData(data) #data
@@ -423,12 +474,8 @@ cmb.removeItem (index)
 cmb.lineEdit(): #Returns the line edit used to edit items in the combobox, or 0 if there is no line edit.
 cmb.setLineEdit(edit) #Sets the line edit to use instead of the current line edit widget.
 
-#set index
-cmb.blockSignals(True)
-cmb.setCurrentIndex(0)
+#block signals
 cmb.blockSignals(False)
-#get index
-cmb.currentIndex()
 
 #separator
 cmb.insertSeparator(index)

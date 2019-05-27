@@ -1949,8 +1949,8 @@ ex. subMaterials = [rt.getSubMtl(mat, id) for id in range(1, rt.getNumSubMtls(ma
 --material id to face
 ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
 --to object
-$.material = StandardMaterial()
-$.material.diffuse = color 255 0 0
+material = rt.StandardMaterial(name='') 
+material.diffuse = color 255 0 0
 --vray
 $.material = VRayMtl()
 $.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
@@ -1959,8 +1959,8 @@ $.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
 
 
 --set attributes
-m.Diffuse = MaxPlus.Color(0, 0, 1)
-m.Specular = MaxPlus.Color(1, 1, 1)
+m.Diffuse = rt.color(r, g, b) --MaxPlus.Color(0, 0, 1)
+m.name = ''
 --assign it to the node of the object
 node.Material = m
 

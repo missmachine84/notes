@@ -3095,6 +3095,10 @@ time.sleep(5) #wait for 5 seconds
 time.sleep(.300) #wait for 300 milliseconds
 
 
+
+
+
+
 # check speed
 t1=time.time()
 <code>

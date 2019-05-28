@@ -159,7 +159,15 @@ rect.isEmpty() #Returns true if the rectangle is empty.
 
 
 
-'Widget general'#------------------------------------------------------------------
+'Widgets: general'#------------------------------------------------------------------
+
+
+
+QtGui.QApplication.allWidgets()
+
+QtGui.QApplication..topLevelWidgets()
+ex. widgets = dict((w.objectName(), w) for w in QtGui.QApplication.topLevelWidgets())
+	window = widgets['MayaWindow']
 
 
 
@@ -876,6 +884,24 @@ QEvent::wheel 	#Mouse wheel rolled (QWheelEvent).
 
 
 
+# Cursor position
+self.mousePosition = event.pos() #relative position to mouseEvent
+self.mousePosition = QtGui.QCursor.pos() #global position
+
+w.pos() #widget positon
+w.mapFromGlobal(point)
+w.mapFrom(widget, point)
+w.mapTo(widget, point)
+w.mapFromParent(point)
+w.mapToParent(point)
+
+#check if cursor is inside widget
+w.rect().contains(w.mapFromGlobal(QtGui.QCursor.pos()))
+
+
+
+
+
 
 # mouseMoveEvent Override:
 ex.
@@ -1486,8 +1512,16 @@ _GCProtector.widgets.append(applicationWindow) #append to garbage collector
 
 'Time'#----------------------------------------------------------------------
 
-_timer = QtCore.QTimer(
+timer = QtCore.QTimer()
 
+
+
+#set interval
+timer = QtCore.QTimer()
+timer.setInterval(1000.0 / 25)  #25 times per second
+timer.timeout.connect(<function>)
+timer.start()
+# timer.stop()  # Call this to stop printing
 
 
 

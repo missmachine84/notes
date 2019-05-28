@@ -3311,7 +3311,23 @@ pm.nodeType(node) //returns ie. 'VRayMultiSubTex'
 node = pm.ls(selection=1, type='VRayMultiSubTex') //#List all objects of the specified type. exactType=not objects that are descendents of that type
 
 
-//set attributes
+
+
+// first, select your object. This line finds it's shape node:
+string $child[] = listRelatives -c;
+// next, find all the shadingGroups (which are sets) that this shape belongs too:
+string $shadingGroups[] = listSets -t 1 -o $child[0];
+// on the shadingGroup, find the incomming connections. This should return both the shape node, and the material
+string $connections[] = listConnections -s 1 -d 0 $shadingGroups[0];
+// on the first entry of incomming connections (which should be the material), find the color value
+float $colors[] = getAttr ($connections[0] + ".color");
+
+
+
+
+
+//get/set attributes
+//using getAttr(), setAttr()
 //mat ID
 pm.setAttr(name+'.vrayMaterialId', 1)
 //or:

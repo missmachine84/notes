@@ -129,11 +129,22 @@ eg. del x
 					eg. 26 % 7 is 5 #If 26 / 7, then the division remainder is 5. (since 7+7+7=21 and 26-21=5.) 
 
 
+#increment/ decrement
++=				eg. i += 1 #AND assignment operator, eg. x += 5 is equivanent to x = x + 5
+-=				eg. i -= 1 #AND assignment operator, eg. x -= 5 is equivanent to x = x - 5
 
-+=				eg. i+=1 #increment. Add AND assignment operator, It multiplies right operand
--=				eg. i-=1 #decriment Subtract AND assignment operator
-*=        eg. i*=1 #Multiply AND assignment operator
-/=        eg. i/=1 #Divide AND assignment operator
+#additonal assignment operators:
+*=				#x *= 5	x = x * 5
+/=				#x /= 5	x = x / 5
+%=				#x %= 5	x = x % 5
+//=				#x //= 5	x = x // 5
+**=				#x **= 5	x = x ** 5
+&=				#x &= 5	x = x & 5
+|=				#x |= 5	x = x | 5
+^=				#x ^= 5	x = x ^ 5
+>>=				#x >>= 5	x = x >> 5
+<<=				#x <<= 5	x = x << 5
+
 
 
 
@@ -1503,17 +1514,14 @@ dict_.has_key("1")
 
 
 # looping
-#over keys
+#keys
 eg. for key in dict_:
-		print "key:", key
-		print "value:", dict_[key]
-#over the values:
+#values:
 eg. for value in dict_.itervalues():
-		print "value:", value
-
-eg.	for key,value in dict_.iteritems():
-		print "key:", key
-		print "value:", value
+#keys and values:
+eg.	for key, value in dict_.iteritems():
+#keys, values, and indices:
+eg. for index, (key, value) in enumerate(attributes.items()):
 
 
 
@@ -1528,8 +1536,7 @@ for key in set(dict1) & set(dict2):
 	if dict1[key] == dict2[key]:
 		print '%s: %s is present in both dict1 and dict2' % (key, value)
 # alt
-eg.
-all(dict2[k] == v for k, v in dict1.iteritems() if k in dict2)
+eg. all(dict2[k] == v for k, v in dict1.iteritems() if k in dict2)
 
 
 # append to an existing key:
@@ -2164,11 +2171,11 @@ if hasattr(self.ui, 'string')
 
 #allows you to set an attribute of an object having its name
 eg.
-setattr(person, 'name', 'Andrew')
+setattr(person, 'Name', 'Linus')
 person.name  # accessing instance attribute
-#returns 'Andrew'
+#returns 'Linus'
 Person.name  # accessing class attribute
-#returns 'Victor'
+#returns 'Name'
 
 eg.
 setattr(x, 'y', v) #is equivalent to x.y = v

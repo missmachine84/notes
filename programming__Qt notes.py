@@ -2692,6 +2692,13 @@ ex.
 b2.setIcon(QIcon(QPixmap("python.gif")))
 
 
+#set icon to rgb value:
+pixmap = QtGui.QPixmap(100,100)
+pixmap.fill(QtGui.QColor.fromRgb(r, g, b))
+cmb.setItemIcon(index, QtGui.QIcon(pixmap))
+
+
+
 #QSpinBox. for a double value use QDoubleSpinBox
 .setMinimum(-5) #Sets the lower bound of counter
 .setMaximum(5) #Sets the upper bound of counter

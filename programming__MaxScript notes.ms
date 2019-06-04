@@ -529,7 +529,7 @@ ex. a = #(1,2,3,4)
 	sort props
 
 
---Create new array with only unique members of source array.
+--create new array with only unique members of source array.
 ex. makeUniqueArray #(1, 2, 3, 4, 3, 2, 1)
 -- RESULT:
 -- # (1, 2, 3, 4)
@@ -559,7 +559,7 @@ ex. (
 
 
 
---Creates a copy of all the elements in the array.
+--creates a copy of all the elements in the array.
 -- If #noMap is specified, the copy made is what is called a shallow copy 
 -- - only a copy of the upper-level value itself (that is, the array value) is created. 
 -- Copies aren't made of values stored in the array, rather a reference to the same value 
@@ -568,7 +568,7 @@ copy <array> [#noMap] -- mapped
 -- Returns a value of OK .
 
 
---Creates a copy of all elements in the array, including nested sub-arrays
+--creates a copy of all elements in the array, including nested sub-arrays
 deepCopy <array> --returns the new array
 
 
@@ -746,7 +746,7 @@ GetDictKeys <dictionary>
 -- Returns the key type of the dictionary - #name, #string, or #integer.
 GetDictKeyType <dictionary>
 
--- Creates a shallow copy of the dictionary. 
+-- creates a shallow copy of the dictionary. 
 copy <dictionary> [#nomap]
 
 -- Frees the internal memory associated with the dictionary.
@@ -790,25 +790,43 @@ ex. MaxPlus.Core.EvalMAXScript("fn bitArrayToArray b = (return b as Array)")
 --move
 move $ [10,0,0]		--xyz
 
-$.position = [10,10,0]	--absolute position
 
+--move absolute
+$.position = [10,10,0]
+
+
+--move relative
 $.position.z = $.position.z + 10
 
---rotate
-INode.Rotation
-rotate $ [eulerangles 90 0 0]		--rotate relative
 
-$rotation= (eulerangles 0 0 90) 
+
+--rotate absolute
+obj.Rotation
+--
+rt.rotate(node, rt.angleaxis(90, [0,1,0])) --rotate 90 on Y axis
+
+
+--rotate relative
+obj.rotation = rt.eulerangles(0, 0, 90)
+--
+euler = rt.eulerangles(0, 0, 90)
+rt.rotate(self.node, euler)
+
+
+
 
 --scale
+--absolute
 INode.Scaling
 scale $ [2,2,1]		--scale 2x in xy.  z is 1:1 unchanged
 $.scale = [1,1,2] --scale 2x in z
 
 --query position
 INode.Position
-ex.
-$.position
+ex. $.position
+
+--relative
+
 
 --gets or sets the position of the selected element in the mesh
 --<vertexselection>.pos : Point3 
@@ -924,9 +942,43 @@ snapMode.getOSnapItemName <int osnap_index> <int osnap_item_index>
 "CREATE:__________________________________________________________________________________"
 
 
---[Primitives]
 
-Box() pos: [-5,5,0] wireColor:red
+
+--[Primitives]
+--http://docs.autodesk.com/3DSMAX/16/ENU/MAXScript-Help/index.html?url=files/GUID-BD5ADFE5-379A-40D5-8FA2-3EB9649F088B.htm,topicNumber=d30e280686
+--universal attributes
+name=''
+pos=rt.point3(0,0,0) --position
+wireColor=rt.color('red') --wireframe color
+isSelected=True --bool
+
+--cube
+rt.Box(width=25, length=25, height=25, lengthsegs=1, widthsegs=1, heightsegs=1)
+--sphere
+rt.Sphere(radius=15, segs=1, smooth=True, hemisphere=0, chop=0, recenter=False, slice=False, sliceFrom=0, sliceTo=0) --#slice=slicing state on or off with sliceFrom and sliceTo values 0.0 - 1.0
+--cylinder
+rt.Cylinder(radius=10, height=25, heightsegs=1, capsegs=1, sides=12, smooth=True, slice=False, sliceFrom=0, sliceTo=0) --#slice=slicing state on or off with sliceFrom and sliceTo values 0.0 - 1.0
+--pipe
+rt.Tube(radius1=5, radius2=8, height=25, sides=12, capSegs=1, hightSegs=1)
+--plane
+rt.Plane(length=25, width=25, lengthsegs=1, widthsegs=1)
+--cone
+rt.Cone(radius1=15, radius2=1, height=25, heightsegs=1, capsegs=1, sides=12, smooth=True, slice=False, sliceFrom=0, sliceTo=0) --#slice=slicing state on or off with sliceFrom and sliceTo values 0.0 - 1.0
+--pyramid
+rt.Pyramid(width=25, depth=25, height=25, widthsegs=1, depthSegs=1, heightsegs=1)
+--torus
+rt.Torus(radius1=20, radius2=5, segs=12, tubeRotation=0, tubeTwist=0, sidesInteger=6, smoothInteger=0) --#smoothinteger: #0-None (Turns off smoothing entirely, producing prism-like facets on the torus.), 1-Sides (Smoothes the edges between adjacent segments, producing smooth bands running around the torus.), 2-All (Produces complete smoothing on all surfaces of the torus.), 3-Segments (Smoothes each segment individually, producing ring-like segments along the torus.)
+--geosphere
+rt.GeoSphere(radius=15, segs=4, smooth=True, hemisphere=False, baseToPivot=False, baseType=2) --#baseType: #0-Tetra (Based on a four-sided tetrahedron. The triangular facets can vary in shape and size. The sphere can be divided into four equal segments.), 1-Octa (Based on an eight-sided octahedron. The triangular facets can vary in shape and size. The sphere can be divided into eight equal segments.), 2-Icosa (Based on a 20-sided icosahedron. The facets are all equally sized equilateral triangles. The sphere can be divided into any number of equal segments, based on multiples and divisions of 20 faces.)
+--textplus
+rt.TextPlus(layouttype=0, width=100, length=100)
+
+
+
+
+
+
+
 
 -- test whether a given node is convertible into a given class
 --[ Mesh, SplineShape, NURBSCurve, NURBSSurface, etc.]
@@ -935,9 +987,8 @@ ex.
 if canConvertTo $foo NURBSSurface then...
 
 --general form of the existing specific conversion functions such as convertToMesh()
-convertTo <node> <class> -- mapped
-ex.
-convertTo $circle01 SplineShape --If the conversion is not supported, returns undefined.
+ex. rt.convertTo(obj, <class>) -- mapped
+ex. convertTo $circle01 SplineShape --If the conversion is not supported, returns undefined.
 
 --Convert an object to an editable mesh
 --it will remove all modifiers present
@@ -1057,18 +1108,6 @@ printStack <node>
 enableShowEndRes <boolean> 
 
 showEndResult 
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1537,19 +1576,29 @@ explodeGroup <group_head_node> -- mapped
 
 
 
-
---Visibility
---hide
+--Viewport Display
+--visibility
+--show/hide
 ex. rt.hide(obj) -- mapped --Hides the specified node or node collection.
 --If the optional doLayer keyword is set to true and the node is in a layer that is hidden,
 --the entire layer is unhidden. When false (the default), just the node is unhidden.
 unhide <node> [doLayer:<boolean>] -- mapped 
+
+ex. obj.isHiddenInVpt
+ex. obj.isHidden = True
+
+--xray
+ex. g.xray = True
+
 
 --freeze
 ex. freeze(obj) -- mapped --Freezes the specified node or node collection.
 --If the optional doLayer keyword is set to true and the node is in a layer that is frozen, 
 --the entire layer is unfrozen. When false (the default), just the node is unfrozen.
 unfreeze <node> [doLayer:<boolean>] -- mapped
+
+ex. obj.isFrozen == True
+
 
 
 --Sets whether the node is renderable.
@@ -1642,11 +1691,11 @@ ex. <objectSet> as array
 
 --create
 --vertex
-ex. rt.polyop.createVert(obj, <point3 pos>) --Creates a vertex as the specified position.
+ex. rt.polyop.createVert(obj, <point3 pos>) --creates a vertex as the specified position.
 --edge
 ex. rt.polyop.createEdge(obj, <int vert1>, <int vert2>) --Returns the index of the created edge or undefined if no edge was created.
 --face
-ex. rt.polyop.createPolygon(obj, <vertex array>) --Creates a face using the specified vertices.
+ex. rt.polyop.createPolygon(obj, <vertex array>) --creates a face using the specified vertices.
 
 
 --get
@@ -1929,31 +1978,75 @@ m = MaxPlus.Factory.CreateDefaultStdMat()
 
 --get material
 --currently selected
-ex. medit.getCurMtl()
+ex. rt.medit.getCurMtl()
+--by name
+ex. rt.sceneMaterials['name']
 --scene Materials
 ex. [mat for mat in rt.sceneMaterials]
---material id from face
-ex. id = obj.GetFaceMaterial(face)
-ex. id = rt.polyop.getFaceMatID(obj, face) --Returns the material ID assigned to the face
+
+--get subMaterials
+ex. mat.materialList
 --subMaterial from face
 ex. id = obj.GetFaceMaterial(face) --#Returns the material ID of the specified face.
 	subMaterial = rt.getSubMtl(mat, id) --#get the submaterial using the matID index
---number of subMaterials
-ex. rt.getNumSubMtls(mat)
 --all subMaterials from material
 ex. subMaterials = [rt.getSubMtl(mat, id) for id in range(1, rt.getNumSubMtls(mat)+1)] --#get the material using the matID index. modify index range for index starting at 1.
 	subMatNames = [s.name for s in subMaterials if s is not None]
+--all materials including submaterials
+mats=[]
+for mat in rt.sceneMaterials:
+	if rt.getNumSubMtls(mat): --#if material is a submaterial; search submaterials
+		for i in range(1, rt.getNumSubMtls(mat)+1):
+			subMat = rt.getSubMtl(mat, i)
+			mats.append(subMat)
+	elif:
+		mats.append(mat)
+
+--number of subMaterials
+ex. rt.getNumSubMtls(mat)
+ex. mat.materialList.count
+ex. mat.numsubs --#total number of indices. includes undefined material slots. ie. material at ID index 1 and another at index 20, returns 20 with 18 undefined indices.
+
+--get subMaterial ID's
+ex. mat.materialIDList
+--subMaterial ID from face
+ex. id = obj.GetFaceMaterial(face)
+ex. id = rt.polyop.getFaceMatID(obj, face) --Returns the material ID assigned to the face
+--face from subMaterial ID
+ex. [i for i in range(1, obj.numFaces+1) if rt.getFaceMatID(obj, i)==id]
+
+
 
 
 --set material
 --material id to face
 ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
 --to object
-material = rt.StandardMaterial(name='') 
+ex. obj.material = mat
+--multimaterial
+mat.materialList.count = mat.numsubs+1 --#add slot to multimaterial
+mat.mapEnabled[3] = True
+mat.materialIDList[3] = 2
+mat.names[3] = ''
+mat.materialList[-1] = material --#assign material to the newly created slot 
+
+
+
+
+--create:
+--standard material
+material = rt.StandardMaterial(name='')
+--multimaterial
+material = multiMaterial()
+--vray
+material = rt.VRayMtl()
+
+
+
+--assign attributes:
 material.diffuse = color 255 0 0
 --vray
-$.material = VRayMtl()
-$.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
+material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
 
 
 
@@ -1961,8 +2054,6 @@ $.material = VRayMtl diffuse:green reflection:grey reflection_glossiness:0.7
 --set attributes
 m.Diffuse = rt.color(r, g, b) --MaxPlus.Color(0, 0, 1)
 m.name = ''
---assign it to the node of the object
-node.Material = m
 
 
 
@@ -1974,8 +2065,8 @@ ex. obj.name = rt.uniqueName()
 
 
 
---remove material
-$*.material = undefined
+--delete material
+material = undefined
 
 
 
@@ -1990,7 +2081,7 @@ ex. rt.SME.OpenMtlBrowseDlg() --material browser submenu
 
 
 --create new view
-ex. rt.SME.CreateView('name') --Creates a new Node View with the given name and returns its index.
+ex. rt.SME.CreateView('name') --creates a new Node View with the given name and returns its index.
 --create temp view
 ex. if rt.SME.GetViewByName('temp'):
 		rt.SME.DeleteView(rt.SME.GetViewByName('temp'), False)
@@ -2787,7 +2878,7 @@ ex.
 import pymxs
 rt = pymxs.runtime
 
---Create and visit a MaxScript Array
+--create and visit a MaxScript Array
 rt.execute(" gma = #(1,2,3)")
 print rt.gma    
 --#output: #(1,2,3)
@@ -2803,7 +2894,7 @@ print l
 print rt.gma   
 --# output: #(1, 999, 3)
 
---# Create a MaxScript Array via python sequence
+--# create a MaxScript Array via python sequence
 ma = rt.Array(*(1, 2, 3))
 print ma    
 --#output: #(1,2,3)
@@ -3030,17 +3121,17 @@ MouseUp		--Occurs when the mouse pointer is over the control and a mouse button 
 -- https://msdn.microsoft.com/en-us/library/system.windows.forms.keys(v=vs.110).aspx
 
 
--- Create a DotNet TextBox
+-- create a DotNet TextBox
 ex.
 hTextBox = dotNetObject "System.Windows.Forms.TextBox"
 hTextBox.size = dotNetObject "System.Drawing.Size" 160 25
 hTextBox.location = dotNetObject "System.Drawing.Point" 20 20
--- Create a DotNet Form
+-- create a DotNet Form
 hForm = dotNetObject "System.Windows.Forms.Form"
 hForm.size = dotNetObject "System.Drawing.Size" 200 100
 hForm.controls.add hTextBox
 hForm.topmost = true
--- Create a DotNet Application to run the form
+-- create a DotNet Application to run the form
 hApp = dotNetClass "System.Windows.Forms.Application"
 hApp.run hForm
 
@@ -3108,7 +3199,7 @@ FN _NAME =
 -- We can do it for loops or rollout templates etc.....
 -- And to know how this magic works we are going to follow those simple steps:
  
--- 1- Create a new script and in Tools > Open abbreviations file, this will open an empty script for you 
+-- 1- create a new script and in Tools > Open abbreviations file, this will open an empty script for you 
 -- (in case you didn't edit it before) were you can define your abbreviations.
  
 -- 2- An abbreviation is defined in the form:
@@ -3146,7 +3237,7 @@ mfp=maxfilepath
 
 -- [Abbreviations file]
 /* COMMENTS */
-header=/*HeaderStart***********\n:Created By:\t\t\tName:\n:Company:\t\t\t\t***********HeaderEnd*/
+header=/*HeaderStart***********\n:created By:\t\t\tName:\n:Company:\t\t\t\t***********HeaderEnd*/
 fnHeader=/*FnStart***********\n:Function: |\n:Usage: \n:Returns: \n:Todo: \n:Notes: \n***********FnEnd*/
 fn=/*FnStart***********\n:Function |\n:Usage: \n:Returns: \n:Todo: \n:Notes: \n***********FnEnd*/
 comment=/*CommentStart***********\n|\n***********CommentEnd*/

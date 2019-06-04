@@ -5,14 +5,20 @@
 
 #PERCENTAGE ---------
 
-percent=(value/totalValue) *100
---alt
-p = value*percentage /100
+#ie. what is 5% of 20:
+(value/totalValue)*100
+
+#ie. what percentage is 5 of 20:
+100*value/totalValue
+
 
 
 
 
 #POINTS -------------
+
+
+
 
 
 #VECTORS ------------

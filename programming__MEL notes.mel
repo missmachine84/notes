@@ -974,42 +974,18 @@ rename;
 
 //object selection: // eg. select -replace polySurface1.map;
 select -all;
-			 -add
-			 -addFirst // the specified items should be added to the front of the active list
-			 -replace
-			 -toggle // active list should be removed,those not on the active list should be added
-			 -clear
-			 -symmetry
-			 -symmetrySide
-			 -hierarchy // children, grandchildren, should also be selected
-			 -allDagObjects
-			 -allDependencyNodes
+		-add
+		-addFirst // the specified items should be added to the front of the active list
+		-replace
+		-toggle // active list should be removed,those not on the active list should be added
+		-clear
+		-symmetry
+		-symmetrySide
+		-hierarchy // children, grandchildren, should also be selected
+		-allDagObjects
+		-allDependencyNodes
 
 
-//object type can be found by tooltip description in outliner
-
-// transform (ie.pPlane1)
-//using string formatting	ie.pPlane1 from pPlaneShape1
-ex. transforms = [node.replace('Shape','') for node in pm.ls(sl=1, objectsOnly=1)]
-//or by getting the shape nodes parent
-ex. transforms = pm.listRelatives(shapeNodeOrList, parent=1, fullPath=1)
-//same but from selection
-ex. transforms = pm.listRelatives(pm.ls(type='mesh'),type='transform',p=True)
-
-//shape 	(ie.pPlaneShape1)
-//in mel
-ex string $shapes[] = `listRelatives -shapes $node`;
-//Shape nodes are child nodes of transform nodes
-ex. shapes = pm.ls(selection=1, objectsOnly=1)
-//alternative method from pymel list object
-ex.
-shapeName = pm.ls(selection=1, objectsOnly=1)
-index1 = creaseSet.find("u")
-index2 = creaseSet.find(".")
-shapeName = shapeName[index1+1:index2].strip("'") #ex. creaseSet1
-// from: [MeshFace(u'bodyShellShape.f[619]')]  to: bodyShellShape
-
-//history node 	ie.polyPlane1
 
 
 
@@ -2868,29 +2844,60 @@ ex. selection = pm.ls(selection=1, flatten=1)
 
 
 //object type can be found by tooltip description in outliner
-
-// transform (ie.pPlane1)
+//name
+ex. node.name()
+//history and transform nodes
+//get
+ex. pm.ls(sl=1, objectsOnly=1) //#returns list ie. [nt.PolyCone(u'polyCone1'), nt.Transform(u'pCone1')]
+// transform
+//ie.	pPlane1
 //using string formatting	ie.pPlane1 from pPlaneShape1
-ex. transforms = [node.replace('Shape','') for node in pm.ls(sl=1, objectsOnly=1)]
-//or by getting the shape nodes parent
-ex. transforms = pm.listRelatives(shapeNodeOrList, parent=1, fullPath=1)
-//same but from selection
+ex. transforms = [node.replace('Shape','') for node in nodes]
+//transform from shape:
+ex. transforms = pm.listRelatives(shapes, parent=1, fullPath=1) //#returns list ie. [nt.Transform(u'pCone1')]
+//transform from selection
 ex. transforms = pm.listRelatives(pm.ls(type='mesh'),type='transform',p=True)
 
-//shape 	(ie.pPlaneShape1)
+//shape
+//ie.	pPlaneShape1
+//Shape nodes are child nodes of transform nodes
 //in mel
 ex string $shapes[] = `listRelatives -shapes $node`;
-//Shape nodes are child nodes of transform nodes
+//shape from transform:
+shapes = pm.listRelatives(transforms, children=1, shapes=1) //#returns list ie. [nt.Mesh(u'pConeShape1')]
+
+
 ex. shapes = pm.ls(selection=1, objectsOnly=1)
-//alternative method from pymel list object
-ex.
-shapeName = pm.ls(selection=1, objectsOnly=1)
-index1 = creaseSet.find("u")
-index2 = creaseSet.find(".")
-shapeName = shapeName[index1+1:index2].strip("'") #ex. creaseSet1
-// from: [MeshFace(u'bodyShellShape.f[619]')]  to: bodyShellShape
 
 //history node 	ie.polyPlane1
+historyNode = pm.listConnections(shapes, source=1, destination=0)
+//from selected objects
+ex. historyNodes = [n[1] for n in pm.ls(sl=1, objectsOnly=1)]
+
+
+
+//connections
+//incoming connections:
+ex. nodes = pm.listConnections(shapes, source=1, destination=0) //#returns list ie. [nt.PolyCone(u'polyCone1')]
+//outgoing connections:
+ex. nodes = pm.listConnections(shapes, source=0, destination=1)#returns list ie. [nt.ShadingEngine(u'initialShadingGroup')]
+
+
+
+//node attributes
+//list
+ex. pm.listAttr(node)
+//get
+ex. pm.getAttr()
+//get attributes:values as dictionary
+//MEL (using ie. nt.PolyCone(u'polyCone1') as node)
+ex. {attr:pm.getAttr(node+'.'+attr) for attr in pm.listAttr(node)}
+//pure python
+ex. {n:getattr(node, n) for n in dir(node)} //returns: {'upper': <built-in method upper of unicode object at 0x000001C7873982A0>, 'isnumeric': <built-in method isnumeric of unicode object at 0x000001C7873982A0>, ect..
+//set
+ex. pm.setAttr()
+//using a dictionary. attributes={'attribute':value}
+ex. [pm.setAttr(node+'.'+attr, value) for attr, value in attributes.iteritems()]
 
 
 

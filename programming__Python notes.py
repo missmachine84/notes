@@ -1009,10 +1009,8 @@ eg. list_[-1:]
 eg. list_[-1] if list_ else None
 
 
-#get the first occurrence 
-.index()          
-eg.
-list.index('x') #returns index of element
+#get the first occurrence         
+eg. list.index('x') #returns index of element
 
 #get the Total number of occurrences
 .count()

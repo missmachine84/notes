@@ -804,7 +804,10 @@ $.position.z = $.position.z + 10
 obj.Rotation
 --
 rt.rotate(node, rt.angleaxis(90, [0,1,0])) --rotate 90 on Y axis
-
+--using transform matrix
+currentMatrix = obj.transform
+rt.preRotate(currentMatrix, rt.eulertoquat(rt.eulerAngles(0, 90, 0)))
+obj.transform = currentMatrix
 
 --rotate relative
 obj.rotation = rt.eulerangles(0, 0, 90)

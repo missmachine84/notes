@@ -3,6 +3,14 @@
 
 
 
+
+
+#REVERSE A NUMBER ---
+x*-1
+
+
+
+
 #PERCENTAGE ---------
 
 #ie. what is 5% of 20:

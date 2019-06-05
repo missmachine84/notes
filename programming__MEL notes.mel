@@ -1128,22 +1128,47 @@ pm.polyEvaluate(obj, vertex=1)
 
 
 
+// component selection mode/type:
+//get: 
+//object mode
+pm.selectMode(query=1, object=1)
+//component mode
+pm.selectMode(query=1, component=1)
+//objects
+pm.selectType(query=1, allObjects=1)
+//vertex
+pm.selectType(query=1, vertex=1)
+//edge
+pm.selectType(query=1, edge=1)
+//face
+pm.selectType(query=1, facet=1)
 
-//component selection mode/type:
-maskObject = pm.selectType(query=1, allObjects=1)
-maskComponent = pm.selectMode(query=1, component=1)
-maskVertex = pm.selectType(query=1, vertex=1)
-maskEdge = pm.selectType(query=1, edge=1)
-maskFacet = pm.selectType(query=1, facet=1)
+//set:
+//object mode
+pm.selectMode(object=1)
+//component mode
+pm.selectMode(component=1)
+//objects
+pm.selectType(allObjects=1)
+//vertex
+pm.selectType(vertex=1)
+//edge
+pm.selectType(edge=1)
+//face
+pm.selectType(facet=1)
 
 
 
 // component selection mask
-filterExpand	//avoid Maya's component compression
-// #change [u'bodyShell.vtx[4:5]'] to [u'bodyShell.vtx[4]', u'bodyShell.vtx[5]']
-edgeVertices = pm.filterExpand (edgeVertices, expand=1, selectionMask=31)
+// optional components arg (else use selection).
+// optionional expand arg = dont use maya's component compression. ie. [u'bodyShell.vtx[4:5]'] becomes [u'bodyShell.vtx[4]', u'bodyShell.vtx[5]']
+//vertex
+verts = pm.filterExpand (vertices, expand=1, selectionMask=31)
+//edge
+edges = pm.filterExpand (edges, expand=1, selectionMask=32)
+//face
+faces = pm.filterExpand (faces, expand=1, selectionMask=34)
 
-faces = pm.filterExpand (pm.ls(sl=1), selectionMask=34, expand=1) //returns ie. [u'pCylinder1.f[2]', u'pCylinder1.f[3]']
 
 
 // get components

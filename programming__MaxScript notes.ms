@@ -2168,8 +2168,16 @@ ex. rt.polyop.meshSmoothByVert(obj, <vertlist>) --Smooths the faces associated w
 "CLASSES:_________________________________________________________________________________"
 
 --determine class
-ex.
-classOf <node> 
+ex. rt.classOf(obj) 
+--superclass
+ex. rt.superClassOf(obj)
+
+--superclasses
+rt.GeometryClass
+rt.light
+rt.camera
+rt.helper
+rt.SpacewarpObject
 
 
 --Query class and parent class

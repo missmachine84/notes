@@ -48,8 +48,11 @@ __variable
 #check if variable exists. an alternative would be to use try: except:
 eg. 'a' in vars() or 'a' in globals()
 
-#variable type: 
-eg. type(variable) #prints <type 'str'>
+#check object type returning bool
+eg. isinstance(object_, (str,unicode))
+
+#check object type returning type 
+eg. type(object_) #prints <type 'str'>
 
 # convert to another data type using the convert function:
 #str() int() float() tuple() set()

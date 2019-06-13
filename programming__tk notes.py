@@ -157,11 +157,6 @@ time: 0.0816165578988
 # ie. path = os.path.expandvars(r'%CLOUD%/____Graphics/Maya/Scripts/_Python/_path/tk_maya_ui')
 #have tk_maya(or max)_functions and tk_maya(or max)_buttons in your python path
 
-#understand that this was developed for personal use, and is an ongoing project, so I tend to debug as I run across something, rather than put a ton of checks in place initially.
-#a lot of ui polishing is on my list, and is lots of fun, but not the highest priority
-
-
-#to add additional layouts, simply add a ui file with the same naming convention in the ui path, then create a corresponding class of the same name. finally, tag the ui button's whatsThis with the ui name.
 
 
 
@@ -190,6 +185,11 @@ time: 0.0816165578988
 # THINGS TO DO NOW:
 # -----------------------------------------------
 '''
+
+
+
+
+
 
 
 

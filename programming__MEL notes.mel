@@ -965,8 +965,10 @@ eg.
 "OBJECTS & ATTRIBUTES: //--------------------------------------------------------------------------------------------------------------------------------"
 
 
+
 // Naming: -------------------------------------------------
-rename;
+pm.rename(obj, 'newName') //#optional arg: ignoreShape=Indicates that renaming of shape nodes below transform nodes should be prevented.
+
 
 
 
@@ -1124,7 +1126,10 @@ objectName.map 	UV
 
 //surface info
 //edge, face, area (returns surface area of of selected object as float), uvComponent (selected UV faces as int)
-pm.polyEvaluate(obj, vertex=1)
+numVerts = pm.polyEvaluate (obj, vertex=1)
+numEdges = pm.polyEvaluate (obj, edge=1)
+numFaces = pm.polyEvaluate (obj, face=1)
+
 
 
 
@@ -2926,10 +2931,10 @@ ex. [pm.setAttr(node+'.'+attr, value) for attr, value in attributes.iteritems()]
 
 
 
-// query object mode.
+//query object mode.
 $mode = `selectMode -query -object`;
 
-//list current selection
+//get current selection
 ls -selection;
 //
 $currentSelection = `ls -selection -showType`; //showType flag is optional
@@ -2939,38 +2944,43 @@ ls -selection -objectsOnly;
 //pymel
 shapeName = pm.ls(selection=1, objectsOnly=1)
 
-//List only visible dag nodes. -dagObjects for all in scene.
+//get only visible dag nodes. -dagObjects for all in scene.
 ls -visible;
 
-//List all objects of the specified type.
+//get all objects of the specified type.
 $objectType = `ls -type "";
 
-// List all geometry
+//get all geometry
+geometry = pm.ls(geometry=True)
+transforms = pm.listRelatives(geometry, p=True, path=True)
+//select all geometry
+cmds.SelectAllGeometry()
+//
 [pm.select (geometry, add=1) for geometry in scene]
 // geometry shapes and their types
 ls -type geometryShape -showType;
 
-// track selection order of components
+//track selection order of components
 selectPref -trackSelectionOrder true;
 
-// list last selected object (not working with components)
+//get last selected object (not working with components)
 $lastSelected = ls -selection -tail 1;
 
-// List all nodes below the selected node
+//get all nodes below the selected node
 ls -dag -ap -sl;
 
-// get the shape node name from component
+//get the shape node name from component
 pm.ls("pCube1.vtx[0]", objectsOnly=1)
 //returns pCubeShape1
 
-// get the transform node name from component
+//get the transform node name from component
 pm.listRelatives(pm.ls("pCube1.vtx[0]", objectsOnly=True), p=True)
 
-// in python, split the components using partition:
+//in python, split the components using partition:
 object, _, component = "pCube1.vtx[0]".partition(".")
 //where the _ is python slang for 'ignore me'
 
-// list polymesh objects
+//get polymesh objects
 string $transforms[] = `ls -tr`; //lists all the transform nodes in the scene
 string $polyMeshes[] = `filterExpand -sm 12 $transforms`; //filters out all the non-polymesh nodes
 // transforms = pm.ls (tr=1) #lists all the transform nodes in the scene
@@ -3219,14 +3229,16 @@ xform
 // scaleTranslation (linear, linear, linear) 
 
 // get objects current rotation value:
-origRotationValue = pm.xform (query=1, rotation=1)
-// set objects rotation value:
-pm.xform (object_, rotation=origRotationValue)
+ex. origRotationValue = pm.xform(query=1, rotation=1)
+// set the rotation
+ex. pm.xform(rotation=[x,y,z])
+// restore the original rotation value:
+ex. pm.xform(object_, rotation=origRotationValue)
 
 
 
 // get vertex point position
-pm.xform (vertices, query=1, t=1, ws=1)
+ex. pm.xform(vertices, query=1, t=1, ws=1)
 
 
 

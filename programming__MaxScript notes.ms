@@ -1,4 +1,3 @@
--------------------------------------
 ---------------------- 3ds Max notes-
 -------------------------------------
 
@@ -49,18 +48,14 @@ print rt.texture_path
 								int 					float 				string 				vector 				  matrix
 
 int ($i)				perfect 			perfect 			perfect 	 <<$i, $i, $i>>		  none
-________________________________________________________________________________________
 
 float ($f)			without				perfect				perfect		 <<$f, $f, $f>>		  none
-								fraction
-________________________________________________________________________________________
 
 string 					without 			perfect if 		perfect		  perfect if 				none
 								fraction			starts with 						  starts with
 								if starts			number,									  vector or floats	
 								with number,	else 0									  with remaining
  								else 0																  elements 0
-________________________________________________________________________________________
 
 vector 					length of 		length of 		3 floats    perfect						perfect for
 								vector 				vector 				separated											[1][3] matrix,
@@ -138,7 +133,6 @@ matrix					for [1][3] 		for [1][3]		none 				for [1][3] 				perfect
 
 
 --concatenation
-ex.
 s1 = "aa"
 s2 = s1
 append s1 "bb"
@@ -146,8 +140,10 @@ s1-- returns "aabb"
 s2-- returns "aabb"and not "aa" 
 
 
-<integer>findString"string" <search_string>
--- Returns the index of search_string in string or undefined if not found.
+--find index of substring
+rt.findString(obj.name, search_string='') -- Returns the index of search_string in string or undefined if not found.
+
+
 
 
 
@@ -166,7 +162,6 @@ isSpace "\nMAXScript" --first character is new line. returns 'true'
 --search string for text
 <integer>findString<string> <search_string> 
 --Returns the index of search_string in string or undefined if not found.
-ex.
 findString "Thanks for all the fish!" "all" -- returns 12 
 
 
@@ -174,7 +169,6 @@ findString "Thanks for all the fish!" "all" -- returns 12
 -- <array of strings>filterString "string" <token_string> [splitEmptyTokens:<boolean>]
 --filterString splits the input string into substrings based on the characters given 
 --in token_string , and returns each substring as a member of the array.
-ex.
 filterString "MAX Script, is-dead-funky" ", -"
 -- WOULD RETURN
 #("MAX","Script","is","dead","funky")
@@ -186,11 +180,7 @@ filterString "MAX Script, is-dead-funky" ", -"
 --single token, and tokens at the beginning or end of the string are ignored. If 
 --splitEmptyTokens is true , each token found will result in string element in the output, 
 --with the string element in the cases ignored above being empty strings.
-ex.
 s = "One\t\tThree\tFour"
-tokens = filterString s "\t"
---> #("One", "Three", "Four")
-tokens = filterString s "\t" splitEmptyTokens:true
 --> #("One", "", "Three", "Four")
 s ="\t\t\tOne\t\t\tThree\tFour\t\t\t"
 tokens = filterString s "\t"
@@ -199,7 +189,6 @@ tokens = filterString s "\t" splitEmptyTokens:true
 --> #("", "", "", "One", "", "", "Three", "Four", "", "", "")
 
 
---remove
 ex. path_ = trimleft "C:\\startup\\userSetup.ms" "C:\\startup" --returns "userSetup.ms"
 ex. path_ = trimright "C:\\startup\\userSetup.ms" "userSetup.ms" --returns "C:\startup"
 
@@ -209,7 +198,6 @@ ex. path_ = trimright "C:\\startup\\userSetup.ms" "userSetup.ms" --returns "C:\s
 --Returns a new string where the substring in string starting at index from_integer , 
 --and of length length_integer , is replaced with the new_string.new_string can be any 
 --length. 
-ex.
 s="1234567890"
 s1=replace s 5 3 "inserted string"
 -- RETURNS:
@@ -217,7 +205,6 @@ s1=replace s 5 3 "inserted string"
 
 
 --filter substring
-ex.
 s ="Balerofon"
 ss = substring s 5 3-- returns "rof"
 ss = substring s 5 -1-- returns "rofon"
@@ -225,7 +212,6 @@ ss = substring s 5 100-- returns "rofon"
 
 
 --string contains
-ex.
 s="text1"
 matchPattern s pattern:"text?"-- returns true
 matchPattern s pattern:"T*"-- returns true
@@ -246,9 +232,7 @@ matchPattern s pattern:"s*"-- returns false
 
 --Case conversion
 toLower
-ex.
 toUpper "so long and thanks for all the scripts"
--- RESULT:
 "SO LONG AND THANKS FOR ALL THE SCRIPTS"
 
 
@@ -256,12 +240,10 @@ toUpper "so long and thanks for all the scripts"
 --Returns a new string with all occurrences of <from_string> in <source_string> replaced 
 --with <to_string>. Available in 3ds Max 2008 and higher. Previously available in the 
 --Avguard Extensions .
-ex.
 s1 = "Truth, Justice And The American Way"
 s2 = "The American Way"
 s3 = "All That Stuff"
 s4 = substituteString s1 s2 s3
--- RESULT:
 "Truth, Justice And All That Stuff"
 
 
@@ -272,24 +254,20 @@ s4 = substituteString s1 s2 s3
 
 -- Convert string
 --convert to class
-ex.
 "Foo" as name-- returns #foo
 
 --convert to float
-ex.
 "123.4" as float-- returns 123.4 
 
 --convert to stringstream
 --Converting a string to a StringStream value allows you to read through a string using 
 --the MAXScript's text file I/O operations.
-ex.
 "$box01" as stringstream-- returns the string as a stringstream 
 
 
 --copy string
 -- The new value contains a copy of the text contents of the copied 
 --string and is independent of the copied string.
-ex.
 newstr = copy oldstr
 
 
@@ -356,29 +334,23 @@ or
 --	CONDITIONALS
 --basic if
 ex.	if a > b do 
-		(
 			print d; 
 			print e;
-		)
 --basic if/else
 ex.	if a > b then
 		( 
 			print c
 		) 
 		else 
-		(
 			print d
-		)
 
 ex.	if ($pos.z < 0) then	--if object is below 0
 			$.wirecolor=red
-		else
 			$.wirecolor=green
 
 
 
 
-ex.
 a = (if d == 0 then 0 else a / d)
 
 
@@ -389,57 +361,39 @@ a = (if d == 0 then 0 else a / d)
 --	TOGGLE
 --set to 'not current state'
 --toggle for single object
-ex.
 if ($ != undefined) then
-(
 	toggle = not $.xray;
 	$.xray = toggle;
-)
 
 --toggle for all geometry
-ex.
 toggle = not $.backfacecull;
 
 for obj in Geometry do
-(
 	obj.backfacecull = toggle;
-)
 
 
 
 
 --	LOOPS
 
-ex.
 for i = 1 to snapmode.numOSnaps do
-(
 -- 	expression
-)
 
 
 --for a specified range
-ex.
 for i in 1 to 100 do 
-(
 	sphere
-)
 
-ex.
 for i 1 to 10 do
-(
 	Box pos: [i*30, 0, 0]	--create 10 boxes at different x positions
-)
 
 
 
 
 --for 'obj in array' do
-ex.
 for obj in (selection as array)
 where classOf obj == Cylinder do
-(
 	obj.scale.z = 2	--set scale value for cylinders in current selection
-)
 
 
 
@@ -447,13 +401,10 @@ where classOf obj == Cylinder do
 
 
 --	SWITCH/CASE
-ex.
 case (superClass) of --in case of variable superClass == shape, light, or camera, perform one of the following  
-		(
 			shape: superClassString = "shape"
 			light: superClassString = "light"
 			camera: superClassString = "camera"
-		)
 
 
 
@@ -466,9 +417,7 @@ case (superClass) of --in case of variable superClass == shape, light, or camera
 
 -- syntax:
 mapped fn functionName argument:optDefaultValue = 
-	(
 	expression
-	)
 
 -- The parameters/arguments for a function are either positional or keyword.
 -- 	Positional parameters are defined with a simple <name> and must be placed 
@@ -531,7 +480,6 @@ ex. a = #(1,2,3,4)
 
 --create new array with only unique members of source array.
 ex. makeUniqueArray #(1, 2, 3, 4, 3, 2, 1)
--- RESULT:
 -- # (1, 2, 3, 4)
 
 
@@ -548,7 +496,6 @@ ex. (
 	if ((h.count != 5) or (h[5] != 60)) do
 	throw "Entry 5 in the array is incorrect"
 	format "%\n" h
-	)
 -- RESULT:
 -- #(1, 2, 3, 4, 60)
 -- OK
@@ -604,39 +551,29 @@ sort <array>
 -- an integer number > 0 if the first value is greater than the second value. The entire array is sorted 
 -- unless a start or end value is specified.
 qsort <array> <function> [start:<integer>] [end:<integer>] [user-defined key args passed to function] 
-ex.
 -- The following script generates 10 random positions, and then sorts 
 -- the positions based on their distance from [0,0,0]:
 -- positions =for i = 1 to 10 collect (random [0,0,0] [100,100,0])
 fn compareFN v1 v2 =
-(
 local d = (length v1)-(length v2)
 case of
-(
 (d < 0.): -1
 (d > 0.): 1
 default: 0
-)
-)
  
 qsort positions compareFN
 for p in positions do print p
 
-ex.
 -- All key arguments are passed to the comparison function. 
 --This allows you to do things like an indexed sort:
 fn compareFN v1 v2 valArray: =
-(
 	local v1i = valArray[v1]
 	local v2i = valArray[v2]
 	local d = (length v1i) - (length v2i)
 	case of
-	(
 		(d < 0.): -1
 		(d > 0.): 1
 		default: 0
-	)
-)
 positions = for i = 1 to 10 collect (random [0,0,0] [100,100,0] )
 indexArray = for i = 1 to positions.count collect i
 qsort indexArray compareFN valArray:positions
@@ -649,9 +586,7 @@ bsearch <key> <array> <function> [start:<integer>] [end:<integer>] [user-defined
 
 
 --Returns minimum value of items in the array or of the argument values. 
--- If the array size is zero or no arguments are specified, the value undefined is returned.
 amin ( <array> | {value} ) 
-ex.
 myMin1 = amin #(5,1,4,2,8)
 myMin2 = amin 5 1 4 2 8
 
@@ -662,7 +597,6 @@ myMin2 = amin 5 1 4 2 8
 -- When you operate directly on array elements, and the reference to the array is stored in 
 -- more than one place, unexpected results may occur.
 amax ( <array> | {value} ) 
-ex.
 RandomSets=#() -- create array
 RandomSet=#() -- create array
 for i = 1 to 3 do -- loop i
@@ -670,7 +604,6 @@ for i = 1 to 3 do -- loop i
 RandomSet[j] = random 1 100 -- set array element to random value
 print RandomSet #nomap -- print array of random values
 RandomSets[i] = RandomSet -- store random value array in array
-)
 print RandomSets -- print array of arrays of random values 
 -- OUTPUT:
 -- #() -- result of line 1
@@ -680,7 +613,6 @@ print RandomSets -- print array of arrays of random values
 -- #(52, 36, 23) -- output from line 6, i =3
 -- OK -- result of for loop, lines 3 to 8
 -- #(52, 36, 23) -- 3 lines of output from line 7
--- #(52, 36, 23)
 -- #(52, 36, 23)
 -- OK -- result of line 9 
 
@@ -693,7 +625,6 @@ free <array>
 
 
 -- Dictionarys
-ex.
 d = Dictionary #(#ss, 1) #(#tt, 2)
 for i in d do print i
 -- RESULTS
@@ -802,7 +733,6 @@ $.position.z = $.position.z + 10
 
 --rotate absolute
 obj.Rotation
---
 rt.rotate(node, rt.angleaxis(90, [0,1,0])) --rotate 90 on Y axis
 --using transform matrix
 currentMatrix = obj.transform
@@ -811,7 +741,6 @@ obj.transform = currentMatrix
 
 --rotate relative
 obj.rotation = rt.eulerangles(0, 0, 90)
---
 euler = rt.eulerangles(0, 0, 90)
 rt.rotate(self.node, euler)
 
@@ -839,21 +768,15 @@ $foo.verts[i].pos = $bar.verts[j].pos + [10,0,0]
 --Snap
 --Get/Set snap mode state
 snapMode.active --boolean
-ex.
 state = snapMode.active
 snapMode.active = not state
 
 --Get/Set the current snap type as a name. Possible names are #2D , #2_5D , #3D
 snapMode.type
---
 snapMode.toFrozen
---
 snapMode.axisConstraint
---
 snapMode.useAxisCenterAsStartSnapPoint
---
 snapMode.strength
---
 snapMode.snapRadius
 
 --System Global which contains true if the Marker is currently snapped to something
@@ -885,26 +808,21 @@ snapMode.numOSnaps --1"Body", 2"NURBS", 3"Standard", 4"Standard", 5"Standard", 6
 
 --Returns true if the indexed OSnap item in the indexed OSnap is active
 snapMode.getOSnapItemActive <int osnap_index> <int osnap_item_index> 
-ex.
 -- snapMode.active  --set snapmode active
 state = snapmode.getOSnapItemActive 4 1
 snapmode.getOSnapItemActive 4 1 (not state)
 
 --Returns the name of the indexed OSnap item in the indexed OSnap as string.
 snapMode.getOSnapItemName <int osnap_index> <int osnap_item_index> 
-ex.
 snapMode.getOSnapItemName <int osnap_index> <int osnap_item_index>
 -- Returns the name of the indexed OSnap item in the indexed OSnap as string.
 
--- Documentation
 -- http://www.cgplusplus.com/online-reference/maxscript-reference/source/snapmode.htm
 
 -- 1: name: "Body Snaps"
---  1: name: "Vertex"; tooltip: ""; state: false
 --  2: name: "End Edge"; tooltip: ""; state: false
 --  3: name: "Edge"; tooltip: ""; state: false
 --  4: name: "Edge Midpoint"; tooltip: ""; state: false
---  5: name: "Face"; tooltip: ""; state: false
 -- 2: name: "NURBS"
 --  1: name: "CV"; tooltip: ""; state: false
 --  2: name: "Point"; tooltip: ""; state: false
@@ -986,7 +904,6 @@ rt.TextPlus(layouttype=0, width=100, length=100)
 -- test whether a given node is convertible into a given class
 --[ Mesh, SplineShape, NURBSCurve, NURBSSurface, etc.]
 canConvertTo <node> <class>
-ex.
 if canConvertTo $foo NURBSSurface then...
 
 --general form of the existing specific conversion functions such as convertToMesh()
@@ -1051,14 +968,12 @@ MaxPlus.Factory.CreateWorldSpaceModifier(MaxPlus.Class_ID(0x000110b4, 0x00007f9e
 --add modifier to top of stack:
 --addModifier $ (Bend())	--add bend modifier to selected
 ex. obj.AddModifier()
---
 addModifier $ (Taper amound:1 primaryAxis:1)
 --create modifier
 mod = rt.Smooth()
 mod.autoSmooth = True --set attributes
 mod.threshold = angle
 
-for obj in rt.selection:
 	rt.addModifier (obj, mod)
 
 --if not exists; create, else; modify
@@ -1180,7 +1095,6 @@ pointSelection <node> <point_index>
 --number of selected objects
 selection.count
 --output to the script listener window
-ex.
 format "% objects selected." selection.count
 
 
@@ -1194,29 +1108,21 @@ format "% objects selected." selection.count
 -- component selection
 
 
---set
---vertex
 ex. rt.select(vertices)
 ex. rt.polyop.setVertSelection(obj, verts) --select the vertices
 ex. obj.EditablePoly.SetSelection('Vertex', rt.BitArray(10)) --bitarray value 9
---edge
 ex. rt.select(edges)
 ex. rt.polyop.setEdgeSelection(obj, edges) --select the edges
 ex. obj.EditablePoly.SetSelection('Edge', rt.BitArray(*range(10))) --bitarray range 0-9
---face
 ex. rt.select(faces)
 ex. rt.polyop.setFaceSelection(obj, faces)  --select the faces
 ex. obj.EditablePoly.SetSelection('Face', rt.BitArray(*range(10, 20))) --bitarray range 10-19
 
 
---get
---vertex
 vertices = rt.getVertSelection(obj) --get selected Vertices
---edge
 edges = rt.getEdgeSelection(obj) --get selected edges
 --using vertices
 edges = rt.polyop.getEdgesUsingVert(obj, vertices)
---face
 faces = rt.getFaceSelection(obj) --get selected faces
 
 
@@ -1276,9 +1182,20 @@ ex. rt.deselectNode(node)
 "OBJECTS_&_ATTRIBUTES:____________________________________________________________________"
 
 
---Object Name
---Get or set the scene object's name.
-<node>.name String default: varies
+-- naming
+--set
+obj.name = rt.uniqueName('')
+rt.sphere(prefix="baz")
+
+--get
+--using wildcards:
+ex. rt.matchPattern(obj.name, pattern='', ignoreCase=0)
+
+--get object by name:
+ex. rt.getNodeByName('name_', ignoreCase=True, all=True) --Returns: the first node with the specified name. If all is True, an array of nodes with the specified name is returned.
+
+
+
 --all objects that start with x
 $Tile*
 
@@ -1286,7 +1203,6 @@ $Tile*
 --If all is true, an array of nodes with the specified name is returned.
 getNodeByName <string> exact:<bool> ignoreCase:<bool> all:<bool> --Returns first node with the specified name.
 --[   Defaults:				 exact:false	ignoreCase:true 	all:false]
-ex.
 getnodebyname "AA" all:true
 --($Teapot:aa @ [...], $Box:AA @ [...]) --returns all nodes named aa
 
@@ -1296,7 +1212,6 @@ getnodebyname "AA" all:true
 --top of the stack, its so-called world state. The baseObject property gives you access 
 --to the base object in the modifier stack.
 <node>.baseObject  A subclass of Node  default: varies
-ex.
 baseClass = classOf(obj.baseObject)
 
 
@@ -1304,8 +1219,14 @@ baseClass = classOf(obj.baseObject)
 INode.BaseObject.ParameterBlock
 
 
+--check if obj is a node
+ex. rt.IsValidNode(obj) --returns: boolean.
+
 --check for existence
-ex. rt.IsValidNode(obj) --is the object a node value. boolean.
+ex. [o for o in rt.objects if o.name=='name_']
+--
+ex. obj != undefined 
+
 
 
 --get object type
@@ -1345,10 +1266,8 @@ nodeLocalBoundingBox <node>
 
 
 --Object properties
-ex.
 showProperties $
 --explicitly
-ex.
 showProperties ( VRayLight() )
 
 --Retrieves the node's user property with the given key as a string. 
@@ -1438,10 +1357,8 @@ isBoneOnly <node>
 [ isSelected: <boolean> ] -- default false 
 [ dir: <point3> ]-- set local z direction   
 
-ex.
 b = box name:"foo" position:[10,10,10] height:20
 
-ex.
 for i in 1 to 100 do sphere prefix:"baz"
 --creates 100 spheres, giving each a unique name
 --beginning with "baz", such as $baz01, $baz02, $baz03, etc.
@@ -1503,7 +1420,6 @@ instance<node> -- mapped
 
 --query instance
 areNodesInstances <node> <node>
-ex.
 InstanceMgr.GetInstances $ &rptInstances
 trueInstances = for n in rptInstances where\
 (areNodesInstances $ n) collect n
@@ -1521,10 +1437,7 @@ snapshotAsMesh <node>
 --You can use these, for example, to replace the geometry of one node with another
 instanceReplace <dest_node> <src_node> -- mapped 
 referenceReplace <dest_node> <src_node> -- mapped 
-ex.
-instanceReplace $foo* $baz
---makes all the foo* objects be instances of baz's geometry
---and modifier stack.
+ex. rt.instanceReplace('foo*', 'baz') --makes all the foo* objects be instances of baz's geometry & modifier stack.
 
 
 
@@ -1557,7 +1470,6 @@ ex. facelist = rt.polyop.getelementsusingface(obj, 1) --use element or face
 --You can optionally specify the group name or group name prefix. 
 --Specifying select:true selects the group after it is made.
 group <node_collection> [name:<string> ] [prefix:<string> ] [select:<boolean> ] --returns the group node.
-ex.
 group $box* name:"boxes"--makes a group of all box*'s named "boxes".
 group selection--groups current selection. 
 
@@ -1570,7 +1482,6 @@ detachNodesFromGroup <node_collection>
 
 --Ungroups one level of a group node.
 ungroup <group_head_node> -- mapped 
-ex.
 ungroup $group01--ungroups group $group01 
 
 --Ungroups all levels in a group node.
@@ -1580,7 +1491,6 @@ explodeGroup <group_head_node> -- mapped
 
 
 --Viewport Display
---visibility
 --show/hide
 ex. rt.hide(obj) -- mapped --Hides the specified node or node collection.
 --If the optional doLayer keyword is set to true and the node is in a layer that is hidden,
@@ -1651,16 +1561,15 @@ rt.isDeleted(<MAXWrapper_object>) --returns boolean
 
 --filter geometry Objects
 ex.	for obj in objects where classof obj == VRayLight do
-	(
 		print obj;
-	)
 
 -- alternative method
 -- performs the loop through all objects in MAXScript, but instead of calling SuperClassOf 
 -- o == GeometryClass it checks whether the class of the object is part of the list of valid 
--- eometryClass classes
+-- geometryClass class objects
 ex. for obj in objects where findItem geometryClass.classes (classof obj) > 0 collect obj
-
+--
+ex. [[o for o in rt.objects if rt.matchPattern(o.name, pattern=f, ignoreCase=0)] for f in list_] --#all objects that match criteria
 
 
 --[Object Sets]
@@ -1693,67 +1602,48 @@ ex. <objectSet> as array
 
 
 --create
---vertex
 ex. rt.polyop.createVert(obj, <point3 pos>) --creates a vertex as the specified position.
---edge
 ex. rt.polyop.createEdge(obj, <int vert1>, <int vert2>) --Returns the index of the created edge or undefined if no edge was created.
---face
 ex. rt.polyop.createPolygon(obj, <vertex array>) --creates a face using the specified vertices.
 
 
---get
---vertex
 ex. vertices = list(range(1, rt.polyop.getNumVerts(obj)))
 ex. vertices = list(range(1, obj.verts.count))
---edge
 ex. edges = list(range(1, rt.polyop.getNumEdges(obj)))
 ex. edges = list(range(1, obj.edges.count))
---face
 ex. faces = list(range(1, rt.polyop.getNumFaces(obj)))
 ex. faces = list(range(1, obj.faces.count))
 
 
 --get position
---vertex
 ex. rt.polyop.getVert(obj, <int vertex>) --Returns the position of the specified vertex.
---edge
---face
 
 --set position
---vertex
 ex. rt.polyop.setVert(obj, <vertlist>, {<point3 pos>|<point3 pos_array>}) --Sets the position of the specified vertices.
 
 
 
 
 --get selection
---vertex
 ex. rt.polyop.getVertSelection(obj) --Returns the current vertex selection as a bitarray.
 ex. vertices = [i.index for i in obj.selectedVerts] --Returns list
 --alt
 ex. obj.selectedVerts()
---edge
 ex. rt.polyop.getEdgeSelection(obj) --Returns BitArray
 ex. edges = [i.index for i in obj.selectedEdges] --Returns list
---face
 ex. rt.polyop.getFaceSelection(obj) --Returns BitArray
 ex. faces = [i.index for i in obj.selectedFaces] --Returns list
 
 
 --set selection
---vertex
 ex. rt.polyop.setVertSelection(obj, <vertlist>) --Sets the current vertex selection based on <vertlist>.
---edge
 ex. rt.polyop.setEdgeSelection(obj, <edgelist>)
---face
 ex. rt.polyop.setFaceSelection(obj, <facelist>)
 
 
 --hidden
---get
 ex. rt.polyop.getHiddenVerts(obj) --Bits in the result bitarray are set if the corresponding vertex is hidden.
 ex. rt.polyop.setHiddenFaces(obj, <facelist>) --Hides the corresponding faces in the poly
---set
 ex. rt.polyop.setHiddenVerts(obj, <vertlist>) --Hides the corresponding vertices in the poly.
 ex. rt.polyop.getHiddenFaces(obj) --Bits in the result bitarray are set if the corresponding face is hidden.
 --unhide
@@ -1769,15 +1659,12 @@ ex. rt.polyop.setEdgeVis(obj, <edgelist>, <boolean>) --Sets the visibility of th
 
 
 --get number of
---vertices
 ex. rt.polyop.getNumVerts(obj) --Returns the number of vertices in the poly. Includes any dead vertices.
 --vertices from face
 ex. rt.polyop.getFaceDeg(obj, <int face>) --Returns the number of vertices in the specified face.
 --vertices and faces
 ex. rt.getPolygonCount(obj)	--Returns a 2 element array [#of faces, #of vertices]
---edges
 ex. rt.polyop.getNumEdges(obj)
---faces
 ex. rt.polyop.getNumFaces(obj)
 --face: get number corners
 ex. obj.GetFaceDegree(<face index>) --Returns the number of corners of the specified polygon. 3 means triangle, 4 means quad, and so on.
@@ -1787,14 +1674,11 @@ ex. obj.GetFaceDegree(<face index>) --Returns the number of corners of the speci
 
 --get one component type from another
 --from vert:
---get edges
 ex. rt.polyop.getEdgesUsingVert(obj, <vertlist>) --Bits in the result bitarray are set if the corresponding edge uses one of the vertices in <vertlist>
---get faces
 ex. rt.polyop.getFacesUsingVert(obj, <vertlist>) --Bits in the result bitarray are set if the corresponding face uses one of the vertices in <vertlist> .
 
 
 --from edge:
---get verts
 ex. rt.polyop.getEdgeVerts(obj, <int edge>) --Returns the edge's vertices as a 2 element array
 ex. rt.polyop.getVertsUsingEdge(obj, <edgelist>) --Bits in the result bitarray are set if the corresponding vertex uses one of the edges in <edgelist> .
 --get faces
@@ -1823,13 +1707,10 @@ ex. obj.GetFaceEdge(1, 1) --ie. Returns edge 1. args=(faceID, side)
 
 
 --get component point coordinates
---vertex
 ex. target = rt.polyOp.getVert(obj, index[-1])
 --group of vertices averaged:
 ex. averageSelVertCenter <node> --Returns the average position (center) of the selected vertices in the given mesh as a Point3.
---edge
 ex. target = rt.polyOp.getEdge(obj, index[-1])
---face
 ex. target = rt.polyOp.getFace(obj, index[-1])
 
 
@@ -1874,9 +1755,7 @@ ex. obj.EditablePoly.SetSelection(#Vertex, #{1..1352})
 	obj.EditablePoly.weldFlaggedVertices()
 --to target
 ex. rt.polyop.weldVerts (obj, <vertex1 index as int>, <vertex2 index as int>, <target as point3>) --Welds the two specified vertices with the resulting vertex positioned at the specified location.
---by threshold
 ex. rt.polyop.weldVertsByThreshold(obj, <vertlist>)
---collapse
 ex. rt.polyop.collapseVerts(obj, <vertlist>)
 --weld edge vertices 
 ex. rt.polyop.weldEdges(obj, <int edge1>, <int edge2>) --Only vertices on a border can be welded.
@@ -1903,9 +1782,7 @@ ex. rt.polyop.getBorderFromEdge(obj, <int edge>) --Bits in the result bitarray a
 --remove
 --vertex
 ex. obj.EditablePoly.remove(selLevel='Vertex', flag=1) --flag 1 = currently selected
---edge
 ex. obj.EditablePoly.remove(selLevel='Edge', flag=1)
---face
 ex. obj.EditablePoly.remove(selLevel='Edge', flag=1)
 
 
@@ -2026,7 +1903,6 @@ ex. [i for i in range(1, obj.numFaces+1) if rt.getFaceMatID(obj, i)==id]
 ex. rt.polyop.setFaceMatID(obj, <facelist>, <int MatID>) --Assigns the material ID to the face
 --to object
 ex. obj.material = mat
---multimaterial
 mat.materialList.count = mat.numsubs+1 --#add slot to multimaterial
 mat.mapEnabled[3] = True
 mat.materialIDList[3] = 2
@@ -2041,7 +1917,6 @@ mat.materialList[-1] = material --#assign material to the newly created slot
 material = rt.StandardMaterial(name='')
 --multimaterial
 material = multiMaterial()
---vray
 material = rt.VRayMtl()
 
 
@@ -2063,7 +1938,6 @@ m.name = ''
 
 --rename
 ex. material.name = "name"
---
 ex. obj.name = rt.uniqueName()
 
 
@@ -2122,7 +1996,6 @@ ex. view.GetNodeByRef(<ref object>) --Returns the Node Interface to the given Ma
 --create/show node in graph
 ex. node = view.CreateNode(mat, rt.point2(0, 0))
 --show material parameters rollout
-ex. rt.SME.SetMtlInParamEditor(mat)
 
 
 --delete view
@@ -2187,23 +2060,18 @@ print("SuperClassOf:"+(SuperClassOf obj) as string)
 
 --alternative method
 for obj in selection do 
-(
 	case (superClassOf obj ) of 
-	(
 		(GeometryClass)	: (format "object : % | superclass : %\n" (obj.name) "this is GeometryClass")
 		(light) : (format "object : % | superclass : %\n" (obj.name) "this is light")
 		(camera)	: (format "object : % | superclass : %\n" (obj.name) "this is camera")
 		(helper)	: (format "object : % | superclass : %\n" (obj.name) "this is helper")
 		(SpacewarpObject)	: (format "object : % | superclass : %\n" (obj.name) "this is SpacewarpObject")
-	)
 
-)
 
 
 
 
 struct
-ex.
 struct person (name, height, age, sex)
 
 bill = person name: "Bill" height:72 age:34 sex:#male
@@ -2216,31 +2084,19 @@ joe.age = bill.age-4 --assigns Bill's age less 4 to Joe's age.
 
 ex. --expressions and procedures separated by commas
 struct structName
-(
 	---,
 	
 	fn functionOne=
-	(
 	---
-		(
-		---
-		)
 	---
 	),
 	
 	fn functionTwo=
-	(
 		if something then
-		(
 		---
-		)
 		else
-		(
 		---
-		)
-	)
 	
-)
 
 Struct=structName()
 Struct.functionTwo()
@@ -2251,11 +2107,9 @@ Struct.functionTwo()
 "HIERARCHIES:______________________________________________________________________________"
 
 -- INode.Parent
-ex.
 $Tile.parent = $Wall						--link tile to wall object
 
 -- INode.Children
-ex.
 $.children[1].name = "Tile_01"	--set name of first child object
 
 
@@ -2281,7 +2135,6 @@ animate on (at time 100f ($.radius = 10))	--with AutoKey on, set radius at frame
 --Gets the Out-of-Range type (ORT) for the controller for the time before the first key.
 getBeforeORT <controller>
 -- Returns one of the following name values:
--- #constant #cycle #loop #pingPong #linear #relativeRepeat
 
 -- Gets the Out-of-Range (ORT) type for the controller for the time after the last key.
 getAfterORT <controller>
@@ -2362,7 +2215,6 @@ environmentMap = Checker()	--apply environment map. in this case checker
 
 
 --Get/Set Vertex Color, Illumination and Alpha
---Corresponds to using the color picker in the Edit Vertex Colors rollout of the Editable Poly UI.
 ex. obj.SetVertexColor(<color>, #VertexColor|#Illumination|#Alpha) --Sets the Vertex Color, Illumination or Alpha value of the selected vertices to the specified color value.
 ex. obj.vertexColorType(#color|#illum|#alpha|#color_plus_illum) --Get/set the vertex color display type.
 ex. obj.showVertexColors(True) --default: false
@@ -2382,7 +2234,6 @@ ex. obj.wireColor(color) --default: random color
 
 --[In-View Messages]
 ex. rt.messageBox('message', title='window_title') --Displays a modal message box containing the message string and an OK button. The message box window title an be set with the title: keyword parameter. You can control whether a beep is made with the beep: keyword parameter, which defaults to true .
---
 ex. rt.queryBox('message', title='window_title') --Displays a modal message box similar to the one that the messageBox() function creates, except it contains Yes and No buttons. The queryBox() function returns true if the user clicks Yes and false if the user clicks No.
 --
 ex. rt.yesNoCancelBox('message', title='window_title') --Displays a modal message box similar to the one that the messageBox() function creates, except it contains a Yes, a No, and a Cancel button. The yesNoCancelBox() function returns #yes , #no or #cancel depending on which button the user clicked to dismiss the message box.
@@ -2401,30 +2252,22 @@ _GCProtector.widgets.append(window)
 
 
 -- basic rollout floater framework
-(
 	global rofTool	--start a new local variable scope here and declare a global variable for 
 									--the rollout floater
 	Rollout roTool "Tool"	--start a new rollout definition
-	(
 		spinner spSpinner "Value:"	--add a spinner and a button control to the rollout
 		button btnButton "button text"
 
 		on btnButton pressed do --event handler for the button
-		(
 			format "value: %\n" spSpinner.value --output current spinner value
-		)
-	)
 
 	try	--mechanism to prevent opening more than one floater window.
-	(
 		closeRolloutFloater rofTool
-	)
 	catch()
 
 	rofTool = newRolloutFloater "Tool Floater" 300 100
 
 	addRollout roTool rofTool	--add rollout to the floater
-)
 
 
 
@@ -2439,26 +2282,19 @@ _GCProtector.widgets.append(window)
 --variable_name is a global or local variable containing a string value.
 
 
-ex.
 undo on (
     -- Do something.
 )--end undo
 
 
-ex.
 createdialog test
 undo "add background" on
-(
 ...
-)
 
 
-ex.
 my_context_name = "An Undo Context"
 undo my_context_name on
-(
 ...
-)
 
 
 
@@ -2489,7 +2325,6 @@ ex. rt.enableShowEndRes(True)
 -- sleep
 --interrupt sleep with ESC key; halts execution. SPACE bar to halt sleep & continue executing
 --argument is a floating point number of seconds.
-ex.
 sleep 20 --pause a script in seconds
 
 
@@ -2499,14 +2334,11 @@ sleep 20 --pause a script in seconds
 -- dotNetObject:System.Windows.Forms.Timer
 -- alternative to the MAXScript rollout Timer control.
 -- The main advantage of the DotNet version is the ability to call MAXScript functions at given intervals without the need for a rollout.
-ex.
 function PerformDelayedTasks sender evt=
-(
 	sender.enabled = false 	--important: don't repeat this timer event
 	dotnet.RemoveEventHandler sender "Elapsed" PerformDelayedTasks --for sanity and cleanup
 
 	-- put all your delayed tasks below --
-)
 delayTimer= dotnetobject "Windows.Forms.Timer"
 delayTimer.Interval=5000
 dotnet.AddEventHandler delayTimer "Tick" PerformDelayedTasks
@@ -2514,10 +2346,8 @@ delayTimer.enabled = truee
 
 
 -- another dotNet example
-ex.
 theTimer = dotNetObject "System.Windows.Forms.Timer" --create a Timer
 fn printTime = 
-(
 	print localTime --define a MAXScript function to be called by the Timer.
 ) 
 dotnet.addEventHandler theTimer "tick" printTime --add ON TICK event hander to call the function
@@ -2540,10 +2370,8 @@ theTimer.start() --start the Timer
 
 random
 
-ex.
 $.pos.x = random 0 10		--integer or float. randomize between first and second value.
 
-ex.
 $material.diffuseColor = color 0 0 (random 0 360) --randomize rgb 'b' value
 
 
@@ -2576,10 +2404,8 @@ ex. python.ExecuteFile @"C:\Program Files\Autodesk\3ds Max 2015\scripts\Python\d
 --python modules in maxscript:
 --import a module
 --assign value to a variable when importing
-ex. module = python.Import "module"
 --module sub class
 ex. init = (python.Import "module").Init
---or:
 ex. module = python.Import "module"
 	init = module.Init
 
@@ -2589,7 +2415,6 @@ ex. module = python.Import "module"
 --In this example, we import the Python built-in methods and constants, 
 --and use the pow() function:
 builtIn = python.Import "__builtin__"
--- <module '__builtin__' (built-in)>
 builtIn.pow 2 3
 -- 8
 
@@ -2622,10 +2447,8 @@ pymxs.runtime.variable
 
 
 --transformation
-ex.
 MaxPlus.Point3(ScaleAmount, ScaleAmount, ScaleAmount)
 
-ex.
 box = MaxPlus.Factory.CreateGeomObject(MaxPlus.ClassIds.Box)
 box.ParameterBlock.Length.Value = 10.0
 box.ParameterBlock.Height.Value = 10.0
@@ -2641,7 +2464,6 @@ box.ParameterBlock.Width.Value = 10.0
 --Core:
 --variable
 GetRootNode () 
-ex.
 for node in MaxPlus.Core.GetRootNode().Children:
 
 IsGlobalVariableNameSettable (args)
@@ -2692,7 +2514,6 @@ GetWindowHandle ()
 --Assign FPValue
 --execute a MAXScript expression using Core.EvalMAXScript() and obtain a return value via FPValue 
 --using either:
-ex.
 commandString1 = 
 "import MaxPlus
 MaxPlus.Core.EvalMAXScript(\"print #aaa\")
@@ -2701,7 +2522,6 @@ MaxPlus.Core.EvalMAXScript(\"print #aaa\")
 --python.execute commandString1
 
 --or:
-ex.
 fpValue = MaxPlus.FPValue()
 evaluation_success = MaxPlus.Core.EvalMAXScript(<string>, fpValue)
 
@@ -2710,18 +2530,13 @@ evaluation_success = MaxPlus.Core.EvalMAXScript(<string>, fpValue)
 --An FPValue wraps various types of values, for example, int, float, object, mesh, and so forth.
 
 --obtain the value stored in the FPValue
-ex.
 <FPValue>.Get()
---or
-ex.
 MaxPlus.FPValue.Get(<FPValue>)
 
 
 --Get Type
-ex.
 <FPValue>.GetType()
 --or
-ex.
 MaxPlus.FPValue.GetType(<FPValue>)
 
 --Get Type string
@@ -2731,7 +2546,6 @@ MaxPlus.FPTypeGetName(<FPValue>.GetType())
 
 --help
 --print to listener output a list of FPValue type names and their corresponding constants:
-ex.
 import MaxPlus
 help(MaxPlus.FPTypeConstants)
 --OUTPUT:
@@ -2847,7 +2661,6 @@ help(MaxPlus.FPTypeConstants)
 getParameterSubAnimNum
 (ParamCollectorOps.getParameterParentAnim 1)[ParamCollectorOps.getParameterSubAnimNum 1].value
 --RETURNS the value of the Length sub-animation track.
-ex.
 (ParamCollectorOps.getParameterParentAnim 1)[ParamCollectorOps.getParameterSubAnimNum 1].value = 10
 --will set the value of the Box's length to 10 units and so on...
 
@@ -2867,10 +2680,8 @@ ParamCollectorOps.getParameterIndex 1 1 1
 --see demoPyMXSTypeInterop.py example file in cloud 3ds scripts pymxs directory.
 
 
-ex.
 import pymxs
 at = pymxs.attime
-rt = pymxs.runtime
 --create Teapot
 t = rt.Teapot()
 
@@ -2885,14 +2696,12 @@ with at(21):
 
 
 
-ex.
 import pymxs
 rt = pymxs.runtime
 
 --create and visit a MaxScript Array
 rt.execute(" gma = #(1,2,3)")
 print rt.gma    
---#output: #(1,2,3)
 len(rt.gma)    
 --#output: 3
 rt.gma[1] = 999
@@ -2930,7 +2739,6 @@ pymxs.print_()
 --fileIn will do the same as "run script" or evaluate all in the editor. 
 --It can make a function available if it's globally declared
 FileIn
-ex.
 fullPath = "O:\\Cloud\\____Graphics\\3ds Max\\Scripts\\macros\\tk_macroScript.ms"
 FileIn fullPath
 
@@ -2953,8 +2761,6 @@ fullPath = "%CLOUD%/____Graphics/3ds Max/Scripts/___Python_path/tk_setup.py"
 python.ExecuteFile @fullPath
 
 
--- run python file FROM WINDOWS COMMAND LINE or batch file
-3dsmax -U PythonHost "tk_setup.py" 
 
 
 
@@ -3040,7 +2846,6 @@ sender
 
 
 --query properties or events
-ex.
 ctrl = dotNetClass "System.Windows.Forms.Control"
 showProperties ctrl
 showEvents ctrl
@@ -3053,7 +2858,6 @@ dotNet.addEventHandler
 -- a string that is the name of the event,
 -- and an maxscript function
 
-ex.
 ctrl = dotNetClass "System.Windows.Forms.Control"
 dotnet.addeventhandler ctrl "KeyDown" keyDownFunction
 
@@ -3087,14 +2891,12 @@ def getKeyState(key):
 
 
 
-ex.
 control = dotNetClass "system.windows.forms.control"
 showProperties control
 showProperties control.keyDown
 showProperties control.keyUp
 
 on control.keyDown.x do
-	(
 	snapmode.setOSnapItemActive 4 1 (true);
 	snapmode.setOSnapItemActive 4 2 (true);
 	)
@@ -3203,7 +3005,6 @@ hApp.run hForm
 -- us a full code:
 
 FN _NAME =
-(
  "Your code"
 )
 
@@ -3312,7 +3113,6 @@ nodeTransformMonitor=nodeTransformMonitor node:| forwardTransformChangeMsgs:fals
           --LOCALE_SABBREVDAYNAME value associated with the specified locale.
   dddd    --Day of week as its full name. The function uses the LOCALE_SDAYNAME
 
-          --value associated with the specified locale.
   M       --Month as digits with no leading zero for single-digit months.
   MM      --Month as digits with leading zero for single-digit months.
   MMM     --Month as a three-letter abbreviation. The function uses the
@@ -3361,7 +3161,6 @@ nodeTransformMonitor=nodeTransformMonitor node:| forwardTransformChangeMsgs:fals
 3dsmaxcmd scene.max -submit -platform:64
 
 --submit a strip render job to the network. Job uses 4 strips, and an overlap
---10 pixels between each strip:
 
 3dsmaxcmd scene.max -submit -split:4,10
 
@@ -3418,13 +3217,11 @@ nodeTransformMonitor=nodeTransformMonitor node:| forwardTransformChangeMsgs:fals
                                       -- Working Folder for the application
                                        --session
  -split:<strips,overlap>             -- Split render;
-                                       --strip count and overlap
  -strip:<strips,overlap,strip>       -- Single strip, rendered locally;
                                        --strip count, overlap, and strip number
  -stitch:<strips,overlap>            -- Stitch strips rendered locally;
                                        --strip count and overlap
  -dateFormat:<dateformat>            -- Specify a date format to be used
-                                       --in message timestamp
                                        --defaults to locale-dependent format
  -timeFormat:<timeFormat>            -- Specify a time format to be used
                                        --in message timestamp
@@ -3650,4 +3447,3 @@ nodeTransformMonitor=nodeTransformMonitor node:| forwardTransformChangeMsgs:fals
 
 
 
->>>>>>> origin/master

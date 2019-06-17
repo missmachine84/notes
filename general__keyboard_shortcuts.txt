@@ -13,8 +13,8 @@ custom hotkeys:.        zbrush                            maya                  
 0.......................grid		                    grid							grid
 
 
-f1......................backfacecull	                backfacecull					backfacecull
-f2......................           					
+f1......................backfacecull	                backfacecull					
+f2......................           														backfacecull
 f3......................xray	                        xray							xray
 f4......................                                 
 f5......................                                 

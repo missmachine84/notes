@@ -1,6 +1,4 @@
 +---Retopology----------------------------------------------------------+
-¦
-¦
 ¦	-manual
 ¦	-automatic
 ¦	-transferring detail
@@ -11,7 +9,6 @@
 
 
 
-//zbrush:
 
 -----	Manual Retopology	
 
@@ -81,7 +78,6 @@ Additional info;
 method 1; Freeze Subdivision Levels
 >	Choose the lowest subdivision level that is able to maintain the desired silhouette and Del Lower. After which you can return to the highest and Freeze Subdivision Levels.
 
->	Use ZRemesher with any desired settings.
 
 >	Once the remesh is complete, click the Freeze Subdivison Level button again. ZBrush will now recalculate your subdivision levels and project the details onto the new mesh topology.
 Note: The projection quality is controlled by the various settings in the Tool >> SubTool >> Project All UI group.
@@ -110,7 +106,6 @@ option 2
 >	Use Groups by Normals feature in the polygroups panel in zbrush. When using just the default settings I got rid of almost all of my interpenetrating geo and was left with a decent outer shell. You can simply delete everything that's not in that group and then re-dynamesh it
 
 
-//maya:
 
 -----	Manual Retopology using the Quad Draw Tool;
 >	Make reference mesh live.
@@ -166,7 +161,6 @@ To transfer attributes between separate meshes:
 >	move the source & target meshes so they are positioned in identical locations spatially.
 >	selected the target mesh last. (source mesh in object mode, target mesh can select individual vertices in the region to be modified).
 >	Mesh > Transfer Attributes.
-options:
 	Vertex position - transfer the vertex positions on the source mesh and have the vertices on the target mesh modified to match.
 	UV sets - all UVs from the source mesh sampled and transferred to the target mesh. When multiple UV sets exist, the All setting ensures they are all sampled and then transferred to the target mesh. If the source mesh has more than one UV set, you can selectively transfer the currently active UV set by selecting the Current option. The default setting is All.
 	Color sets - all of the CPV data for the source mesh sampled and transferred to the target mesh. When multiple color sets exist, the All setting ensures they are sampled and then transferred to the target mesh. If the source mesh has more than one CPV set you can selectively transfer the currently active color set by selecting the Current setting. The default setting is All.

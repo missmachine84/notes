@@ -1,8 +1,5 @@
 +---cameras----------------------------------------------------------+
 ¦
-¦
-¦	-
-¦	-
 ¦	-
 ¦
 +-----------------------------------+
@@ -17,7 +14,6 @@
 
 
 -- create camera from view
-//maya
 mod panel view tab> create camera from view (default hotkey ctrl+shft+c)
 
 

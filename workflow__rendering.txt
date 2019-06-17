@@ -1,6 +1,4 @@
 +---rendering-----------------------------------------------------+
-¦
-¦
 ¦	-VRay setup
 ¦	-VRay settings
 ¦	-HDRI setup
@@ -49,7 +47,6 @@ vray tab> color mapping> type: linear multiply
 
 ------	Test render settings
 
-//VRay
 
 
 

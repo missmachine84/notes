@@ -5,7 +5,6 @@
 *work in progress..*
 
 ## Design:
-######
 *To build an app agnostic modular ui to house tools where each piece is constructed dynamically to allow 
 for as little overhead as possible in construction and maintainence. Literally all you have to do to have 
 a new ui up and running, is to drop a qt ui file into the ui folder, and create a module and class of the 
@@ -13,13 +12,9 @@ same name. Naming convention allows for a stacked ui to be built, signals added/
 (stored in the switchboard module) to be created, that handles the getting/setting of all data from one 
 simple location, in one simple way.*
 
-##
------------------------------------------------
  Structure:
------------------------------------------------
 
 ## tk_main: 
-######
 *handles main gui construction.*
 
 * get dynamic ui files relative to folder location.
@@ -36,7 +31,6 @@ simple location, in one simple way.*
 
 
 ## tk_signals: 
-######
 *constructs signal connections.*
 
 * build connection dict in switchboard for each class with corresponding signals and slots.
@@ -46,13 +40,11 @@ simple location, in one simple way.*
 
 
 ## tk_slots: 
-######
 *master class holding methods that are inherited across all app specific slot class modules.*
 
 
 
 ## tk_switchboard: 
-######
 *holds the following information for each tool class instance. From this information, you can call switchboard methods to 
 get most relevent information easily wherever you need it.*
 
@@ -80,12 +72,8 @@ get most relevent information easily wherever you need it.*
 
 
 
-##
------------------------------------------------
  Naming convention:
------------------------------------------------
 
-######
 * ui files:     <name>.ui
  
 * tools module: tk_slots_<app>_<name>.py
@@ -149,9 +137,7 @@ time: 0.0632666986347
 tk_slots_max_polygons
 time: 0.0816165578988
 
-# -----------------------------------------------
 # to install:
-# -----------------------------------------------
 
 #set path to the directory containing the ui files.
 # ie. path = os.path.expandvars(r'%CLOUD%/____Graphics/Maya/Scripts/_Python/_path/tk_maya_ui')
@@ -161,9 +147,7 @@ time: 0.0816165578988
 
 
 
-# -----------------------------------------------
 # Notes
-# -----------------------------------------------
 
 #comment ascii font=Nancyj
 #shelf item scripts can be found: C:\Users\m3\Documents\maya\2016\prefs\shelves
@@ -181,10 +165,8 @@ time: 0.0816165578988
 
 
 
-# -----------------------------------------------
 # THINGS TO DO NOW:
 # -----------------------------------------------
-'''
 
 
 
@@ -313,13 +295,11 @@ prevent focus initially.  when focused chkpin down
 
 
 edit; delete (component) not working
-Traceback (most recent call last):
   File "O:\Cloud/____Graphics/Maya/scripts/_Python/_Python_startup\tk_maya_buttons.py", line 1420, in b032
     faces = func.getAllFacesOnAxis (axis)
   File "O:\Cloud/____Graphics/Maya/scripts/_Python/_Python_startup\tk_maya_functions.py", line 45, in getAllFacesOnAxis
     if pm.exactWorldBoundingBox (attr)[index] < -0.00001:
   File "C:\Program Files\Autodesk\Maya2018\Python\lib\site-packages\pymel\internal\pmcmds.py", line 140, in exactWorldBoundingBox_wrapped
-    raise pymel.core.general._objectError(obj)
 pymel.core.general.MayaAttributeError: Maya Attribute does not exist (or is not unique):: u'|brake_disc|brake_disc|brake_discShape.e[261:262].f[0]'
 
 
@@ -557,7 +537,6 @@ proc batchExport (string $fileType)
 		$finalExportPath = ($exportPath+"/"+$node);
 
 		if ($fileType == "obj")
-			{
 			// select -replace $node;
 			file -force
 						-exportSelected
@@ -571,7 +550,6 @@ proc batchExport (string $fileType)
 						// ($node+".obj");
 						($finalExportPath+".obj");
 						print ($finalExportPath+".obj"+"\n");
-			}
 
 		if ($fileType == "fbx")
 			{

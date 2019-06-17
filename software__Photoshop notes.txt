@@ -195,11 +195,8 @@ Hand tool while in another tool: Hold Spacebar
 Fill with Background color: Command Delete
 Fill with Foreground color: Option Delete
 Open Fill dialog box: Shift Delete
-Decrease/Increase Brush Size: [ or ]
-Deselect: ctrl D
 Restore Last Selection: Shift ctrl D
 Move tool while in painting tool: hold ctrl
-Eyedropper while in any paint tool: hold Option
 Cross-Hair Cursor on any painting tool: Caps Lock
 Lock transparent pixels: / (back slash)
 Commit edits when typing: ctrl Return

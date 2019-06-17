@@ -14,39 +14,15 @@ eg. expression;expression;expression; #does not work with anything requiring an 
 
 
 
-<<<<<<< HEAD
-=======
-'Variables__________________________________________________________________________________'
-
-
-# Assignment
-#assign multiple variables the same value
-eg. var1=var2=var3 = None
-#if 'x=y=z=[]' were used, operations on all three variables would be performed on the same list.
-#if separate lists are desired, use: 
-eg. x=[];y=[];z=[]
-#or
-eg. a,b,c = (1,2,3)
 
 
 
-# Convention
-#class.
-ClassVariable
-
-#name mangling:
-#protected variable. by convention do not modify outside of subclass
-_variable
-#private variable. prefixed with at least 2 underscores & at most 1 suffix
-__variable
-#call a private variable from outside its class.
-._Test__variable
 
 
 
-# Query
-#check if variable exists. an alternative would be to use try: except:
-eg. 'a' in vars() or 'a' in globals()
+
+
+
 
 #check object type returning bool
 eg. isinstance(object_, (str,unicode))
@@ -54,60 +30,28 @@ eg. isinstance(object_, (str,unicode))
 #check object type returning type 
 eg. type(object_) #prints <type 'str'>
 
-# convert to another data type using the convert function:
-#str() int() float() tuple() set()
-eg. float("6.66")
-
-
-
-#prompt user to input a value.
-eg. variable = input("enter a filename")
-
-
-
-
-#get object with a string
-eg. button = getattr(self.ui, "self.ui.object_")
-
-
-#execute a string statement.
-eg. exec ('print "x"')
-
-#evaluate an expression. 
-eg. eval ("2+2") #returns 4
 
 
 
 
 
 
-# Scope
+
+
+
+
+
+
+
+
+
+
 #global to current module
-#global variables cannot be directly assigned a value within a function 
-#(unless named in a global statement) although they may be referenced.
-eg. global x
-#or
-eg. global x, y, z 
-#define global within a function
-eg. def function(arg1, arg2):
-			global uiPath1
-			global uiPath2
-			uiPath1 = arg1
-			uiPath2 = arg2
-			#or
-			global uiPath1, uiPath2
-			uiPath1,uiPath2 = (arg1,arg2)
-			#now uiPath_pt1 and uiPath_pt2 can be used anywhere in the module
-
-#global to all modules
-# create config.py with global variables defined and import config.py to all other modules needing those variables 
 
 
 
-#delete a variable
-eg. del x
 
->>>>>>> origin/master
+
 
 
 
@@ -209,12 +153,9 @@ is not  #negated object identity
 
 
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> origin/master
 'Boolean Operations_________________________________________________________________________'
 #the Boolean data type is a data type, having two values (usually denoted true and false)
 and    x and y     if x is False, then x, else y
@@ -242,7 +183,6 @@ eg. state^=True
 toggle = 'a' if toggle == 'b' else 'b'
 
 # this supposedly works but not sure how
-eg. x = [1,0]
 		toggle = x[toggle] #try [::-1] to reverse the list
 
 # 0 and 1 using bitwise exclusive-or:
@@ -253,7 +193,6 @@ eg. x = 1
 eg. A = 205
 		B = -117
 		t = A ^ B # precomputed toggle constant
-		x = A
 		x ^= t # toggle
 
 # if the values are hashable you can use a dictionary;
@@ -272,7 +211,6 @@ eg. x = [1,2,3,0]
 		toggle = x[toggle]
 
 eg. toggle = 0
-		for i in xrange(0,100):
 			toggle = 1 if toggle == 0 else 0
 
 eg. x = [1,0]
@@ -296,7 +234,6 @@ eg. def alternate():
 				yield 1
 
 alternator = alternate()
-print alternator.next()
 print alternator.next()
 
 
@@ -322,20 +259,15 @@ def cycle(id_sequence): #toggle between numbers in a given sequence
 
 
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> origin/master
 'Conditionals_______________________________________________________________________________'
 
 if():
 elif():
-else:
 
 try:      #see error handling
-except:
 finally:
 
 #try with multiple statements:
@@ -351,7 +283,6 @@ else:
     print("it failed: %s" % ev)
 
 #using and/or
-try:
 	mod = obj.modifiers['TurboSmooth'] or obj.modifiers['TurboSmooth_Pro'] or obj.modifiers['OpenSubDiv']
 	mod.iterations = 0 #set subdivision levels to 0.
 except: pass
@@ -384,7 +315,6 @@ switch( key )
 {
 		case 'a' :
 				result = 1;
-				break;
 		case 'b' :
 				result = 2;
 				break;
@@ -405,16 +335,12 @@ v = 'ten'
 for case in switch(v):
 		if case('one'):
 				print 1
-				break
 		if case('two'):
 				print 2
-				break
 		if case('ten'):
 				print 10
-				break
 		if case('eleven'):
 				print 11
-				break
 		if case(): # default, could also just omit condition or 'if True'
 				print "something else!"
 				# No need to break here, it'll stop anyway
@@ -425,21 +351,13 @@ for case in switch(v):
 # Empty suites are considered syntax errors, so intentional fall-throughs
 # should contain 'pass'
 c = 'z'
-for case in switch(c):
 		if case('a'): pass # only necessary if the rest of the suite is empty
 		if case('b'): pass
-		# ...
 		if case('y'): pass
 		if case('z'):
-				print "c is lowercase!"
-				break
 		if case('A'): pass
 		# ...
 		if case('Z'):
-				print "c is uppercase!"
-				break
-		if case(): # default
-				print "I dunno what c was!"
 
 # As suggested by Pierre Quentel, you can even expand upon the
 # functionality of the classic 'case' statement by matching multiple
@@ -450,7 +368,6 @@ c = 'A'
 for case in switch(c):
 		if case(*string.lowercase): # note the * for unpacking as arguments
 				print "c is lowercase!"
-				break
 		if case(*string.uppercase):
 				print "c is uppercase!"
 				break
@@ -463,13 +380,10 @@ for case in switch(c):
 
 
 
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> origin/master
 'Looping___________________________________________________________________________________'
 
 
@@ -516,11 +430,18 @@ eg. for i, item in enumerate(list1):
 			print item, list2[i]
 #using zip
 for item1, item2 in zip(list1, list2):
-	print item1, item2
 #for very large lists :
 #from itertools import izip
 for item1, item2 in izip(list1, list2):
 	print item1, item2
+
+
+
+#iterating through a list of lists using comprehension
+eg. [[i+1 for i in list2] for list2 in list1]
+#alt using map:
+eg. [map(lambda i:i+1 ,list2) for list2 in list1]
+
 
 
 #using enumerate() with list comprehension:
@@ -536,10 +457,7 @@ eg. [num for num in xrange(10)] #returns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 eg. range(140, 151)) #140-150 ie. [140, 141, 142,..]
 #set range: (start, stop, step)
 eg. range(3,8,2)) #creates list with a 2 unit interval. in this case [3, 5, 7]
-#alt:
-eg. numpy.arange(140, 150, 0.5) #increment by .5 ie. [140, 140.5, 141,..]
 #random integer values.  
-eg. random.randomrange(0, 100)
 
 
 
@@ -568,7 +486,6 @@ while i < len(xyz):
 
 
 
-<<<<<<< HEAD
 'Variables__________________________________________________________________________________'
 
 
@@ -578,7 +495,6 @@ eg. var1=var2=var3 = None
 #if 'x=y=z=[]' were used, operations on all three variables would be performed on the same list.
 #if separate lists are desired, use: 
 eg. x=[];y=[];z=[]
-#or
 eg. a,b,c = (1,2,3)
 
 
@@ -588,7 +504,6 @@ eg. vars_={}
 	vars_['key']=value
 	#print vars_['key']
 #adding to globals() or locals():
-eg. for key,value in kwargs.iteritems(): #create variables for any kwargs passed in
 		locals()[key]=value
 #assign variables from **kwargs
 eg. for key,value in kwargs.iteritems(): #create variables for any kwargs passed in
@@ -622,8 +537,12 @@ eg. type(variable) #prints <type 'str'>
 #str() int() float() tuple() set()
 eg. float("6.66")
 
+
+
 #convert string '0' to int 0: (useful when string is unknown but may be 0)
 eg. int('0' or 0) #returns 0  #int('0') returns None.
+#check if string is an int
+eg. str.isdigit('23.4') #Returns: False
 
 
 
@@ -649,12 +568,10 @@ eg. eval ("2+2") #returns 4
 
 
 
-# Scope
 #global to current module
 #global variables cannot be directly assigned a value within a function 
 #(unless named in a global statement) although they may be referenced.
 eg. global x
-#or
 eg. global x, y, z 
 #define global within a function
 eg. def function(arg1, arg2):
@@ -681,8 +598,6 @@ eg. del x
 
 
 
-=======
->>>>>>> origin/master
 
 
 
@@ -728,18 +643,14 @@ eg. ",".join(["string1", "string2", "string3"]) #"string1,string2,string3"
 eg. singleLine = '\t'.join([line.strip() for line in my_string])
 #alt method
 eg. my_string.replace("\r", "\t")
-#
 eg. "".join(my_string.splitlines())
 
 
 
 
 #access characters in a string. 
-<<<<<<< HEAD
 eg.	"string"[0] #'s'
-=======
 eg."string"[0] #'s'
->>>>>>> origin/master
 
 #slicing. take a subsection.
 eg. "string"[1:-1] #'trin'
@@ -749,7 +660,6 @@ eg. "string"[1:-1] #'trin'
 eg. if '$' in string:
 eg. if '$' not in string:
 eg. if ".vtx" or ".f" in str(vertex):
-#alt:
 chars = set('0123456789$,')
 if any((c in chars) for c in s):
 #using re
@@ -810,7 +720,7 @@ eg. "This, is, a, string".split(",") #"['This','is','a','string']"
 
 
 
-#strip specific characters from left or right (removes whitespace if no argument is given)
+#strip from left or right (removes whitespace if no argument is given)
 #strip leading characters
 eg. "string".lstrip("str") #'ing'
 #strip trailing characters
@@ -819,18 +729,24 @@ eg. "string".rstrip("ing") #'str'
 #removes from both ends. passing no argument results in removing whitespaces
 eg. "ABBA".strip("AB") #returns ''
 eg. "ABCABBA".strip("AB") #returns 'C'
-eg. "xstringx".strip("x") #returns "string" #.strip("s") will not work as you must list ALL chars from left as they appear in the string.
+eg. "xABBAx".strip("x") #returns 'ABBA' #.strip('A') will not work as you must list ALL chars from left as they appear in the string.
 
+#strip from entire sequence
+eg. 'ABBA'.replace('B', '') #returns: 'AA'
+eg. 'ABBA'.translate({ord('B'): None}) #returns: 'AA'
+#mutiple chars:
+eg. 'ABBA'.translate({ord(i): None for i in 'AB'}) #returns: ''
+#substring:
+eg. 'ABBA'.replace('AB', '') #returns: 'BA'
+#first x occurances of substring:
+eg. 'ABBA'.replace('B', '', 2) #returns: 'AA'
 
-<<<<<<< HEAD
 #strip numberic characters.  also lstrip/ rstrip.
 eg. 'b000'.strip('0123456789') #returns 'b' from 'b000'
 #strip alphanumberic characters:
 eg. 'b000'.strip('abcdefghijklmnopqrstuvwxyz') #returns '000' from 'b000'
 
 
-=======
->>>>>>> origin/master
 #strip all chars from both ends of first instance of specific chars.
 #can use different find and index slice options to tweak results.
 eg. string = string[string.lfind("[")+1:string.rfind("]")] #"body_mainShape.vtx[176]" becomes 176
@@ -842,6 +758,8 @@ eg. string = string[string.index("["):string.index("]")] #"body_mainShape.vtx[17
 eg. string = ''.join(string.partition('[')[1:]) #"body_mainShape.vtx[176]" becomes [176]
 
 
+#using re to remove specific chars
+eg. re.sub("^-", "", '-23') # "^" indicates to remove the first "-" only
 # strip all characters using re
 # many more complex options in the re docs: https://docs.python.org/2/library/re.html
 # \W    non-alphanumeric characters
@@ -852,10 +770,12 @@ eg. string = ''.join(string.partition('[')[1:]) #"body_mainShape.vtx[176]" becom
 # \D    matches any non-digit character; this is equivalent to the set [^0-9]
 # \A    matches only at the start of the string.
 # \Z    matches only at the end of the string.
-from re import sub; sub('[\W_]+', '', string)
-#alt
-import re; pattern = re.compile('[\W_]+')
-	pattern.sub('', string)
+from re import sub
+sub('[\W_]+', '', string)
+#
+import re
+pattern = re.compile('[\W_]+')
+pattern.sub('', string)
 
 
 
@@ -870,15 +790,14 @@ eg. re.sub(pattern,replace,string,max=0)
 
 #remove or replace specific chars from a string
 eg. string.translate(None, '!@#$')
-#alt
 eg. string.replace('!@#$','') #optional third argument: integer max num of items to replace
 #or with loop
 eg. for char in '!@#$': string=string.replace(char,'')
 
 
 #reverse a string
-eg. ''.join(reversed(string))
-
+eg. ''.join(reversed('string'))
+eg. 'string'[::-1] #[begin:end:step] - by leaving begin and end off and specifying a step of -1, it reverses a string.
 
 
 #convert case
@@ -987,7 +906,6 @@ eg. [list_.insert(0, i) for i in list_[:] if len(item) > 6]
 
 #get the first and last item
 eg. list_[::len(list_)-1]
-#or
 eg. [list_[0], list_[-1]]
 
 
@@ -1017,7 +935,6 @@ eg. list.index('x') #returns index of element
 
 #get the Total number of occurrences
 .count()
-eg.
 (x, mylist.count(x)) for x in set(mylist)
 
 
@@ -1062,7 +979,6 @@ eg. sum([1, 2, 3, 4, 5]) #returns 15
 
 
 # get average of list contents
-eg.
 sum(list_) / float(len(list_))
 #alternately, instead of casting to float, you can add 0.0 to the sum.
 sum(list_, 0.0) / len(list_)
@@ -1072,7 +988,6 @@ np.mean(list_)
 
 # normalize list contents (with face normals; dividing a nonzero normal vector by its vector norm)
 normalizedList = [float(i)/max(list_) for i in list_]
-#or
 normalizedList = [float(i)/sum(list_) for i in list_]
 #if list contains negative values:
 normalizedList = [float(i)-min(list_)/(max(list_)-min(list_)) for i in list_]
@@ -1081,9 +996,7 @@ normalizedList = [float(i)-min(list_)/(max(list_)-min(list_)) for i in list_]
 
 #convert data type
 list_ = [map(int, x) for x in list_] #ie. from str to int/float   python3: [list(map(int, x)) for x in T1]
-#
 list_ = [[int(column) for column in row] for row in list_]
-#
 list_ = [[int(y) for y in x] for x in T1]
 #exclued non-integer string values: (may fail on neg values. also: try/except)
 list_ = list(list(int(a) for a in b) for b in list_ if a.isdigit())
@@ -1092,13 +1005,11 @@ list_ = list(list(int(a) for a in b) for b in list_ if a.isdigit())
 
 #Remove capitalization #dot notation only works with strings
 eg. list_.lower()          
-#or
 map(str.lower,["A","B","C"])
 ['a', 'b', 'c']
 
 # Convert to ALL caps
 eg. list_.upper()
-#or
 map(str.upper,["a","b","c"])
 ['A', 'B', 'C']
 
@@ -1145,7 +1056,6 @@ eg. list_[::-1]
 
 #sort objects of list in alphabetical order. 
 eg. list_.sort([func]) #sort with compare function
-#or
 #using sorted:
 eg. sorted(list_, reverse=True) #creates a new list from a provided iterable, sorts it and returns it 
 
@@ -1201,7 +1111,6 @@ ex. inverse = [item for item in list2 if item not in list1] #For larger list_1, 
 ex. inverse = [b for a, b in zip(list1, list2) if a!= b]
 #using sets (doesnt preserve order)
 ex. list(set(list2) - set(list1)) #leave out the final list converstion if an end result set is fine
-#alt
 ex. list(set(list2).difference(list1))
 
 
@@ -1214,12 +1123,10 @@ eg. list_.append(list_1 + list_2 + list_3)
 #concatenate/combine elements of a list:
 #of strings
 eg. ','.join(['spam', 'ham', 'eggs']) #returns spam, ham, eggs
-#or
 eg. '\n'.join(['spam', 'ham', 'eggs']) #to print each element on a new line
 
 #using non string elements
 eg. str(list_of_ints).strip('[]') #returns 80,443,8080,8081 from [80,443,8080,8081]
-#or:
 eg. str(list_of_ints)[1:-1]
 #using generator expression  conserves memory by not building the list at all (vs list comprehension). Instead of creating the entire list in memory at once, they generate each element as required.
 ex. ",".join(str(x) for x in list_)
@@ -1243,16 +1150,13 @@ for sublist in list_of_lists:
 		flattened.append(val)
 #using itertools (from itertools import chain.)
 eg. list(chain(*list_of_lists))
-#or
 eg. list(chain.from_iterable(list_of_lists))
 
 
 #combine sequential numbers into separate lists eg. [1,4,5,6] becomes [[1],[4,5,6]] #sequence
 eg. split = [0]+[i for i in range(1,len(list_)) if list_[i]-list_[i-1]>1]+[None]
 		list_=[list_[b:e] for (b, e) in [(split[i-1],split[i]) for i in range(1,len(split))]]
-#or:
 eg. [list(map(itemgetter(1), g)) for k, g in groupby(enumerate(list_), lambda x: x[0]-x[1])]
-#using itertools:
 eg. from operator import itemgetter
 		from itertools import *
 		for k, g in groupby(enumerate(list_), lambda (i,x):i-x):
@@ -1289,16 +1193,12 @@ eg. list_ = list(set(list_))
 eg. for l in list_:
 		if list_.count(l)>1:
 			list_.remove(l)
-#alt:
 eg. l=[]; [l.append(i) for i in list_ if not l.count(i)]
 	print list(reversed(l))
 #or using OrderedDict: (will not work for a unhashable type aka; a list of dictionaries)
-eg. from collections import OrderedDict
 	list(OrderedDict.fromkeys(list_))
-#alt:
 eg.	from collections import OrderedDict
 	print list(reversed(OrderedDict.fromkeys(reversed(list_))))
-#alt:
 eg. from collections import OrderedDict
 	OrderedDict((x, True) for x in list_).keys()
 	# use the fact that OrderedDict remembers the insertion order of keys, 
@@ -1396,7 +1296,6 @@ s.issuperset(t)           s >= t  #test whether every element in t is in s
 
 
 # subtract the elements of one set from another
-eg.
 set([1,2,6,8]) - set([2,3,5,8])
 #returns set([1, 6])
 
@@ -1414,7 +1313,6 @@ set([1,2,6,8]) - set([2,3,5,8])
 #convert to tuple
 tuple()
 
-eg.
 List  = [123, 'xyz', 'zara', 'abc'];
 Tuple = tuple(aList)
 
@@ -1477,7 +1375,6 @@ eg. dict_.values()
 
 # Get Value using Key.
 dictionary['key']
-#or:
 dictionary.get('key')
 #specify default value for key. If none is specified the value returns None.
 dictionary.get('key', default_value)
@@ -1506,7 +1403,6 @@ eg. max(dict_, value=dict_.get)
 #for key
 #searches dictionary KEYS (returns: boolean)
 if key in dict_:
-#or
 if key not in dict_:
 # has_key (returns: bool)  removed in python 3 and half as fast as using 'if in' statement 
 dict_ = {"1":"one","2":"two"}
@@ -1527,7 +1423,6 @@ eg. for index, (key, value) in enumerate(attributes.items()):
 
 
 # match key values in two dictionaries
-eg.
 for key, value in dict1.viewitems() & dict2.viewitems():
 	print '%s: %s is present in both dict1 and dict2' % (key, value)
 # The & operator here gives you the intersection of both sets; alternatively you could write:
@@ -1542,7 +1437,6 @@ eg. all(dict2[k] == v for k, v in dict1.iteritems() if k in dict2)
 
 # append to an existing key:
 dict_['key'].append('value')
-#or
 temp = dict_['key']
 temp.extend(new_value)
 dict_['key'] = temp
@@ -1569,11 +1463,9 @@ print dict([[v,k] for k,v in temp.items()])
 # combine keys with duplicate values into lists by inverting:
 #from: {'a':1, 'b':2, 'c':3, 'd':2}
 #to:   {1: ['a'], 2: ['b', 'd'], 3: ['c']}
-eg.
 from itertools import groupby
 print {k : [i[0] for i in list(v)] for k, v in groupby(dict_.items(),lambda x:x[1])}
 #same as:
-eg.
 invert = {}
 for k, v in dict_.iteritems():
 	keys = invert.setdefault(v, [])
@@ -1587,7 +1479,6 @@ dict_ = dict(dict1, **dict2)
 
 
 # merge values of two dictionaries by index:
-eg.
 # for key in dict1:
 #   if key in dict2:
 
@@ -1608,17 +1499,14 @@ eg. sorted = sorted(dict_.items(), key=operator.itemgetter(1))
 # SWITCH/CASE using a dictionary
 #when you pass an argument to the switch_demo function, it is looked up against the switcher dictionary mapping. 
 #If a match is found, the associated value is returned, else a default string (‘Invalid Month’) is printed.
-eg.
 def switch_demo(argument):
 		switcher = {
 				1: "January",
 				2: "February",
 				3: "March",
 				4: "April"
-		}
 		return switcher.get(argument, "Invalid month")
 
-eg.
 superClassDict = {
 			GeometryClass: "GeometryClass",
 			shape: "shape",
@@ -1776,13 +1664,11 @@ return     The return statement causes your function to exit and hand back a val
 
 # Scope
 #defining global functions
-eg.
 def create_global_function():
 		global foo
 		def foo(): return 'bar'
 
 #The same applies to a class body or method:
-eg.
 class ClassWithGlobalFunction:
 		global spam
 		def spam(): return 'eggs'
@@ -1792,7 +1678,6 @@ class ClassWithGlobalFunction:
 				def monty(): return 'python'
 
 #####
-eg.
 class X:
 	global d
 	def d():
@@ -1822,7 +1707,6 @@ eg. func(**dict_)
 
 
 lambda
-eg. 
 print((lambda x: x*x)(4))
 #where x is defined as 4 and plugged into a simple function x*x. lambdas can 
 # take multiple arguments eg. lambda x,y,z:
@@ -1847,7 +1731,6 @@ eg. def function(arg1, arg2):
 
 
 # lambda functions with lists 
-eg. 
 variable = list(map(lambda x: x+5, myList)) 
 #map allows to preform a function across a list. 
 #In this case a lambda function is used to simplify things
@@ -1857,7 +1740,6 @@ variable = list(map(lambda x: x+5, myList))
 
 
 filter  
-eg. 
 variable = list(filter(lambda x: x < 5, myList)) 
 #filters out items in the list that do not match a predicate 
 # (a function that returns a boolean).
@@ -1893,7 +1775,6 @@ yield       #instead of a return statement the yield statement returns a generat
 						# where the yield statement sends it after evaluating. 
 						#The body of a generator can also contain a return statement if needed.
 
-						eg. def function(): #define function
 									i = 5 #assign i a value of 5
 									while i >= 0: #while loop 
 										yield i #generate i
@@ -1936,7 +1817,6 @@ next()      eg. gen = generatorFunc(): #assuming already have a generatorFunc de
 'Decorators_________________________________________________________________________________'
 #Decorators allow to modify a function while leaving the origional function intact.
 #a single function can have multiple decorators to extend functionality.
-ex.
 def identity(ob):
 	return ob
 
@@ -1949,7 +1829,6 @@ myfunc()
 #decorated function is wrapped by a function which calls the decorated function and returns 
 #what it returns.
 #using wraps
-ex.
 from functools import wraps
 
 def mydecorator(f):
@@ -1959,7 +1838,6 @@ def mydecorator(f):
 			r = f(*args, **kwargs)
 			print "After decorated function"
 			return r
-		return wrapped
 
 @mydecorator
 def myfunc(myarg):
@@ -1971,13 +1849,11 @@ r = myfunc('asdf')
 
 #python doc: https://docs.python.org/3/reference/compound_stmts.html#function
 #http://stackoverflow.com/a/1594484/464744
-eg.
 def decorator(function): # implicitly takes some_function as an argument.
 	def wrapper(): #essentially becomes the new some_function. called when some_function is called
 		print("action before some_function() is called.")
 		function() # original some_function executes
 		print("action after some_function() is called.")
-	return wrapper
 
 def some_function(): #original function
 	print("some_function")
@@ -1987,9 +1863,7 @@ decorator(some_function) #call original function w/decorator
 
 eg. #decorator chain
 def makebold(fn):
-		def wrapped():
 				return "<b>" + fn() + "</b>"
-		return wrapped
 
 def makeitalic(fn):
 		def wrapped():
@@ -2033,7 +1907,6 @@ print origFunc()
 eg. #should be right but need to double check and clarify this example
 def decorator(orig_func): #
 	def function_1(): #decorator function
-		print('decorated functionality')
 		orig_func() #original function
 		print('decorated functionality')
 	return function_1 #function_1 now returns the combined result
@@ -2095,7 +1968,6 @@ eg. classInstance.__class__.__name__
 eg. if class_.__class__.__name__ == 'Create': pass
 
 #set Docstring
-eg.
 class MyNewClass:
 		'''A docstring is a brief description about the class.'''
 		pass
@@ -2137,16 +2009,11 @@ instance = class_()
 
 
 #Get python class object from name string.
-eg.
 class_ = globals()['ClassName']() #(returns a dictionary with global symbol table.)
-#or:
 class_ = locals()['methodName']() #(returns a dictionary with a current local symbol table.)
 #the current script/module's global variables as a dictionary 
-eg.
 class_ = globals()[self.__class__.__name__]
-#or:
 class_ = getattr(sys.modules[__name__], 'ClassName')()
-#or:
 class_ = getattr(sys.modules[__main__], 'ClassName')()
 
 #using getattr multiple times:
@@ -2154,7 +2021,6 @@ print(getattr(getattr(Class, attribute)), 'methodName')() ()
 
 
 # get the object value and in this case assign it to a variable.
-eg.
 buttonObject = getattr(self.ui, 'string')() #You can use getattr along with dir to iterate over all attribute names and get their values:
 #using getattr with additional arguments:
 buttonObject = getattr(obj, attribute)(arg1, arg2, arg3)
@@ -2166,19 +2032,16 @@ buttonObject = getattr(object_, attribute)(*args, **kwargs)
 
 
 # check if class object attribute exists.
-eg.
 if hasattr(self.ui, 'string')
 
 
 #allows you to set an attribute of an object having its name
-eg.
 setattr(person, 'Name', 'Linus')
 person.name  # accessing instance attribute
 #returns 'Linus'
 Person.name  # accessing class attribute
 #returns 'Name'
 
-eg.
 setattr(x, 'y', v) #is equivalent to x.y = v
 
 
@@ -2222,8 +2085,6 @@ class Base(object):
 	def __init__(self, a, b):
 		print a
 
-	def method(self):
-		print a, b
 
 class Derived(Base): 
 	def __init__(self, a=None, b=None, c=None):
@@ -2243,30 +2104,22 @@ Derived (a="aaa",b="bbb") ##calls baseClass first, then subClass
 
 #super(subClass, instance).method(args)
 #using 'super' to call base class init method and get base class arguments 
-eg.
 super().__init__(argsFromBaseClass) 
 # *args **kwargs to pass arguments unmodified to the base class
-eg.
 super().__init__(*args, **kwargs) 
 
 #alternative method explicitly calling the base class
-eg.
 BaseClass.__init__(self, argsFromBaseClass)
 
-#
-eg.
 class Button(QtCore.QObject):
 	def __init__(self, qObject, otherArgs):
 		super(Class, self).__init__(qObject)
 
-#
-eg.
 super(ChildClass, self).method()
 
 
 
 #passing arguments to child of a class
-eg.
 class Main(object):
 	def __init__(self, master):
 		self.master = master
@@ -2288,7 +2141,6 @@ main = Main('dummy')
 
 
 
-eg.
 class Parent(object):
 	def do_stuff(self, a, b):
 		# some logic
@@ -2314,7 +2166,6 @@ class Child(Parent):
 
 # class method takes class as first argument instead of instance (self).
 # static method is simply a reg method nested within a class that doesn't require an instance (self) argument.
-eg.
 class Date(object):
 
 		def __init__(self, day=0, month=0, year=0): #constructor
@@ -2326,7 +2177,6 @@ class Date(object):
 		# if you define something to be a classmethod, it is probably because you intend to call it from the class rather than from a class instance.
 		@classmethod
 		def from_string(cls, date_as_string): 
-				day, month, year = map(int, date_as_string.split('-'))
 				date1 = cls(day, month, year)
 				return date1
 
@@ -2350,16 +2200,11 @@ is_date = Date.is_date_valid('11-09-2012')
 
 'property___________________________________________________________________________________'
 #properties provide a way of customizing access to instance attributes. such as read-only
-eg.
-@property
 def foo(self): #when the instance method with the same name as the method is accessed, the
 	return self._foo                                          #method will be called instead.
-#or
-eg.
 attribute = property(setAttributeFunc, getAttributeFunc)
 #to define a setter/getter, you need to use a decorator of the same name as the property,
 #followed by a dot and setter/getter keyword.
-eg.
 @setAttributeFunc.setter
 def setAttributeFunc(self,value):
 # @property
@@ -2379,7 +2224,6 @@ def foo(self):
 
 
 'Magic Methods_(dunder_methods)_____________________________________________________________'
-eg.
 class X:
 	def __init__(self,x,y):#magic method.
 		self.x = x
@@ -2536,7 +2380,6 @@ eg. var = choice(['A', 'B', 'C'])
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -2544,8 +2387,6 @@ eg. var = choice(['A', 'B', 'C'])
 
 
 
-=======
->>>>>>> origin/master
 'Keyboard/Mouse_____________________________________________________________________________'
 
 
@@ -2614,7 +2455,6 @@ ctypes.windll.user32.mouse_event(20, 0, 0, 0,0) #left down
 
 
 
-<<<<<<< HEAD
 #using keyboard module:
 import keyboard
 shortcut = 'alt+x' #define hot-key
@@ -2632,8 +2472,6 @@ keyboard.add_hotkey(shortcut, event) #attach the function to hot-key
 
 
 
-=======
->>>>>>> origin/master
 'External_Files_____________________________________________________________________________'
  
 
@@ -2682,10 +2520,7 @@ eg. os.path.join("c:\\", "temp", "new folder")
 
 
 # from relative path
-#import os
 eg. script_dir = os.path.dirname(__file__)
-		rel_path = "subfolder/file.txt"
-		abs_file_path = os.path.join(script_dir, rel_path)
 #alt
 eg. script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
 		script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
@@ -2729,7 +2564,6 @@ sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'bar'))
 
 
 # search directory
-#import os
 eg. for (dir,_,files) in os.walk("."): #("./") 
 			for f in files: #indent twice
 				path = os.path.join(dir, f) 
@@ -2741,13 +2575,11 @@ eg. for (dir,_,files) in os.walk("."): #("./")
 # using glob.glob to list all the files in the current working directory whose filename ends with .mod:
 # import fileinput,glob,sys
 eg. for line in fileinput.input(glob.glob('*.mod'), inplace=True):
-			sys.stdout.write(line.replace('sit', 'SIT'))
 			if fileinput.filelineno() == 32:     
 				sys.stdout.write('TextToInsertIntoLine32' '\n') #adds new line and text to line 32 
 
 #get all files in a directory
 files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
-#or:
 files = [f for f in os.listdir(directory) if f.endswith('.mod')]
 
 #fileinput will take the filenams from sys.argv by default. You don't even have to use 
@@ -2803,9 +2635,7 @@ print os.path.abspath(os.path.dirname(__file__))
 # 'b' binary mode #non-text files (such as image and sound)
 eg. variable = open('path or filename if in same folder as parent', 'specify mode if needed')  
 eg. open('filename.bin', 'wb')
-#
 eg.	f = open(file_)
-		fileContents = f.read()
 #or
 eg.	with open(file_) as f: #reassign opened file with a simplified variable
 		fileContents = f.read()
@@ -2849,9 +2679,7 @@ eg. list(file_)
 eg. file_.readline() #places newline at the end.
 #returns a list containing all the lines in the file.
 eg. file_.readlines()
-#
 eg.  list_ = [line.split(',') for line in file_]
-#
 eg.  list_ = file_.read().splitlines()
 #Returns a generator to loop over every single line in the file.
 eg. file_.xreadlines() #in most cases you would use 'for line in file:' instead
@@ -2859,7 +2687,6 @@ eg. file_.xreadlines() #in most cases you would use 'for line in file:' instead
 eg. file_.read().splitlines()[1:] #from the second line of file 'x'
 #read all and return slice
 eg. contents = file_.read()[1:]
-#UTF-8 uses one byte for any ASCII character
 eg. contents = file_.read(optionalArgNumberOfBytesToBeRead ie.16)
 #read single (or multiple) character(s) at a time
 eg. f = open(file) 
@@ -2923,15 +2750,12 @@ eg. f.close() #the file is automatically closed at the end of 'with' statements.
 
 # DELETING FILES AND/OR DIRECTORIES
 #delete a file.
-#import os
 eg. file_ = "/tmp/<file_name>.txt"
 		if os.path.exists(file_): #check if file exists:
-			os.remove(file_)
 #alt check 'isFile'
 eg.	file_="/tmp/foo.txt"
 		# If file exists, delete it
 		if os.path.isfile(file_):
-			os.remove(file_)
 		else: # Show an error
 			print ("Error: %s file not found" % file_)
 
@@ -2944,7 +2768,6 @@ eg.	file_= raw_input("Enter file name to delete: ") #Get input
 		try: #Try to delete the file
 			os.remove(file_)
 		except OSError, e:  # if failed, report it back to the user
-			print ("Error: %s - %s." % (e.filename, e.strerror))
 
 
 #remove an empty directory.
@@ -3023,16 +2846,12 @@ eg. __import__(module, globals(), locals(), ['*'])
 
 
 # pass variable on import
-<<<<<<< HEAD
 eg. import someModule
 	someModule.somemethod(variablesPassedAsArguments)
 	x = someModule.someClass(range(1, 5))
-=======
-ex.
 import someModule
 someModule.somemethod(variablesPassedAsArguments)
 x = someModule.someClass(range(1, 5))
->>>>>>> origin/master
 
 
 
@@ -3046,7 +2865,6 @@ eg. __name__ #when run directly the name will be main. else when importing, it w
  
 
 
-<<<<<<< HEAD
 #re-import module
 #global and local are dicts.
 eg.	module = 'tk_slots_maya_edit'
@@ -3057,7 +2875,6 @@ eg.	module = 'tk_slots_maya_edit'
 
 #alt method re-importing all modules containing 'tk'
 #untested; may return the imported module alias instead of the module name.
-eg. import sys
 	for module in [m for m in sys.modules.keys() if 'tk' in m]:
 		m = __import__(module); reload(m)
 
@@ -3067,8 +2884,6 @@ eg. import sys
 #delete system module: (sys.modules is a dict so it is also possible to check for key)
 eg. import sys
 	del sys.modules['tk_slots_maya_edit']
-=======
->>>>>>> origin/master
 
 
 
@@ -3108,12 +2923,9 @@ time.sleep(.300) #wait for 300 milliseconds
 
 
 # check speed
-t1=time.time()
 <code>
 t1=time.time()
-print t1-t0
 #using timeit (os agnostic)
-t1=timeit.default_timer()
 <code>
 t1=timeit.default_timer()
 print t1-t0
@@ -3133,7 +2945,6 @@ print t1-t0
 'Errors__(error handling)___________________________________________________________________'
 
 # easier to ask forgiveness then ask permission
-eg.
 try:
 	something
 except:
@@ -3267,7 +3078,6 @@ class Class(object):
 
 # TypeError: unbound method xxxx() must be called with xxxx instance as first argument (got xxxx instance instead)
 Class.method()
-# should be:
 classInstance = Class()  # create instance of class
 classInstance.method() # call classMethod
 
@@ -3289,5 +3099,4 @@ self.ui.button.buttonId(self.ui,"m",10)
 self.ui.button.buttonId("m",10)
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

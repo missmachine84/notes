@@ -22,10 +22,8 @@ Comments;
 using namespace std;
 
 int main() //function with return type integer
-{
 //body
 return 0; //if not specified, function will implicitly return 0    
-}
 
 
 // comments:

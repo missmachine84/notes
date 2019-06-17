@@ -47,7 +47,6 @@ Avoid using just HDR lighting and light your model using three main lights:
 	
 	
 BAKED LIGHTING SETUP
-//unreal
 >	deactivate auto exposure
 >	deactivate SSAO and SSR
 >	keep default tone mapper
@@ -84,14 +83,12 @@ for windows /doorways,  use portal
 
 
 lightmaps:
-//unreal
 >	save all lighting information in a sub-level
 >	convert the sub-level into a lighting scenario
 
 
 
 DYNAMIC LIGHTING SETUP
-//unreal
 >	direction light =moveable
 >	skydome =moveable
 >	distance field ambient occlusion
@@ -118,7 +115,6 @@ IMAGE BASED LIGHTING SETUP
 
 
 AREA OF EFFECT:
-//unreal
 lightmass importance volume		specify area in which to concentrate lighting recources.
 
 
@@ -128,7 +124,6 @@ lightmass importance volume		specify area in which to concentrate lighting recou
 
 
 SHADOWS:
-//unreal
 -fix artifacts by pushing the map into the geometry.
 -set shadow map bias low for small objects to prevent light leaking.
 
@@ -146,7 +141,6 @@ SHADOWS:
 
 
 REFLECTIONS:
-//unreal
 high resolution reflection capture (memory intensive)
 
 

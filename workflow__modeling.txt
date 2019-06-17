@@ -1,6 +1,4 @@
 ----modeling-------------------------------------------------------------------+
-¦
-¦
 ¦	-concepting					
 ¦	-reference image planes
 ¦	-initial block-in
@@ -41,11 +39,9 @@ dynamesh:
 **	repeat the process for addiitional maps.
 
 -Custom image background
->
 
 
 
-//Maya:
 using a plane
 >	Select Create > Free Image Plane from the main menu bar.
 
@@ -54,7 +50,6 @@ attached to camera
 >	importImagePlane { "perspShape" };	
 
 
-//ZBrush:
 
 
 
@@ -98,7 +93,6 @@ Add(default)-Subtract-intersection with DynaMesh;
 >	run dynamesh remesh to subtract (ctrl + drag canvas)
 
 ZSub
->
 ZAdd
 >
 

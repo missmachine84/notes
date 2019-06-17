@@ -1,52 +1,40 @@
 ﻿<<<<<<< HEAD
 ﻿@ECHO OFF
-=======
 @ECHO OFF
->>>>>>> origin/master
 EXIT
 
 
 
 
-<<<<<<< HEAD
 ::	command reference A-Z: https://technet.microsoft.com/en-us/library/bb490890.aspx
 :: get help on a command: ex. command /?
 
 
 :: general syntax ---------------------------
 :: print statement
-=======
 REM	command reference A-Z: https://technet.microsoft.com/en-us/library/bb490890.aspx
 rem get help on a command: ex. command /?
 
 
 rem general syntax ---------------------------
 rem print statement
->>>>>>> origin/master
 ECHO/	preferred print blank line methed
 ECHO.	alt print blank line
 ECHO	print
 
 
-<<<<<<< HEAD
 :: commenting
 REM comment
 :: comment
 
 
 :: escape characters
-%%
-^
 
 :: ignoring whitespace
 :: use quotes around entire command,
-"C:\Program Files (x86)\WinRar\Rar.exe"
 ::  or quotes around areas with whitespace
-C:\"Program Files (x86)"\WinRar\Rar.exe
 :: alternatively, use command:
-dir /X ~1 c:\
 :: to print a list of alternative dir names.  eg:
-=======
 rem commenting
 rem comment
 
@@ -63,14 +51,12 @@ C:\"Program Files (x86)"\WinRar\Rar.exe
 rem alternatively, use command:
 dir /X ~1 c:\
 rem to print a list of alternative dir names.  eg:
->>>>>>> origin/master
 DEFAUL~1.XML Default Desktop Policy.xml
 PROGRA~1     Program Files 
 PROGRA~2     Program Files (x86)
 
 
 
-<<<<<<< HEAD
 ::set tab variable to visably show tab space
 set "TAB=	"
 echo %TAB%if not tk.isVisible(^): tk.show(^)
@@ -83,8 +69,6 @@ GOTO
 ::(spaces allowed but not other separators (semicolons,equal signs). Uses only the first eight characters)
 go to :exit
 
-:exit
-CLS	#clears the screen
 
 
 
@@ -94,7 +78,6 @@ BREAK=OFF	:: continue until done
 
 
 
-=======
 GOTO	rem go to :exit (spaces allowed but not other separators (semicolons,equal signs). Uses only the first eight characters)
 
 :exit
@@ -118,62 +101,44 @@ TIMEOUT			rem ex. TIMEOUT 10 or TIMEOUT /t 10 (in seconds). If the user does pre
 rem operands ---------------------------------
 
 *multiply		rem ex. set /a sum1="num1 * num2"
->>>>>>> origin/master
 
 
 
 
 
-<<<<<<< HEAD
 :: operands ---------------------------------
 
 *multiply		:: ex. set /a sum1="num1 * num2"
-=======
 rem strings ----------------------------------
 
 rem concatenate:
-set combinedString= str1 str2 str3
->>>>>>> origin/master
 
 
 
 
-<<<<<<< HEAD
 
-=======
 rem strip chars (in this case '!')
-set string=%string:!=%
 
 rem strip multiple chars (from 1.2.3.4 to 1,2,3,4) 
-setlocal 
-set string=1.2.3.4 
-set string=%string:.=,%
->>>>>>> origin/master
 
 
 
 
 
-<<<<<<< HEAD
 :: variables --------------------------------
 
 :: **the space before and after = is interpreted as part of the value.
 :: variable=value   not varible = value unless a whitespace before the value is intended
 
 :: assign variable:
-set "variable=.proj"
 
 :: assign empty variable:
-set variable=
 
 :: prompt user assigned
-set /p variable= Printed text prompt string
 
 :: expression result as variable
-set /a variable=expression 
 
 :: call variable:
-=======
 rem variables --------------------------------
 
 rem **the space before and after = is interpreted as part of the value.
@@ -192,16 +157,12 @@ rem expression result as variable
 set /a variable=expression 
 
 rem call variable:
->>>>>>> origin/master
 %variable%
 
 
 
-<<<<<<< HEAD
 :: Windows environment variables:
-=======
 rem Windows environment variables:
->>>>>>> origin/master
 
 %userprofile%	=C:\Users\<username>
 %systemroot%	=C:WINDOWS
@@ -221,7 +182,6 @@ rem Windows environment variables:
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -263,18 +223,15 @@ set string=%string:.=,%
 :: conditionals -----------------------------
 
 :: if statement:
-=======
 rem conditionals -----------------------------
 
 rem if statement:
->>>>>>> origin/master
 if %choice%==[%1]==[] goto start
 if /i %choice%==one goto one
 if /i %choice%==two goto two
 if /i %choice%==end goto end
 
 
-<<<<<<< HEAD
 :: if/else:
 if not exist %object% (
 	:: do something
@@ -292,7 +249,6 @@ directory navigation -------------------------
 
 :: change directory
 CD %dir%
-:: alt:
 CHDIR %dir%
 :: change directory and drive
 CD /d %dir%
@@ -306,7 +262,6 @@ CD /d %dir%
 :: set path two levels up
 for %%a in ("%~dp0..\..") do set "PATH_TWO_LEVELS_UP=%%~fa"
 echo %PATH_TWO_LEVELS_UP%
-:: alt:
 ..\..\bin\file.txt
 
 
@@ -318,7 +273,6 @@ echo %PATH_TWO_LEVELS_UP%
 :: external files ---------------------------
 
 :: check if file exists
-if exist file.txt
 
 
 :: create and write single line to file:
@@ -326,7 +280,6 @@ echo some text > file.txt
 
 
 :: write multiple lines to a file:
-(
 echo line of text
 echo/
 echo another line
@@ -348,28 +301,20 @@ mklink "%SYM%" "%DIR%\file.ini"
 
 
 :: zip a file
-compact /c /s:C:\Templates
 
 :: using java:
 :: c = Creates a new archive file.
 :: M = Specifies that a manifest file should not be added to the archive.
 :: f = Indicates target file name.
-jar -cMf targetArchive.zip sourceDirectory
 
 :: using powershell:
 :: compress
-Compress-Archive -Path C:\Test -DestinationPath C:\result
 :: expand
-Expand-Archive -Path result.zip -DestinationPath C:\Test
 :: from batch file
-powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('foo.zip', 'bar'); }"
 
 :: convert to cab:
-makecab <source> <dest>.cab
 :: to decompress
-expand <source>.cab <dest>
 :: example: Create a self extracting archive containing movie.mov:
-=======
 
 
 
@@ -388,7 +333,6 @@ set "tmp=file.txt"
 
 (
 echo import maya.standalone
-echo.
 echo maya.standalone.initialize(name='python'^)
 echo.
 echo import %module%
@@ -440,16 +384,12 @@ makecab <source> <dest>.cab
 rem to decompress
 expand <source>.cab <dest>
 rem example: Create a self extracting archive containing movie.mov:
->>>>>>> origin/master
 C:\> makecab movie.mov "temp.cab"
 C:\> copy /b "%windir%\system32\extrac32.exe"+"temp.cab" "movie.exe"
 C:\> del /q /f "temp.cab"
 
-<<<<<<< HEAD
 :: using 7zip:
-"C:\Program Files\7-Zip\7z.exe" a  -r myzip.zip -w foo -mem=AES256
 :: unzip to current directory ./
-"C:\Program Files\7-Zip\7z.exe" x  myzip.zip  -o./ -y -r
 
 :: using WinRar:
 :: 'a' command. Adds to the archive
@@ -461,14 +401,11 @@ C:\> del /q /f "temp.cab"
 :: '-idq' enable quiet mode to display only error messages
 :: '-ep1' exclude base directory from specified file/folder names
 :: '-y' assume Yes on all queries
-"%ProgramFiles%\WinRAR\Rar.exe" a -r -y -df "%dir%\%file%.rar" "%dir%\%file%"
 :: extract to current dir
 :: 'x' command. Extracts with full paths
 :: 'e' command. Extracts and ignores paths
-if exist "%dir%\%file%.rar" "%ProgramFiles%\WinRAR\Rar.exe" x -y "%dir%\%file%.rar"
 :: or to perform an operation on only certain files: 
 :: extracts *.gif files from yourfile.rar to c:\extractfolder\ -trailing backslash required:
-=======
 rem using 7zip:
 "C:\Program Files\7-Zip\7z.exe" a  -r myzip.zip -w foo -mem=AES256
 rem unzip to current directory ./
@@ -491,22 +428,17 @@ rem 'e' command. Extracts and ignores paths
 if exist "%dir%\%file%.rar" "%ProgramFiles%\WinRAR\Rar.exe" x -y "%dir%\%file%.rar"
 rem or to perform an operation on only certain files: 
 rem extracts *.gif files from yourfile.rar to c:\extractfolder\ -trailing backslash required:
->>>>>>> origin/master
 "%ProgramFiles%\WinRAR\Rar.exe" x c:\yourfile.rar *.gif c:\extractfolder\
 
 
 
 
 
-<<<<<<< HEAD
 :: reg keys ---------------------------------
 
 :: delete key
-reg delete "HKCU\Some\Registry\Path" /f
 :: alt:
-[-HKEY_LOCAL_MACHINE\SOFTWARE\YourSoft\MyKey]
 :: to remove an entry, place a minus "-" after the = char
-=======
 rem reg keys ---------------------------------
 
 rem delete key
@@ -514,14 +446,12 @@ reg delete "HKCU\Some\Registry\Path" /f
 rem alt:
 [-HKEY_LOCAL_MACHINE\SOFTWARE\YourSoft\MyKey]
 rem to remove an entry, place a minus "-" after the = char
->>>>>>> origin/master
 [HKEY_LOCAL_MACHINE\SOFTWARE\YourSoft\MyKey]
 "MyEntry"=-
 
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -549,6 +479,4 @@ TIMEOUT			:: ex. TIMEOUT 10 or TIMEOUT /t 10 (in seconds). If the user does pres
 
 
 
-=======
->>>>>>> origin/master
 EXIT

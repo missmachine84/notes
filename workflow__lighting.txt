@@ -1,6 +1,4 @@
 +---lighting-----------------------------------------------------+
-¦
-¦
 ¦	-Daylight/Sun
 ¦	-Interior lights
 ¦	-
@@ -13,7 +11,6 @@
 
 ------ HDRI
 
-//VRay
 >	Maps> VRay> VRayHDRI
 >	VRayHDRI rollout:
 		Mapping> mapping type: spherical and flip horizontally
@@ -26,7 +23,6 @@
 
 ------	Daylight/Sun
 
-//VRay
 >	mod panel>create>systems>daylight
 >	VRay sun
 >	adjust position (time ect)

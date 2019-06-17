@@ -112,7 +112,8 @@ import ID:
 >	Add 'Mask with Color Selection' to layer and choose mask ID color. (copy/paste mask to any additional layer)
 
 baking ID:
->	TextureSet Settings> Bake textures
+>	Material ID maps bake in from HI-poly object's shader map
+>	TextureSet Settings> Bake textures> ID map
 
 
 

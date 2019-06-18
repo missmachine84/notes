@@ -718,9 +718,19 @@ ex. MaxPlus.Core.EvalMAXScript("fn bitArrayToArray b = (return b as Array)")
 
 "TRANSFORM:_______________________________________________________________________________"
 
+
+
+--query position
+INode.Position
+ex. $.position
+
+
+
 --move
 move $ [10,0,0]		--xyz
 
+--move all selected objects
+selection.pos.z = 0
 
 --move absolute
 $.position = [10,10,0]
@@ -728,6 +738,10 @@ $.position = [10,10,0]
 
 --move relative
 $.position.z = $.position.z + 10
+
+--adds x,y,z to the positions of all objects whose names contain "_left"
+$*_left*.position += [50,20,10]
+
 
 
 
@@ -745,6 +759,9 @@ euler = rt.eulerangles(0, 0, 90)
 rt.rotate(self.node, euler)
 
 
+$*_left*.position += [50,20,10] -- adds 50,20,10 units (x,y,z order) to the positions
+                                  -- of all objects whose names contain "_left"
+
 
 
 --scale
@@ -753,11 +770,17 @@ INode.Scaling
 scale $ [2,2,1]		--scale 2x in xy.  z is 1:1 unchanged
 $.scale = [1,1,2] --scale 2x in z
 
---query position
-INode.Position
-ex. $.position
 
---relative
+
+--
+MaxPlus.Point3(ScaleAmount, ScaleAmount, ScaleAmount)
+
+box = MaxPlus.Factory.CreateGeomObject(MaxPlus.ClassIds.Box)
+box.ParameterBlock.Length.Value = 10.0
+box.ParameterBlock.Height.Value = 10.0
+box.ParameterBlock.Width.Value = 10.0
+
+
 
 
 --gets or sets the position of the selected element in the mesh
@@ -854,6 +877,15 @@ snapMode.getOSnapItemName <int osnap_index> <int osnap_item_index>
 --  6: name: "Center Face"; tooltip: ""; state: false
 
 
+
+
+
+
+--pivot
+
+
+--place instances of object at pivots of selected objects
+for obj in selection do instance $Downlight001 pos:obj.pos
 
 
 
@@ -1000,6 +1032,10 @@ validModifier [<node> | <objectset> | <group> ] <modifier |modifier_class>
 
 --enable/disable modifier
 ex. obj.modifiers[2].enabled = False --turn off 2nd modifier
+--sets the state of all modifiers of selected object to "Off in Viewport"
+obj.modifiers.enabledInViews = off
+--turn all the TurboSmooth modifiers off in viewport (stays on in render)
+(getClassInstances TurboSmooth).enabledInViews = off
 --all modifiers of a given class
 ex. (getClassInstances turboSmooth).enabled=False
 
@@ -1010,6 +1046,10 @@ collapseStack <node> -- mapped
 --collapse to:
 --maxOps.CollapseNodeTo <node>node <index>modIndex <boolean>noWarning
 ex. rt.maxOps.CollapseNodeTo(obj, index, False)
+
+
+
+
 
 
 --Takes either a modifier value which is present on the <node> stack, or an index 
@@ -1044,12 +1084,27 @@ showEndResult
 --select All
 $*	
 
---current selection
+--get current selection
 $ --returns 'undefined' if nothing selected
 
 rt.selection
 
 rt.getCurrentSelection() --returns the current selection as an array
+
+
+--get only top-level nodes from selection
+maxEval("select $/selection/*")
+
+--add all children of currently selected nodes to the selection
+for obj in selection do selectMore obj.children
+
+--select instances and references of the selected node
+select (refs.dependentNodes $.baseObject)
+
+
+--select (for each geometry object, where the object doesn't have any texture vertices collect that object). i.e., this selects all objects without proper mapping coordinates
+select (for obj in geometry where getNumTVerts obj == 0 collect obj)
+
 
 
 --current mod panel object:
@@ -1078,6 +1133,11 @@ $Tile*
 $'Tile A'*			
 
 
+--objects whose names contain either '_right' or '_left'
+select ($*_right* as array + $*_left* as array)
+--objects starting with 'Box' with height (in system units) bigger than 100
+select (for obj in $box* where obj.height > 100 collect obj)
+ 
 
 
 --Add a node to the set of selected objects.
@@ -1158,6 +1218,11 @@ rt.selection[0].ConvertSelection('CurrentLevel', 'Face')
 
 
 
+--selection sets
+--make a selection set from objects starting with 'Box'
+selectionSets["Boxes"] = $Box*
+
+
 
 
 --Deselect all.  Scene is redrawn unless redraw:false is specified.
@@ -1172,6 +1237,12 @@ ex. deselect $box* --deselects all items whose names start with "box".
 --Deselect a single node
 ex. rt.deselectNode(node)
 
+--substracts from selected objects named Dummy__ each ? substituting one character
+deselect $Dummy??
+
+
+
+
 
 
 
@@ -1180,6 +1251,8 @@ ex. rt.deselectNode(node)
 
 
 "OBJECTS_&_ATTRIBUTES:____________________________________________________________________"
+
+
 
 
 -- naming
@@ -1191,10 +1264,11 @@ rt.sphere(prefix="baz")
 --using wildcards:
 ex. rt.matchPattern(obj.name, pattern='', ignoreCase=0)
 
+--list containing Box001 and all its children (complete hierarchy)
+$Box001*...* as array
+
 --get object by name:
 ex. rt.getNodeByName('name_', ignoreCase=True, all=True) --Returns: the first node with the specified name. If all is True, an array of nodes with the specified name is returned.
-
-
 
 --all objects that start with x
 $Tile*
@@ -1438,6 +1512,8 @@ snapshotAsMesh <node>
 instanceReplace <dest_node> <src_node> -- mapped 
 referenceReplace <dest_node> <src_node> -- mapped 
 ex. rt.instanceReplace('foo*', 'baz') --makes all the foo* objects be instances of baz's geometry & modifier stack.
+--replace objects in selection with specified object (respecting the transforms)
+instanceReplace selection $LampPost01
 
 
 
@@ -1477,6 +1553,12 @@ group selection--groups current selection.
 --Nodes that are already members of a group cannot be attached to another group.
 attachNodesToGroup <node_collection> <targetNode> 
 
+
+--set the group open
+--for each object, where the object is a Head of a group.
+for obj in objects where isGroupHead obj do setGroupOpen obj on
+
+
 --Detaches the specified nodes from the groups they belong to.
 detachNodesFromGroup <node_collection>
 
@@ -1497,6 +1579,10 @@ ex. rt.hide(obj) -- mapped --Hides the specified node or node collection.
 --the entire layer is unhidden. When false (the default), just the node is unhidden.
 unhide <node> [doLayer:<boolean>] -- mapped 
 
+--hide all children in scene (leave only top-level nodes)
+maxEval("hide $*/*")
+
+--query visability
 ex. obj.isHiddenInVpt
 ex. obj.isHidden = True
 
@@ -1546,19 +1632,6 @@ for obj in rt.selection:
 
 
 
---delete node
-rt.delete(obj) -- mapped
-
--- When a node has been deleted,
-obj == undefined --returns false
-obj != undefined --returns true
-
---query if object still exists in the scene, as in variables or arrays.
-rt.isDeleted(<MAXWrapper_object>) --returns boolean
-
-
-
-
 --filter geometry Objects
 ex.	for obj in objects where classof obj == VRayLight do
 		print obj;
@@ -1589,6 +1662,26 @@ selection --current selection. interchangable with $
 
 --convert objectSet to array
 ex. <objectSet> as array
+
+
+
+
+--delete node
+rt.delete(obj) -- mapped
+
+-- When a node has been deleted,
+obj == undefined --returns false
+obj != undefined --returns true
+
+--query if object still exists in the scene, as in variables or arrays.
+rt.isDeleted(<MAXWrapper_object>) --returns boolean
+
+
+--delete object with specified name from scene. 
+--handling special characters in objects' names using single quotes
+delete $'car.wheel.*'
+
+
 
 
 
@@ -1660,6 +1753,7 @@ ex. rt.polyop.setEdgeVis(obj, <edgelist>, <boolean>) --Sets the visibility of th
 
 --get number of
 ex. rt.polyop.getNumVerts(obj) --Returns the number of vertices in the poly. Includes any dead vertices.
+ex. obj.selectedVerts.count --Returns number of selected vertices
 --vertices from face
 ex. rt.polyop.getFaceDeg(obj, <int face>) --Returns the number of vertices in the specified face.
 --vertices and faces
@@ -1935,16 +2029,20 @@ m.name = ''
 
 
 
+mat.effectsChannel --All the material subclasses can access the effectsChannel property and specify it as a constructor parameter.
+mat.showInViewport --Accesses the material-level show-in-viewport state, which can also be set on a material constructor call using the showInViewport : parameter.
+
 
 --rename
 ex. material.name = "name"
 ex. obj.name = rt.uniqueName()
-
+assignNewName <material> --Modifies the name of the specified material to make it unique. The name is of the form "Material #1" where the number is incremented as required to make ensure it’s unique.
 
 
 --delete material
 material = undefined
-
+--delete materials from all objects
+rt.objects.mat = undefined
 
 
 
@@ -2009,6 +2107,28 @@ ex. rt.SME.SetMtlInParamEditor(mat)
 ex. rt.rootScene[rt.name('SME')][rt.name('View1')][rt.name('door_handle____VRayMtl')].Properties.reference.anisotropy_channel = 3
 
 
+
+
+
+
+
+
+
+"Lighting:________________________________________________________________________________"
+
+
+
+
+--turn on all lights whose names start with "Key"
+lights/Key*.enabled = on
+
+
+--set attributes
+--for all lights
+pm.lights.value *= 0.5 --set the intensity of all lights
+
+--for each light that has the property intensity
+for eachLight in lights where isProperty eachLight #intensity do eachLight.intensity = 1000 --make that property value 1000
 
 
 
@@ -2104,13 +2224,31 @@ Struct.functionTwo()
 
 
 
+
+
+
+
+
+
+
 "HIERARCHIES:______________________________________________________________________________"
+
+
 
 -- INode.Parent
 $Tile.parent = $Wall						--link tile to wall object
 
 -- INode.Children
 $.children[1].name = "Tile_01"	--set name of first child object
+
+
+
+--query
+--for each selected helper which is not parented to anything print out its name
+for obj in selection where isKindOf obj Helper AND obj.parent == undefined do print obj.name
+
+
+
 
 
 
@@ -2153,6 +2291,9 @@ setAfterORT <controller> <ORT_type_name>
 -- Enables or disables the Out-of-Range processing for the controller. 
 -- If set to disabled with false , the controller effectively employs a constant ORT.
 enableORTs <controller> <boolean>
+
+
+
 
 
 
@@ -2228,7 +2369,8 @@ ex. obj.GetFaceColor(#VertexColor|#Illumination|#Alpha) --Gets the Vertex Color,
 
 --wireframe color
 ex. obj.wireColor(color) --default: random color
-
+--modify wirecolor of direct children of a node
+ex. obj.children.wirecolor = red
 
 
 
@@ -2376,6 +2518,14 @@ $material.diffuseColor = color 0 0 (random 0 360) --randomize rgb 'b' value
 
 
 
+--deselect random objects until only 50 are left selected
+while selection.count > 50 do deselect selection[random 1 selection.count]
+
+
+
+
+
+
 
 
 
@@ -2445,14 +2595,6 @@ MaxPlus.Core.EvalMAXScript("variable = $")
 --retrieve the value from a FP wrapped variable
 pymxs.runtime.variable
 
-
---transformation
-MaxPlus.Point3(ScaleAmount, ScaleAmount, ScaleAmount)
-
-box = MaxPlus.Factory.CreateGeomObject(MaxPlus.ClassIds.Box)
-box.ParameterBlock.Length.Value = 10.0
-box.ParameterBlock.Height.Value = 10.0
-box.ParameterBlock.Width.Value = 10.0
 
 
 

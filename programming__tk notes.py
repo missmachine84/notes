@@ -175,6 +175,16 @@ time: 0.0816165578988
 
 
 
+#scene> rename;  with selection, and find field empty, nothing is renamed. (an * in the find field returns correct result) 
+
+
+
+
+#while in heads up display; holding any additional key shows keyboard shortcuts mapped to that key. similar to substance
+
+
+
+
 select by edge angle function
 
 

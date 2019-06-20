@@ -24,11 +24,7 @@ eg. expression;expression;expression; #does not work with anything requiring an 
 
 
 
-#check object type returning bool
-eg. isinstance(object_, (str,unicode))
 
-#check object type returning type 
-eg. type(object_) #prints <type 'str'>
 
 
 
@@ -530,8 +526,32 @@ __variable
 #check if variable exists. an alternative would be to use try: except:
 eg. 'a' in vars() or 'a' in globals()
 
-#variable type: 
-eg. type(variable) #prints <type 'str'>
+
+
+#type:
+str, unicode, int, float, complex
+list, dict, tuple, set, frozenset
+bytes, bytearray
+object
+bool
+
+#check object type
+eg. type(object_) #Returns: <type 'str'>
+#
+eg. isinstance(object_, (str,unicode)) #Returns: bool
+#using types (import types)
+# types.LambdaType
+# types.MethodType
+# types.GeneratorType
+type(object_) == types.FunctionType
+#using numbers (import numbers)
+isinstance(10, numbers.Integral) #Returns: True
+isinstance(10.5, numbers.Integral) #Returns: False
+#if type==callable
+eg. callable(object_)
+
+
+
 
 # convert to another data type using the convert function:
 #str() int() float() tuple() set()

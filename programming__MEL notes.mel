@@ -1,64 +1,6 @@
 
 
 
-
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ""+""	//concatenate strings
 
 
@@ -69,61 +11,6 @@
 
 
 string $attrName = `match "\\..*" $nodeAttr`;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -220,49 +107,7 @@ proc procedure (int $var1, string $var2)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
 string $list[]  = { "a", "b", "c", "d", "e", "f", "g" };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -281,18 +126,6 @@ string $list[]  = { "a", "b", "c", "d", "e", "f", "g" };
 	
 	
 	
-	
-	
-	
-
-
-
-
-
-	
-
-
-
 
 
 
@@ -328,49 +161,6 @@ pm.rename(obj, 'newName') //#optional arg: ignoreShape=Indicates that renaming o
 //list current selection
 //list current selection and filter by name
 pm.ls('*endsWith', selection=1)
-
-
-
-//List only visible dag nodes. -dagObjects for all in scene.
-
-//List all objects of the specified type.
-
-// List all geometry
-
-// track selection order of components
-
-// list last selected object (not working with components)
-
-// List all nodes below the selected node
-
-// get the shape node name from component
-
-// get the transform node name from component
-
-// in python, split the components using partition:
-
-// list polymesh objects
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -505,150 +295,7 @@ pm.xform (vertices, query=1, t=1, ws=1)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
 undoInfo -openChunk;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-								
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						
-						
-
-
-
-							 
-
-
-
-
-
-
 
 
 
@@ -2125,6 +1772,31 @@ $m1 = $m2 * $m3;
 
 // freeze transformations
 pm.makeIdentity (obj, apply=1, t=1, r=1, s=1, n=0, pn=1)
+
+
+
+
+
+
+
+
+
+"RIGGING: //---------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+//joints
+//get all
+joints = pm.ls(type="joint")
+
+//display size
+pm.jointDisplayScale(1.5) //#set global joint display size
+
+//set root
+pm.reroot() //#re-root joints
+
+//set orientation
+pm.joint(edit=1, orientJoint='xyz', zeroScaleOrient=1, ch=1) //#orient joints
+
 
 
 
